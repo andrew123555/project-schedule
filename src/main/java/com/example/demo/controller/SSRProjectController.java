@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo.exception.ProjectException;
 import com.example.demo.model.dto.ProjectInformationBDto;
+import com.example.demo.model.dto.ProjectInformationDDto;
+import com.example.demo.service.ProjectIMService;
 import com.example.demo.service.ProjectService;
 
 @Controller
@@ -21,6 +23,9 @@ public class SSRProjectController {
 	@Autowired
 	private ProjectService projectService;
 	
+	@Autowired
+	private ProjectIMService projectIMService;
+	//項目總表
 	// 查詢所有項目
 	@GetMapping
 	public String findAllProjects(Model model) {
@@ -77,6 +82,39 @@ public class SSRProjectController {
 			return "error";
 		}
 		return "redirect:/ssr/project";
+	}
+	
+	//--------------------------------------------
+	//項目細項
+	// 查詢所有項目
+		@GetMapping("/item")
+		public String findAllProjectIMs(Model model) {
+			List<ProjectInformationDDto> projectIMs = projectIMService.findAllProjectIMs();
+			model.addAttribute("projectIMs", projectIMs);
+			return "projectIM-list"; 
+		}
+	
+	// 新增項目
+	@PostMapping("/item/add")
+	public String addProjectIM(ProjectInformationDDto projectInformationDDto, Model model) {
+		try {
+			projectIMService.addProjectIM(projectInformationDDto);
+		} catch (ProjectException e) {
+			model.addAttribute("message", "新增錯誤: " + e.getMessage());
+			return "error";
+		}
+		return "redirect:/ssr/project/item";
+		// 刪除項目
+	}
+	@DeleteMapping("/item/delete/{toDoListId}")
+	public String deleteProjectIM(@PathVariable Integer toDoListId, Model model) {
+		try {
+			projectIMService.deleteProjectIM(toDoListId);
+		} catch (ProjectException e) {
+			model.addAttribute("message", "刪除錯誤: " + e.getMessage());
+			return "error";
+		}
+		return "redirect:/ssr/project/item";
 	}
 	
 }

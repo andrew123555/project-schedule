@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.exception.ProjectException;
 import com.example.demo.model.dto.ProjectInformationBDto;
+import com.example.demo.model.dto.ProjectInformationDDto;
 import com.example.demo.response.ApiResponse;
+import com.example.demo.service.ProjectIMService;
 import com.example.demo.service.ProjectService;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -26,6 +28,9 @@ public class ProjectContoller {
     
 	@Autowired
 	private ProjectService projectService;
+	
+	@Autowired
+	private ProjectIMService projectIMService;
     
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<ProjectInformationBDto>>> findAllProjects() {
@@ -33,7 +38,7 @@ public class ProjectContoller {
 		if(projects.size() == 0) {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,"查無此項目"));
 		}
-		return ResponseEntity.ok(ApiResponse.success("查詢成功:", projects));
+		return ResponseEntity.ok(ApiResponse.success("查詢成功TTTEST:", projects));
 	}
 	
 	@GetMapping("/{projectId}")
@@ -87,4 +92,14 @@ public class ProjectContoller {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,e.getMessage()));
 		}
 	} 
+	
+	//項目詳細資訊----------------------------------------------------------
+	@GetMapping("/item")
+	public ResponseEntity<ApiResponse<List<ProjectInformationDDto>>> findAllProjectIMs() {
+		List<ProjectInformationDDto> projectIMs = projectIMService.findAllProjectIMs();
+		if(projectIMs.size() == 0) {
+			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,"查無此項目"));
+		}
+		return ResponseEntity.ok(ApiResponse.success("查詢成功TTTEST:", projectIMs));
+	}
 }

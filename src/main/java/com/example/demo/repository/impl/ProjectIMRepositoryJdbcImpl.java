@@ -19,13 +19,13 @@ public class ProjectIMRepositoryJdbcImpl implements ProjectIMRepository{
 	
 	@Override
 	public List<ProjectInformationDDto> findAllProjectIMs() {
-		String sql = "select toDoListId, projectName, classification,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential from projectinformationD";
+		String sql = "select toDoListId,  classification,toDoList,  scheduleStartTime, scheduleEndTime, userName, confidential from projectinformationD";
 		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(ProjectInformationDDto.class));
 	}
 
 	@Override
 	public Optional<ProjectInformationDDto> getProjectIMById(Integer toDoListId) {
-		String sql = "select projectName, classification,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential from projectinfromationD where toDoListId=?";
+		String sql = "select classification,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential from projectinfromationD where toDoListId=?";
 		try {
 			ProjectInformationDDto projectInformationDDao = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProjectInformationDDto.class), toDoListId);
 			return Optional.of(projectInformationDDao);
@@ -51,7 +51,7 @@ public class ProjectIMRepositoryJdbcImpl implements ProjectIMRepository{
 
 	@Override
 	public boolean deleteProjectIM(Integer toDoListId) {
-		String sql = "delete from projectinformationD where projectName = ?";
+		String sql = "delete from projectinformationD where toDoListId = ?";
 		int rows = jdbcTemplate.update(sql, toDoListId);
 		return rows > 0;
 	}
