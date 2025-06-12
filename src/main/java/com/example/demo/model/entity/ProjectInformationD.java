@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProjectInformationD {
 	
+	private Integer toDoListId;
 	private String classification;
 	private String userName;
 	private String toDoList;

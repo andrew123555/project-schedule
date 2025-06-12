@@ -8,8 +8,8 @@ import com.example.demo.model.dto.ProjectInformationDDto;
 public interface ProjectIMRepository {
 
 	List<ProjectInformationDDto> findAllProjectIMs();
-	Optional<ProjectInformationDDto> getProjectByName(String projectName);
+	Optional<ProjectInformationDDto> getProjectByName(Integer toDoListId);
 	boolean addProjectIM(ProjectInformationDDto projectInformationDDto);
-	boolean updateProjectIM(String projectName, ProjectInformationDDto projectInformationDDto);
-	boolean deleteProjectIM(String projectName);
+	boolean updateProjectIM(Integer toDoListId, ProjectInformationDDto projectInformationDDto);
+	boolean deleteProjectIM(Integer toDoListId);
 }

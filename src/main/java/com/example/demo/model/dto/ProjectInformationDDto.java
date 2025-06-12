@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProjectInformationDDto {
 	
-	
+	private Integer toDoListId;
 	private String userName;
 	private String toDoList;
 	private String scheduleStartTime;
