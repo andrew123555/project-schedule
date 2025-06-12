@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo.exception.ProjectException;
-import com.example.demo.model.dto.ProjectInformationDao;
+import com.example.demo.model.dto.ProjectInformationBDto;
 import com.example.demo.service.ProjectService;
 
 @Controller
@@ -24,14 +24,14 @@ public class SSRProjectController {
 	// 查詢所有項目
 	@GetMapping
 	public String findAllProjects(Model model) {
-		List<ProjectInformationDao> projects = projectService.findAllProjects();
+		List<ProjectInformationBDto> projects = projectService.findAllProjects();
 		model.addAttribute("projects", projects);
 		return "project-list"; 
 	}
 	
 	// 新增項目
 	@PostMapping("/add")
-	public String addProject(ProjectInformationDao projectInformationDao, Model model) {
+	public String addProject(ProjectInformationBDto projectInformationDao, Model model) {
 		try {
 			projectService.addProject(projectInformationDao);
 		} catch (ProjectException e) {
@@ -58,7 +58,7 @@ public class SSRProjectController {
 	@GetMapping("/edit/{id}")
 	public String getEditPage(@PathVariable Integer projectId, Model model) {
 		try {
-			ProjectInformationDao projectInformationDao = projectService.getProjectById(projectId);
+			ProjectInformationBDto projectInformationDao = projectService.getProjectById(projectId);
 			model.addAttribute("projects", projectInformationDao);
 			return "project-edit";
 		} catch (ProjectException e) {
@@ -69,7 +69,7 @@ public class SSRProjectController {
 	
 	// 修改項目
 	@PutMapping("/edit/{projectId}")
-	public String editPorject(@PathVariable Integer projectId, ProjectInformationDao projectInformationDao, Model model) {
+	public String editPorject(@PathVariable Integer projectId, ProjectInformationBDto projectInformationDao, Model model) {
 		try {
 			projectService.updateProject(projectId, projectInformationDao);
 		} catch (ProjectException e) {

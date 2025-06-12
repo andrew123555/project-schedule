@@ -1,7 +1,5 @@
 package com.example.demo.model.entity;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectInformationB {
-
-	private Integer projectId;
-	private String projectName;
+public class ProjectInformationD {
+	
+	private Boolean classification;
 	private String userName;
-	private String department;
-	private Boolean projectStatu;
+	private String scheduleStartTime;
+	private String scheduleEndTime;
+	private String confidential;
+		
+
 }

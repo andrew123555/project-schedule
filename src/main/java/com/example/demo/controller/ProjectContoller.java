@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.exception.ProjectException;
-import com.example.demo.model.dto.ProjectInformationDao;
+import com.example.demo.model.dto.ProjectInformationBDto;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.ProjectService;
 
@@ -28,8 +28,8 @@ public class ProjectContoller {
 	private ProjectService projectService;
     
 	@GetMapping
-	public ResponseEntity<ApiResponse<List<ProjectInformationDao>>> findAllProjects() {
-		List<ProjectInformationDao> projects = projectService.findAllProjects();
+	public ResponseEntity<ApiResponse<List<ProjectInformationBDto>>> findAllProjects() {
+		List<ProjectInformationBDto> projects = projectService.findAllProjects();
 		if(projects.size() == 0) {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,"查無此項目"));
 		}
@@ -37,9 +37,9 @@ public class ProjectContoller {
 	}
 	
 	@GetMapping("/{projectId}")
-	public ResponseEntity<ApiResponse<ProjectInformationDao>> getProjectById(@PathVariable Integer projectId) {
+	public ResponseEntity<ApiResponse<ProjectInformationBDto>> getProjectById(@PathVariable Integer projectId) {
 		try {
-			ProjectInformationDao projectInformationDao = projectService.getProjectById(projectId);
+			ProjectInformationBDto projectInformationDao = projectService.getProjectById(projectId);
 			return ResponseEntity.ok(ApiResponse.success("查詢成功:", projectInformationDao));
 		} catch (ProjectException e) {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401,e.getMessage()));
@@ -47,7 +47,7 @@ public class ProjectContoller {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ApiResponse<ProjectInformationDao>> addProject(@RequestBody ProjectInformationDao projectInformationDao) {
+	public ResponseEntity<ApiResponse<ProjectInformationBDto>> addProject(@RequestBody ProjectInformationBDto projectInformationDao) {
 		try {
 			projectService.addProject(projectInformationDao);
 			return ResponseEntity.ok(ApiResponse.success("新增成功", projectInformationDao));
@@ -67,7 +67,7 @@ public class ProjectContoller {
 	}
 	
 	@PutMapping("/{projectId}")
-	public ResponseEntity<ApiResponse<ProjectInformationDao>> updateProject(@PathVariable Integer projectId, @RequestBody ProjectInformationDao projectInformationDao) {
+	public ResponseEntity<ApiResponse<ProjectInformationBDto>> updateProject(@PathVariable Integer projectId, @RequestBody ProjectInformationBDto projectInformationDao) {
 		try {
 			projectService.updateProject(projectId, projectInformationDao);
 			return ResponseEntity.ok(ApiResponse.success("修改成功", projectInformationDao));
@@ -79,7 +79,7 @@ public class ProjectContoller {
 
 	
 	@PatchMapping("/name/{projectId}")
-	public ResponseEntity<ApiResponse<ProjectInformationDao>> updateProjectName(@PathVariable Integer projectId, @RequestBody ProjectInformationDao projectInformationDao) {
+	public ResponseEntity<ApiResponse<ProjectInformationBDto>> updateProjectName(@PathVariable Integer projectId, @RequestBody ProjectInformationBDto projectInformationDao) {
 		try {
 			projectService.updateProjectName(projectId, projectInformationDao.getProjectName());
 			return ResponseEntity.ok(ApiResponse.success("修改項目名稱成功", projectInformationDao));

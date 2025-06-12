@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.example.demo.exception.ProjectException;
-import com.example.demo.model.dto.ProjectInformationDao;
+import com.example.demo.model.dto.ProjectInformationBDto;
 import com.example.demo.repository.ProjectRepository;
 import com.example.demo.service.ProjectService;
 
@@ -18,13 +18,13 @@ public class ProjectServiceImpl implements ProjectService{
 	private ProjectRepository projectRepository;
 	
 	@Override
-	public List<ProjectInformationDao> findAllProjects() {
+	public List<ProjectInformationBDto> findAllProjects() {
 		return projectRepository.findAllProjects();
 	}
 
 	@Override
-	public ProjectInformationDao getProjectById(Integer projectId) throws ProjectException {
-		Optional<ProjectInformationDao> optProject = projectRepository.getProjectById(projectId);
+	public ProjectInformationBDto getProjectById(Integer projectId) throws ProjectException {
+		Optional<ProjectInformationBDto> optProject = projectRepository.getProjectById(projectId);
 		if(optProject.isEmpty()) {
 			throw new ProjectException("id: " + projectId + ", 查無此項目");
 		}
@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public void addProject(ProjectInformationDao projectInformationDao) throws ProjectException {
+	public void addProject(ProjectInformationBDto projectInformationDao) throws ProjectException {
 		if(!projectRepository.addProject(projectInformationDao)) {
 			throw new ProjectException("新增失敗, " + projectInformationDao);
 		}
@@ -40,7 +40,7 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public void updateProject(Integer projectId, ProjectInformationDao projectInformationDao) throws ProjectException {
+	public void updateProject(Integer projectId, ProjectInformationBDto projectInformationDao) throws ProjectException {
 		if(!projectRepository.updateProject(projectId, projectInformationDao)) {
 			throw new ProjectException("修改失敗, id: " + projectId + ", " + projectInformationDao);
 		}
@@ -48,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Override
 	public void updateProjectName(Integer projectId, String projectName) throws ProjectException {
-		ProjectInformationDao projectInformationDao = getProjectById(projectId);
+		ProjectInformationBDto projectInformationDao = getProjectById(projectId);
 		projectInformationDao.setProjectName(projectName);
 		updateProject(projectInformationDao.getProjectId(), projectInformationDao);
 	}

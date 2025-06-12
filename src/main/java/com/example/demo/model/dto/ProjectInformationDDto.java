@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectInformationBDto {
+public class ProjectInformationDDto {
 	
-	private Integer projectId;
-	private String projectName;
+	
 	private String userName;
-	private String department;
-	private Boolean projectStatu;
+	private String scheduleStartTime;
+	private String scheduleEndTime;
+	private String confidential;
+	private Boolean classification;
+		
 }
