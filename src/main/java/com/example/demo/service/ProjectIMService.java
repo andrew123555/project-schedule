@@ -7,9 +7,9 @@ import com.example.demo.model.dto.ProjectInformationDDto;
 public interface ProjectIMService {
 
 	List<ProjectInformationDDto> findAllProjectIMs() ;
-	ProjectInformationDDto getProjectByName(String ProjectName) throws ProjectException;
+	ProjectInformationDDto getProjectIMById(Integer toDoListId) throws ProjectException;
 	void addProjectIM(ProjectInformationDDto projectInformationDDto) throws ProjectException;
-	void updateProjectIM(String ProjectName, ProjectInformationDDto projectInformationDDto) throws ProjectException;
-	void updateProjectName(String ProjectName, String projectName) throws ProjectException;
-	void deleteProjectIM(String ProjectName) throws ProjectException;
+	void updateProjectIM(Integer toDoListId, ProjectInformationDDto projectInformationDDto) throws ProjectException;
+	void updateProjectName(Integer toDoListId, String toDoList) throws ProjectException;
+	void deleteProjectIM(Integer toDoListId) throws ProjectException;
 }

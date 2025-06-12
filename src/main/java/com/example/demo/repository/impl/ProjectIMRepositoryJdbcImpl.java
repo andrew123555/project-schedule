@@ -19,15 +19,15 @@ public class ProjectIMRepositoryJdbcImpl implements ProjectIMRepository{
 	
 	@Override
 	public List<ProjectInformationDDto> findAllProjectIMs() {
-		String sql = "select projectName, classification,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential from projectinformationD";
+		String sql = "select toDoListId, projectName, classification,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential from projectinformationD";
 		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(ProjectInformationDDto.class));
 	}
 
 	@Override
-	public Optional<ProjectInformationDDto> getProjectByName(String projectName) {
-		String sql = "select projectName, classification,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential from projectinfromationD where projectName=?";
+	public Optional<ProjectInformationDDto> getProjectIMById(Integer toDoListId) {
+		String sql = "select projectName, classification,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential from projectinfromationD where toDoListId=?";
 		try {
-			ProjectInformationDDto projectInformationDDao = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProjectInformationDDto.class), projectName);
+			ProjectInformationDDto projectInformationDDao = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProjectInformationDDto.class), toDoListId);
 			return Optional.of(projectInformationDDao);
 		} catch (EmptyResultDataAccessException e) {
 			return Optional.empty();
@@ -43,16 +43,16 @@ public class ProjectIMRepositoryJdbcImpl implements ProjectIMRepository{
 	}
 
 	@Override
-	public boolean updateProjectIM(String projectName, ProjectInformationDDto projectInformationDDto) {
-		String sql = "update projectinformationD set classification = ?, toDoList = ?, scheduleStartTime = ?, scheduleEndTime = ? , userName = ? , confidential = ? where projectName = ?";
-		int rows = jdbcTemplate.update(sql, projectInformationDDto.getClassification(), projectInformationDDto.getToDoList(), projectInformationDDto.getScheduleStartTime(), projectInformationDDto.getScheduleEndTime(),projectInformationDDto.getUserName(),projectInformationDDto.getConfidential(), projectName);
+	public boolean updateProjectIM(Integer toDoListId, ProjectInformationDDto projectInformationDDto) {
+		String sql = "update projectinformationD set classification = ?, toDoList = ?, scheduleStartTime = ?, scheduleEndTime = ? , userName = ? , confidential = ? where toDoListId = ?";
+		int rows = jdbcTemplate.update(sql, projectInformationDDto.getClassification(), projectInformationDDto.getToDoList(), projectInformationDDto.getScheduleStartTime(), projectInformationDDto.getScheduleEndTime(),projectInformationDDto.getUserName(),projectInformationDDto.getConfidential(), toDoListId);
 		return rows > 0;
 	}
 
 	@Override
-	public boolean deleteProjectIM(String projectName) {
+	public boolean deleteProjectIM(Integer toDoListId) {
 		String sql = "delete from projectinformationD where projectName = ?";
-		int rows = jdbcTemplate.update(sql, projectName);
+		int rows = jdbcTemplate.update(sql, toDoListId);
 		return rows > 0;
 	}
 }

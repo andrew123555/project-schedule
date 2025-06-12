@@ -19,44 +19,44 @@ public class ProjectIMServiceImpl implements ProjectIMService{
 	
 	@Override
 	public List<ProjectInformationDDto> findAllProjectIMs() {
-		return projectRepository.findAllProjectIMs();
+		return projectIMRepository.findAllProjectIMs();
 	}
 
 	@Override
-	public ProjectInformationDDto getProjectByName(String projectName) throws ProjectException {
-		Optional<ProjectInformationBDto> optProject = projectRepository.getProjectById(projectId);
-		if(optProject.isEmpty()) {
-			throw new ProjectException("id: " + projectId + ", 查無此項目");
+	public ProjectInformationDDto getProjectIMById(Integer toDoListId) throws ProjectException {
+		Optional<ProjectInformationDDto> optProjectIM = projectIMRepository.getProjectIMById(toDoListId);
+		if(optProjectIM.isEmpty()) {
+			throw new ProjectException("id: " + toDoListId + ", 查無此待辦事項");
 		}
-		return optProject.get();
+		return optProjectIM.get();
 	}
 
 	@Override
-	public void addProject(ProjectInformationDDto projectInformationDDto) throws ProjectException {
-		if(!projectRepository.addProject(projectInformationDao)) {
-			throw new ProjectException("新增失敗, " + projectInformationDao);
+	public void addProjectIM(ProjectInformationDDto projectInformationDDto) throws ProjectException {
+		if(!projectIMRepository.addProjectIM(projectInformationDDto)) {
+			throw new ProjectException("新增失敗, " + projectInformationDDto);
 		}
 		
 	}
 
 	@Override
-	public void updateProject(String projectName, ProjectInformationDDto projectInformationDDto) throws ProjectException {
-		if(!projectRepository.updateProject(projectId, projectInformationDao)) {
-			throw new ProjectException("修改失敗, id: " + projectId + ", " + projectInformationDao);
+	public void updateProjectIM(Integer toDoListId, ProjectInformationDDto projectInformationDDto) throws ProjectException {
+		if(!projectIMRepository.updateProjectIM(toDoListId, projectInformationDDto)) {
+			throw new ProjectException("修改失敗, id: " + toDoListId + ", " + projectInformationDDto);
 		}
 	}
 
 	@Override
-	public void updateProjectName(String projectName, String projectName) throws ProjectException {
-		ProjectInformationDDto projectInformationDDto = getProjectByName(projectName);
-		projectInformationDao.setProjectName(projectName);
-		updateProject(projectInformationDDto.getClassification(), projectInformationDDto);
+	public void updateProjectName(Integer toDoListId, String toDoList) throws ProjectException {
+		ProjectInformationDDto projectInformationDDto = getProjectIMById(toDoListId);
+		projectInformationDDto.setToDoList(toDoList);
+		updateProjectIM(projectInformationDDto.getToDoListId(), projectInformationDDto);
 	}
 
 	@Override
-	public void deleteProjectIM(String projectName) throws ProjectException {
-		if(!projectIMRepository.deleteProjectIM(projectName)) {
-			throw new ProjectException("刪除失敗, name: " + projectName);
+	public void deleteProjectIM(Integer toDoListId) throws ProjectException {
+		if(!projectIMRepository.deleteProjectIM(toDoListId)) {
+			throw new ProjectException("刪除失敗, Id: " + toDoListId);
 		}
 		
 	}
