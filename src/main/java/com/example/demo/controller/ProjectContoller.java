@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.exception.ProjectException;
 import com.example.demo.model.dto.ProjectInformationDao;
 import com.example.demo.response.ApiResponse;
@@ -27,7 +26,6 @@ public class ProjectContoller {
     
 	@Autowired
 	private ProjectService projectService;
-
     
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<ProjectInformationDao>>> findAllProjects() {
@@ -89,8 +87,4 @@ public class ProjectContoller {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,e.getMessage()));
 		}
 	} 
-	
-		
-	
-	
 }

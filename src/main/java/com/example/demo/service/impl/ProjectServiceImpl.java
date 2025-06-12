@@ -1,21 +1,20 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.exception.ProjectException;
 import com.example.demo.model.dto.ProjectInformationDao;
 import com.example.demo.repository.ProjectRepository;
+import com.example.demo.service.ProjectService;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
 
 	@Autowired
-	@Qualifier("projectRepositoryJdbcImpl") // 指定實現類
+	@Qualifier("projectRepositoryJdbcImpl") 
 	private ProjectRepository projectRepository;
 	
 	@Override

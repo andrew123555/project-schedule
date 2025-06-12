@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 // 使用者憑證
-// 登入成功之後會得到的憑證資料(只有 Getter)
+// 登入成功之後會得到的憑證資料
 @AllArgsConstructor
 @Getter
 @ToString
