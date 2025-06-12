@@ -11,9 +11,10 @@ public class ProjectInformationDDto {
 	
 	
 	private String userName;
+	private String toDoList;
 	private String scheduleStartTime;
 	private String scheduleEndTime;
-	private String confidential;
-	private Boolean classification;
+	private Boolean confidential;
+	private String classification;
 		
 }
