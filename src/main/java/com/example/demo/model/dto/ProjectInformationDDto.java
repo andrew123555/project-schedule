@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProjectInformationDDto {
 	
+	private String projectName;
+	private String classification;
 	private Integer toDoListId;
-	private String userName;
 	private String toDoList;
 	private String scheduleStartTime;
 	private String scheduleEndTime;
+	private String userName;
 	private Boolean confidential;
-	private String classification;
+	
 		
 }

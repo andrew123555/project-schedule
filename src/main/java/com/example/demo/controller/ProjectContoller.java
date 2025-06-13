@@ -102,4 +102,38 @@ public class ProjectContoller {
 		}
 		return ResponseEntity.ok(ApiResponse.success("查詢成功TTTEST:", projectIMs));
 	}
+	
+	@PostMapping("/item")
+	public ResponseEntity<ApiResponse<ProjectInformationDDto>> addProjectIM(@RequestBody ProjectInformationDDto projectInformationDDto) {
+		try {
+			projectIMService.addProjectIM(projectInformationDDto);
+			return ResponseEntity.ok(ApiResponse.success("新增成功", projectInformationDDto));
+		} catch (ProjectException e) {
+			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,e.getMessage()));
+		}
+	}
+	
+	@DeleteMapping("/{toDoListId}")
+	public ResponseEntity<ApiResponse<String>> deletedProjectIM(@PathVariable Integer toDoListId) {
+		try {
+			projectIMService.deleteProjectIM(toDoListId);
+			return ResponseEntity.ok(ApiResponse.success("刪除成功", ""));
+		} catch (ProjectException e) {
+			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,e.getMessage()));
+		}
+	}
+	
+	@PutMapping("/{toDoListId}")
+	public ResponseEntity<ApiResponse<ProjectInformationDDto>> updateProjectIM(@PathVariable Integer toDoListId, @RequestBody ProjectInformationDDto projectInformationDDto) {
+		try {
+			projectIMService.updateProjectIM(toDoListId, projectInformationDDto);
+			return ResponseEntity.ok(ApiResponse.success("修改成功", projectInformationDDto));
+		} catch (ProjectException e) {
+			return ResponseEntity.badRequest().body(ApiResponse.error(401,e.getMessage()));
+		}
+	}
+	
+
+	
+	
 }

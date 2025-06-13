@@ -104,6 +104,7 @@ public class SSRProjectController {
 			return "error";
 		}
 		return "redirect:/ssr/project/item";
+		
 		// 刪除項目
 	}
 	@DeleteMapping("/item/delete/{toDoListId}")

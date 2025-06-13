@@ -9,12 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProjectInformationD {
 	
-	private Integer toDoListId;
+	private String projectName;
 	private String classification;
-	private String userName;
+	private Integer toDoListId;
 	private String toDoList;
 	private String scheduleStartTime;
 	private String scheduleEndTime;
+	private String userName;
 	private Boolean confidential;
 		
 
