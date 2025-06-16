@@ -10,6 +10,5 @@ public interface ProjectService {
 	ProjectInformationBDto getProjectById(Integer ProjectId) throws ProjectException;
 	void addProject(ProjectInformationBDto projectInformationDao) throws ProjectException;
 	void updateProject(Integer projectId, ProjectInformationBDto projectInformationDao) throws ProjectException;
-	void updateProjectName(Integer projectId, String projectName) throws ProjectException;
 	void deleteProject(Integer ProjectId) throws ProjectException;
 }

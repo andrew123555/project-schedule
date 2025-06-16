@@ -19,15 +19,15 @@ public class ProjectIMRepositoryJdbcImpl implements ProjectIMRepository{
 	
 	@Override
 	public List<ProjectInformationDDto> findAllProjectIMs() {
-		String sql = "select toDoListId,  classification,toDoList,  scheduleStartTime, scheduleEndTime, userName, confidential from projectinformationD";
+		String sql = "select projectName,projectId,toDoListId,  classification,toDoList,  scheduleStartTime, scheduleEndTime, userName, confidential from projectinformationD";
 		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(ProjectInformationDDto.class));
 	}
 
 	@Override
-	public Optional<ProjectInformationDDto> getProjectIMById(Integer toDoListId) {
-		String sql = "select classification,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential from projectinfromationD where toDoListId=?";
+	public Optional<ProjectInformationDDto> getProjectIMById(Integer projectId) {
+		String sql = "select projectName,projectId, classification,  toDoList,toDoListID, scheduleStartTime, scheduleEndTime, userName, confidential from projectinformationD where projectId=?";
 		try {
-			ProjectInformationDDto projectInformationDDao = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProjectInformationDDto.class), toDoListId);
+			ProjectInformationDDto projectInformationDDao = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProjectInformationDDto.class), projectId);
 			return Optional.of(projectInformationDDao);
 		} catch (EmptyResultDataAccessException e) {
 			return Optional.empty();
@@ -37,8 +37,8 @@ public class ProjectIMRepositoryJdbcImpl implements ProjectIMRepository{
 
 	@Override
 	public boolean addProjectIM(ProjectInformationDDto projectInformationDDto) {
-		String sql = "insert into projectinformationD(classification,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential) values(?, ?, ?, ?, ?, ?)";
-		int rows = jdbcTemplate.update(sql, projectInformationDDto.getClassification(), projectInformationDDto.getToDoList(), projectInformationDDto.getScheduleStartTime(), projectInformationDDto.getScheduleEndTime(), projectInformationDDto.getUserName(), projectInformationDDto.getConfidential() );
+		String sql = "insert into projectinformationD(projectId ,projectName ,classification,  toDoListId,  toDoList, scheduleStartTime, scheduleEndTime, userName, confidential) values(?, ?, ?, ?, ?, ?, ? , ? ,?)";
+		int rows = jdbcTemplate.update(sql, projectInformationDDto.getProjectId(),projectInformationDDto.getProjectName(),projectInformationDDto.getClassification(), projectInformationDDto.getToDoListId(), projectInformationDDto.getToDoList(), projectInformationDDto.getScheduleStartTime(), projectInformationDDto.getScheduleEndTime(), projectInformationDDto.getUserName(), projectInformationDDto.getConfidential() );
 		return rows > 0;
 	}
 

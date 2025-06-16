@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ProjectInformationD {
 	
 	private String projectName;
+	private Integer projectId;
 	private String classification;
 	private Integer toDoListId;
 	private String toDoList;

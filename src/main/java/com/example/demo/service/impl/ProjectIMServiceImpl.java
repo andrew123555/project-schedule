@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.example.demo.exception.ProjectException;
+import com.example.demo.exception.ProjectNotFoundException;
+import com.example.demo.mapper.ProjectMapper;
 import com.example.demo.model.dto.ProjectInformationDDto;
+import com.example.demo.model.entity.ProjectInformationD;
 import com.example.demo.repository.ProjectIMRepository;
 import com.example.demo.service.ProjectIMService;
 
@@ -14,8 +17,12 @@ import com.example.demo.service.ProjectIMService;
 public class ProjectIMServiceImpl implements ProjectIMService{
 
 	@Autowired
+	private ProjectMapper projectMapper;
+	
+	@Autowired
 	@Qualifier("projectIMRepositoryJdbcImpl") 
 	private ProjectIMRepository projectIMRepository;
+	
 	
 	@Override
 	public List<ProjectInformationDDto> findAllProjectIMs() {
@@ -23,13 +30,15 @@ public class ProjectIMServiceImpl implements ProjectIMService{
 	}
 
 	@Override
-	public ProjectInformationDDto getProjectIMById(Integer toDoListId) throws ProjectException {
-		Optional<ProjectInformationDDto> optProjectIM = projectIMRepository.getProjectIMById(toDoListId);
+	public ProjectInformationDDto getProjectIMById(Integer projectId) throws ProjectException {
+		Optional<ProjectInformationDDto> optProjectIM = projectIMRepository.getProjectIMById(projectId);
 		if(optProjectIM.isEmpty()) {
-			throw new ProjectException("id: " + toDoListId + ", 查無此待辦事項");
+			throw new ProjectException("projectId: " + projectId + ", 查無此待辦事項");
 		}
 		return optProjectIM.get();
 	}
+	
+	
 
 	@Override
 	public void addProjectIM(ProjectInformationDDto projectInformationDDto) throws ProjectException {
@@ -42,16 +51,11 @@ public class ProjectIMServiceImpl implements ProjectIMService{
 	@Override
 	public void updateProjectIM(Integer toDoListId, ProjectInformationDDto projectInformationDDto) throws ProjectException {
 		if(!projectIMRepository.updateProjectIM(toDoListId, projectInformationDDto)) {
-			throw new ProjectException("修改失敗, id: " + toDoListId + ", " + projectInformationDDto);
+			throw new ProjectException("修改失敗, toDoListId: " + toDoListId + ", " + projectInformationDDto);
 		}
 	}
 
-	@Override
-	public void updateProjectName(Integer toDoListId, String toDoList) throws ProjectException {
-		ProjectInformationDDto projectInformationDDto = getProjectIMById(toDoListId);
-		projectInformationDDto.setToDoList(toDoList);
-		updateProjectIM(projectInformationDDto.getToDoListId(), projectInformationDDto);
-	}
+	
 
 	@Override
 	public void deleteProjectIM(Integer toDoListId) throws ProjectException {

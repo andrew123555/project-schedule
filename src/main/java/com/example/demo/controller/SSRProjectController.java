@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo.exception.ProjectException;
 import com.example.demo.model.dto.ProjectInformationBDto;
 import com.example.demo.model.dto.ProjectInformationDDto;
+import com.example.demo.response.ApiResponse;
 import com.example.demo.service.ProjectIMService;
 import com.example.demo.service.ProjectService;
 
@@ -93,7 +95,12 @@ public class SSRProjectController {
 			model.addAttribute("projectIMs", projectIMs);
 			return "projectIM-list"; 
 		}
-	
+		// 查詢單筆項目
+		@GetMapping("/item/{projectIMId}")
+		public ResponseEntity<ApiResponse<ProjectInformationDDto>> getProjectIMById(@PathVariable Integer projectIMId) throws ProjectException {
+			ProjectInformationDDto projectInformationDDto = projectIMService.getProjectIMById(projectIMId);
+			return ResponseEntity.ok(ApiResponse.success("項目查詢單筆成功", projectInformationDDto));
+		}
 	// 新增項目
 	@PostMapping("/item/add")
 	public String addProjectIM(ProjectInformationDDto projectInformationDDto, Model model) {
@@ -117,5 +124,7 @@ public class SSRProjectController {
 		}
 		return "redirect:/ssr/project/item";
 	}
+	
+
 	
 }

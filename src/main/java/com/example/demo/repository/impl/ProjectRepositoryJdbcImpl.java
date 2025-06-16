@@ -25,7 +25,7 @@ public class ProjectRepositoryJdbcImpl implements ProjectRepository{
 
 	@Override
 	public Optional<ProjectInformationBDto> getProjectById(Integer projectId) {
-		String sql = "select projectId, projectName, department, userName, projectStatu from projectinfromation where projectId=?";
+		String sql = "select projectId, projectName, department, userName, projectStatu from projectinformation where projectId=?";
 		try {
 			ProjectInformationBDto projectInformationDao = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProjectInformationBDto.class), projectId);
 			return Optional.of(projectInformationDao);

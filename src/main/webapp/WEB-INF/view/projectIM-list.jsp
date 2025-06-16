@@ -10,7 +10,9 @@
 		<%@ include file="include/IMmenu.jsp" %>
 		<div>
 			<form method="post" action="/ssr/project/item/add">
+				項目名: <input type="text" name="projectName" required /><br />
 				類別: <input type="text" name="classification" required /><br />
+				待辦事項序號: <input type="number" name="toDoListId" required /><br />
 				待辦事項: <input type="text" name="toDoList" required /><br />
 				開始時間: <input type="text" name="scheduleStartTime" required /><br />
 				結束時間: <input type="text" name="scheduleEndTime" required /><br />
@@ -23,13 +25,15 @@
 			<table border="1">
 				<thead>
 					<tr>
-						<th>類別</th><th>待辦事項</th><th>開始時間</th><th>結束時間</th><th>負責人</th><th>機密性</th><th>操作</th>
+						<th>項目名</th><th>類別</th><th>待辦事項序號</th><th>待辦事項</th><th>開始時間</th><th>結束時間</th><th>負責人</th><th>機密性</th><th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="projectinformationD" items="${ projectIMs }">
 						<tr>
+							<td>${ projectinformationD.projectName }</td>
 							<td>${ projectinformationD.classification }</td>
+							<td>${ projectinformationD.toDoListId }</td>
 							<td>${ projectinformationD.toDoList }</td>
 							<td>${ projectinformationD.scheduleStartTime }</td>
 							<td>${ projectinformationD.scheduleEndTime }</td>

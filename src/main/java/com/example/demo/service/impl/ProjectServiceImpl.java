@@ -46,12 +46,7 @@ public class ProjectServiceImpl implements ProjectService{
 		}
 	}
 
-	@Override
-	public void updateProjectName(Integer projectId, String projectName) throws ProjectException {
-		ProjectInformationBDto projectInformationDao = getProjectById(projectId);
-		projectInformationDao.setProjectName(projectName);
-		updateProject(projectInformationDao.getProjectId(), projectInformationDao);
-	}
+	
 
 	@Override
 	public void deleteProject(Integer projectId) throws ProjectException {
