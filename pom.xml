@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.5</version>
+		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
@@ -48,7 +48,7 @@
 	    <dependency>
 	        <groupId>org.glassfish.web</groupId>
 	        <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-	        <version>3.0.0</version>
+	        <version>3.0.1</version>
 	    </dependency>
 	    
 	    <!-- JdbcTemplate (JDBC 豪華昇級版)  -->
@@ -94,6 +94,23 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Spring Boot logging -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
+		
+		
+		<!-- Spring Boot aop -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		
+        
+         
+
+         
 	</dependencies>
 
 	<build>

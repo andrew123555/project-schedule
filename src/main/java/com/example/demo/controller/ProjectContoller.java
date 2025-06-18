@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,12 +22,16 @@ import com.example.demo.model.dto.ProjectInformationDDto;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.ProjectIMService;
 import com.example.demo.service.ProjectService;
+import com.example.demo.util.OperationLog;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/rest/project")
 public class ProjectContoller {
 
+	Logger myLogger = LoggerFactory.getLogger(ProjectContoller.class);
+    // 紀錄各種等級的事件
+    
     
 	@Autowired
 	private ProjectService projectService;
@@ -32,6 +39,7 @@ public class ProjectContoller {
 	@Autowired
 	private ProjectIMService projectIMService;
     
+	@OperationLog("查詢所有項目基本資訊")
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<ProjectInformationBDto>>> findAllProjects() {
 		List<ProjectInformationBDto> projects = projectService.findAllProjects();
@@ -51,6 +59,7 @@ public class ProjectContoller {
 		}
 	}
 	
+	@OperationLog("新增基本項目資訊")
 	@PostMapping
 	public ResponseEntity<ApiResponse<ProjectInformationBDto>> addProject(@RequestBody ProjectInformationBDto projectInformationDao) {
 		try {
@@ -61,6 +70,7 @@ public class ProjectContoller {
 		}
 	}
 	
+	@OperationLog("刪除基本項目基本資訊")
 	@DeleteMapping("/{projectId}")
 	public ResponseEntity<ApiResponse<String>> deletedProject(@PathVariable Integer projectId) {
 		try {
@@ -71,6 +81,7 @@ public class ProjectContoller {
 		}
 	}
 	
+	@OperationLog("修改基本項目基本資訊")
 	@PutMapping("/{projectId}")
 	public ResponseEntity<ApiResponse<ProjectInformationBDto>> updateProject(@PathVariable Integer projectId, @RequestBody ProjectInformationBDto projectInformationDao) {
 		try {

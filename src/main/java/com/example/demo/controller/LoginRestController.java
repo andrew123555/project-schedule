@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +20,12 @@ import com.example.demo.model.dto.UserCert;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.CertService;
 
-import jakarta.servlet.http.HttpSession;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
 @Controller
 @RequestMapping("/rest")
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8002"}, allowCredentials = "true")
@@ -27,14 +34,21 @@ public class LoginRestController {
 	@Autowired
 	private CertService certService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(LoginRestController.class); 
+	
+	
 	@PostMapping("/login")
 	public ResponseEntity<ApiResponse<Void>> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
 	    try {
 	        UserCert cert = certService.getCert(username, password);
 	        session.setAttribute("userCert", cert);
+	        logger.info("用户 {} 成功登入 ",  username);
 	        return ResponseEntity.ok(ApiResponse.success("登入成功", null));
+	        		
+	        		
 	    } catch (CertException e) {
-	        return ResponseEntity
+	    	logger.error("用户 {} 登入失敗 ",  username);
+	    	return ResponseEntity
 	                .status(HttpStatus.UNAUTHORIZED)
 	                .body(ApiResponse.error(401, "登入失敗: " + e.getMessage()));
 	    }
