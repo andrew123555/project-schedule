@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,15 +21,17 @@ import com.example.demo.model.dto.ProjectInformationDDto;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.ProjectIMService;
 import com.example.demo.service.ProjectService;
-import com.example.demo.util.OperationLog;
 
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/rest/project")
 public class ProjectContoller {
 
-	Logger myLogger = LoggerFactory.getLogger(ProjectContoller.class);
-    // 紀錄各種等級的事件
+	 Logger logger = LoggerFactory.getLogger(ProjectContoller.class);    // 紀錄各種等級的事件
     
     
 	@Autowired
@@ -39,13 +40,15 @@ public class ProjectContoller {
 	@Autowired
 	private ProjectIMService projectIMService;
     
-	@OperationLog("查詢所有項目基本資訊")
+	
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<ProjectInformationBDto>>> findAllProjects() {
 		List<ProjectInformationBDto> projects = projectService.findAllProjects();
 		if(projects.size() == 0) {
+			
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,"查無此項目"));
 		}
+		logger.info("尋找所有項目資訊");
 		return ResponseEntity.ok(ApiResponse.success("查詢成功TTTEST:", projects));
 	}
 	
@@ -59,7 +62,7 @@ public class ProjectContoller {
 		}
 	}
 	
-	@OperationLog("新增基本項目資訊")
+	
 	@PostMapping
 	public ResponseEntity<ApiResponse<ProjectInformationBDto>> addProject(@RequestBody ProjectInformationBDto projectInformationDao) {
 		try {
@@ -70,18 +73,19 @@ public class ProjectContoller {
 		}
 	}
 	
-	@OperationLog("刪除基本項目基本資訊")
+	
 	@DeleteMapping("/{projectId}")
 	public ResponseEntity<ApiResponse<String>> deletedProject(@PathVariable Integer projectId) {
 		try {
 			projectService.deleteProject(projectId);
+			
 			return ResponseEntity.ok(ApiResponse.success("刪除成功", ""));
 		} catch (ProjectException e) {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,e.getMessage()));
 		}
 	}
 	
-	@OperationLog("修改基本項目基本資訊")
+	
 	@PutMapping("/{projectId}")
 	public ResponseEntity<ApiResponse<ProjectInformationBDto>> updateProject(@PathVariable Integer projectId, @RequestBody ProjectInformationBDto projectInformationDao) {
 		try {
