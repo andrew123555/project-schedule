@@ -2,8 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,7 +20,6 @@ import com.example.demo.model.dto.ProjectInformationDDto;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.ProjectIMService;
 import com.example.demo.service.ProjectService;
-
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -31,8 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/rest/project")
 public class ProjectContoller {
 
-	 Logger logger = LoggerFactory.getLogger(ProjectContoller.class);    // 紀錄各種等級的事件
-    
+	
     
 	@Autowired
 	private ProjectService projectService;
@@ -48,7 +45,7 @@ public class ProjectContoller {
 			
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,"查無此項目"));
 		}
-		logger.info("尋找所有項目資訊");
+		//log.info("尋找所有項目資訊");
 		return ResponseEntity.ok(ApiResponse.success("查詢成功TTTEST:", projects));
 	}
 	
@@ -75,10 +72,10 @@ public class ProjectContoller {
 	
 	
 	@DeleteMapping("/{projectId}")
-	public ResponseEntity<ApiResponse<String>> deletedProject(@PathVariable Integer projectId) {
+	public ResponseEntity<ApiResponse< String>> deletedProject(@PathVariable Integer projectId) {
 		try {
 			projectService.deleteProject(projectId);
-			
+			//log.info("刪除ID[{}]"+"+ 項目[{}]", projectId,projectService.getProjectByName(projectId));
 			return ResponseEntity.ok(ApiResponse.success("刪除成功", ""));
 		} catch (ProjectException e) {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,e.getMessage()));

@@ -8,6 +8,8 @@ public interface ProjectRepository {
 
 	List<ProjectInformationBDto> findAllProjects();
 	Optional<ProjectInformationBDto> getProjectById(Integer projectId);
+	Optional<ProjectInformationBDto> getProjectByName(Integer projectId);
+
 	boolean addProject(ProjectInformationBDto projectInformationDao);
 	boolean updateProject(Integer projectId, ProjectInformationBDto projectInformationDao);
 	boolean deleteProject(Integer projectId);

@@ -8,7 +8,9 @@ public interface ProjectService {
 
 	List<ProjectInformationBDto> findAllProjects() ;
 	ProjectInformationBDto getProjectById(Integer ProjectId) throws ProjectException;
+	ProjectInformationBDto getProjectByName(Integer projectId) throws ProjectException;
+
 	void addProject(ProjectInformationBDto projectInformationDao) throws ProjectException;
 	void updateProject(Integer projectId, ProjectInformationBDto projectInformationDao) throws ProjectException;
-	void deleteProject(Integer ProjectId) throws ProjectException;
+	void deleteProject(Integer projectId) throws ProjectException;
 }

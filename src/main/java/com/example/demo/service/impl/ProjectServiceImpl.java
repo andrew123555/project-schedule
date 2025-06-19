@@ -30,6 +30,15 @@ public class ProjectServiceImpl implements ProjectService{
 		}
 		return optProject.get();
 	}
+	
+	@Override
+	public ProjectInformationBDto getProjectByName(Integer projectId) throws ProjectException {
+		Optional<ProjectInformationBDto> optProject = projectRepository.getProjectByName(projectId);
+		if(optProject.isEmpty()) {
+			throw new ProjectException("name: " + projectId + ", 查無此項目名稱");
+		}
+		return optProject.get();
+	}
 
 	@Override
 	public void addProject(ProjectInformationBDto projectInformationDao) throws ProjectException {

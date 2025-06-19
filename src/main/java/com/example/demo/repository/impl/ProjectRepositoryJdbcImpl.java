@@ -36,6 +36,18 @@ public class ProjectRepositoryJdbcImpl implements ProjectRepository{
 	}
 
 	@Override
+	public Optional<ProjectInformationBDto> getProjectByName(Integer projectId) {
+		String sql = "select projectId, projectName, department, userName, projectStatu from projectinformation where projectName=?";
+		try {
+			ProjectInformationBDto projectInformationDao = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProjectInformationBDto.class), projectId);
+			return Optional.of(projectInformationDao);
+		} catch (EmptyResultDataAccessException e) {
+			return Optional.empty();
+		}
+		
+	}
+	
+	@Override
 	public boolean addProject(ProjectInformationBDto projectInformationDao) {
 		String sql = "insert into projectinformation(projectName, department, userName, projectStatu) values(?, ?, ?, ?)";
 		int rows = jdbcTemplate.update(sql, projectInformationDao.getProjectName(), projectInformationDao.getDepartment(), projectInformationDao.getUserName(), projectInformationDao.getProjectStatu());
