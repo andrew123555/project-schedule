@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "aspect.switch",
+  "type": "java.lang.String",
+  "description": "A description for 'aspect.switch'"
+}]}

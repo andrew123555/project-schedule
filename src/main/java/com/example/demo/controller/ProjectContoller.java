@@ -37,7 +37,7 @@ public class ProjectContoller {
 	@Autowired
 	private ProjectIMService projectIMService;
     
-	
+	//@Log("test2")
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<ProjectInformationBDto>>> findAllProjects() {
 		List<ProjectInformationBDto> projects = projectService.findAllProjects();

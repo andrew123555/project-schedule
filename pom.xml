@@ -61,6 +61,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<!-- 驗證 Validation -->
@@ -108,14 +114,102 @@
 		</dependency>
 		
 		
-		
-		
-		
+        
          <dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.17.0</version> <!-- Use the latest stable version -->
 		</dependency>
+		
+		
+		<!-- hutool +JSONUtil解析 -->
+		<dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.4.6</version>
+   		</dependency>
+		<dependency>
+		    <groupId>org.apache.shiro</groupId>
+		    <artifactId>shiro-spring-boot-web-starter</artifactId>
+		    <version>1.5.3</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.shiro</groupId>
+		    <artifactId>shiro-core</artifactId>
+		    <version>1.5.3</version>
+		</dependency>
+		    <!-- Spring Boot Redis Starter -->
+
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-data-redis</artifactId>
+	    </dependency>
+	    <!-- Spring Boot Cache Starter -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-cache</artifactId>
+	    </dependency>
+	  	 <!-- Mapper依賴 -->
+		 <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>2.0.2</version>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.mybatis</groupId>
+            		<artifactId>mybatis</artifactId>
+            	</exclusion>
+            	<exclusion>
+            		<groupId>org.mybatis</groupId>
+            		<artifactId>mybatis-spring</artifactId>
+            	</exclusion>
+            </exclusions>
+		 </dependency>
+       <!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
+		<dependency>
+		    <groupId>io.swagger</groupId>
+		    <artifactId>swagger-annotations</artifactId>
+		    <version>1.5.0</version>
+		</dependency>
+		
+		
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.1.0</version>
+		    <!-- 此包一般在Servlet容器中都有提供 -->
+		    <scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-core</artifactId>
+		    <version>1.5.18</version>
+		</dependency>
+                       
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-classic</artifactId>
+		    <version>1.5.18</version>
+		    <scope>compile</scope>
+		</dependency> 
+		<!-- https://mvnrepository.com/artifact/ch.qos.logback.db/logback-classic-db -->
+		<dependency>
+		    <groupId>ch.qos.logback.db</groupId>
+		    <artifactId>logback-classic-db</artifactId>
+		    <version>1.2.11.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-dbcp2</artifactId>
+		    <version>2.13.0</version>
+		</dependency>
+		
+
+                        
+		
 	</dependencies>
 
 	<build>

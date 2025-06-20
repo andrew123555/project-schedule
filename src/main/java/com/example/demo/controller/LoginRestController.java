@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.exception.CertException;
 import com.example.demo.model.dto.UserCert;
-import com.example.demo.model.entity.Log;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.CertService;
 
 
 import jakarta.servlet.http.HttpSession;
-
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -30,10 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8002"}, allowCredentials = "true")
 public class LoginRestController {
 	
+	
 	@Autowired
 	private CertService certService;
 	
-	@Log("test")
+	
 	@PostMapping("/login")
 	public ResponseEntity<ApiResponse<Void>> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
 	    try {
