@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/rest")
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8002"}, allowCredentials = "true")
 public class LoginRestController {
-	
-	
+	Logger logger = LoggerFactory.getLogger(getClass());
+	//private static Logger logger = LoggerFactory.getLogger(LoginRestController.class);//导入日志
 	@Autowired
 	private CertService certService;
 	
@@ -39,12 +41,12 @@ public class LoginRestController {
 	    try {
 	        UserCert cert = certService.getCert(username, password);
 	        session.setAttribute("userCert", cert);
-	       // log.info("用户 {} 成功登入 ",  username);
+	        logger.info("用户 {} 成功登入 ",  username);
 	        return ResponseEntity.ok(ApiResponse.success("登入成功", null));
 	        		
 	        		
 	    } catch (CertException e) {
-	    	//log.error("用户 {} 登入失敗 ",  username);
+	    	logger.error("用户 {} 登入失敗 ",  username);
 	    	return ResponseEntity
 	                .status(HttpStatus.UNAUTHORIZED)
 	                .body(ApiResponse.error(401, "登入失敗: " + e.getMessage()));

@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-
+import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,7 +37,7 @@ public class ProjectContoller {
 	@Autowired
 	private ProjectIMService projectIMService;
     
-	//@Log("test2")
+
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<ProjectInformationBDto>>> findAllProjects() {
 		List<ProjectInformationBDto> projects = projectService.findAllProjects();
@@ -45,7 +45,6 @@ public class ProjectContoller {
 			
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,"查無此項目"));
 		}
-		//log.info("尋找所有項目資訊");
 		return ResponseEntity.ok(ApiResponse.success("查詢成功TTTEST:", projects));
 	}
 	
