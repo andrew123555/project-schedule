@@ -1,0 +1,4 @@
+20250620_18:22:48.077 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+20250620_18:24:19.069 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+20250620_18:33:29.180 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+20250620_18:37:51.047 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)

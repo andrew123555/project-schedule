@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ProjectContoller {
 
 	
-    
+	Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Autowired
 	private ProjectService projectService;
 	
@@ -45,6 +48,7 @@ public class ProjectContoller {
 			
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,"查無此項目"));
 		}
+		logger.info("查詢成功 ");
 		return ResponseEntity.ok(ApiResponse.success("查詢成功TTTEST:", projects));
 	}
 	
@@ -63,6 +67,7 @@ public class ProjectContoller {
 	public ResponseEntity<ApiResponse<ProjectInformationBDto>> addProject(@RequestBody ProjectInformationBDto projectInformationDao) {
 		try {
 			projectService.addProject(projectInformationDao);
+			logger.info("新增項目成功 ");
 			return ResponseEntity.ok(ApiResponse.success("新增成功", projectInformationDao));
 		} catch (ProjectException e) {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,e.getMessage()));
