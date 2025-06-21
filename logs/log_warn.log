@@ -2,3 +2,50 @@
 20250620_18:24:19.069 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
 20250620_18:33:29.180 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
 20250620_18:37:51.047 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+20250620_22:41:46.544 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+20250620_22:44:14.209 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+20250620_22:56:00.844 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginController.class]
+20250620_22:56:00.859 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginRestController.class]
+20250620_22:56:02.162 [o.s.c.a.ClassPathScanningCandidateComponentProvider] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\filter\LoginFilter.class]
+20250620_22:56:03.507 [o.s.b.f.s.DefaultListableBeanFactory] [DEBUG] Creating shared instance of singleton bean 'com.example.demo.filter.LoginFilter'
+20250620_22:56:03.591 [o.s.b.w.s.ServletContextInitializerBeans] [DEBUG] Mapping filters: com.example.demo.filter.LoginFilter urls=[/project/*, /projects/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, hiddenHttpMethodFilter urls=[/*] order=-10000, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+20250620_22:56:06.859 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+20250620_22:56:13.692 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginController:
+	{POST [/login]}: checkLogin(String,String,Model,HttpSession)
+	{GET [/login]}: loginPage()
+20250620_22:56:13.712 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginRestController:
+	{POST [/rest/login]}: login(String,String,HttpSession)
+	{GET [/rest/logout]}: logout(HttpSession)
+	{GET [/rest/check-login]}: checkLogin(HttpSession)
+20250620_22:56:24.651 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_22:56:33.490 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_22:57:24.795 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_22:59:59.769 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginController.class]
+20250620_22:59:59.784 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginRestController.class]
+20250620_23:00:01.078 [o.s.c.a.ClassPathScanningCandidateComponentProvider] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\filter\LoginFilter.class]
+20250620_23:00:02.382 [o.s.b.f.s.DefaultListableBeanFactory] [DEBUG] Creating shared instance of singleton bean 'com.example.demo.filter.LoginFilter'
+20250620_23:00:02.471 [o.s.b.w.s.ServletContextInitializerBeans] [DEBUG] Mapping filters: com.example.demo.filter.LoginFilter urls=[/project/*, /projects/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, hiddenHttpMethodFilter urls=[/*] order=-10000, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+20250620_23:00:05.609 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+20250620_23:01:39.104 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginController.class]
+20250620_23:01:39.117 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginRestController.class]
+20250620_23:01:40.418 [o.s.c.a.ClassPathScanningCandidateComponentProvider] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\filter\LoginFilter.class]
+20250620_23:01:41.722 [o.s.b.f.s.DefaultListableBeanFactory] [DEBUG] Creating shared instance of singleton bean 'com.example.demo.filter.LoginFilter'
+20250620_23:01:41.823 [o.s.b.w.s.ServletContextInitializerBeans] [DEBUG] Mapping filters: com.example.demo.filter.LoginFilter urls=[/project/*, /projects/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, hiddenHttpMethodFilter urls=[/*] order=-10000, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+20250620_23:01:44.861 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+20250620_23:01:50.990 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginController:
+	{POST [/login]}: checkLogin(String,String,Model,HttpSession)
+	{GET [/login]}: loginPage()
+20250620_23:01:51.004 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginRestController:
+	{GET [/rest/logout]}: logout(HttpSession)
+	{POST [/rest/login]}: login(String,String,HttpSession)
+	{GET [/rest/check-login]}: checkLogin(HttpSession)
+20250620_23:01:59.351 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_23:02:12.309 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+2025/06/20_23:11:25.195 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025/06/20_23:15:36.802 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025/06/20_23:19:04.230 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025/06/20_23:41:56.469 [o.h.o.deprecation] [WARN] HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)

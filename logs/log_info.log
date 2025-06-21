@@ -234,3 +234,513 @@
 20250620_18:46:13.013 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Closing JPA EntityManagerFactory for persistence unit 'default'
 20250620_18:46:13.142 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown initiated...
 20250620_18:46:13.478 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown completed.
+20250620_22:41:39.621 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Starting SpringbootProjectScheduleApplication using Java 21.0.6 with PID 34424 (C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes started by andrew wu in C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule)
+20250620_22:41:39.628 [o.h.v.i.u.Version] [INFO] HV000001: Hibernate Validator 8.0.2.Final
+20250620_22:41:39.664 [c.e.d.SpringbootProjectScheduleApplication] [INFO] No active profile set, falling back to 1 default profile: "default"
+20250620_22:41:40.565 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_22:41:40.583 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+20250620_22:41:40.678 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+20250620_22:41:40.691 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 44 ms. Found 0 JDBC repository interfaces.
+20250620_22:41:40.712 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_22:41:40.725 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+20250620_22:41:40.935 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 180 ms. Found 1 JPA repository interface.
+20250620_22:41:40.960 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_22:41:40.976 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+20250620_22:41:41.039 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+20250620_22:41:41.053 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 32 ms. Found 0 Redis repository interfaces.
+20250620_22:41:42.486 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat initialized with port 8080 (http)
+20250620_22:41:42.511 [o.a.c.h.Http11NioProtocol] [INFO] Initializing ProtocolHandler ["http-nio-8080"]
+20250620_22:41:42.526 [o.a.c.c.StandardService] [INFO] Starting service [Tomcat]
+20250620_22:41:42.538 [o.a.c.c.StandardEngine] [INFO] Starting Servlet engine: [Apache Tomcat/10.1.41]
+20250620_22:41:42.700 [o.a.j.s.TldScanner] [INFO] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20250620_22:41:42.719 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring embedded WebApplicationContext
+20250620_22:41:42.746 [o.s.b.w.s.c.ServletWebServerApplicationContext] [INFO] Root WebApplicationContext: initialization completed in 3010 ms
+20250620_22:41:43.690 [o.h.Version] [INFO] HHH000412: Hibernate ORM core version 6.6.15.Final
+20250620_22:41:43.917 [o.h.c.i.RegionFactoryInitiator] [INFO] HHH000026: Second-level cache disabled
+20250620_22:41:45.861 [o.s.o.j.p.SpringPersistenceUnitInfo] [INFO] No LoadTimeWeaver setup: ignoring JPA class transformer
+20250620_22:41:46.399 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Starting...
+20250620_22:41:46.449 [c.z.h.p.HikariPool] [INFO] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4f65af91
+20250620_22:41:46.462 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Start completed.
+20250620_22:41:46.600 [o.h.o.c.pooling] [INFO] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+20250620_22:41:52.285 [o.h.e.t.j.p.i.JtaPlatformInitiator] [INFO] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+20250620_22:41:52.421 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Initialized JPA EntityManagerFactory for persistence unit 'default'
+20250620_22:41:52.826 [o.s.d.j.r.q.QueryEnhancerFactory] [INFO] Hibernate is in classpath; If applicable, HQL parser will be used.
+20250620_22:41:53.737 [o.s.b.a.w.s.WelcomePageHandlerMapping] [INFO] Adding welcome page: class path resource [static/index.html]
+20250620_22:42:07.562 [o.a.c.h.Http11NioProtocol] [INFO] Starting ProtocolHandler ["http-nio-8080"]
+20250620_22:42:07.641 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat started on port 8080 (http) with context path '/'
+20250620_22:42:08.993 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Started SpringbootProjectScheduleApplication in 30.089 seconds (process running for 30.601)
+20250620_22:42:25.408 [o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin] [INFO] Application shutdown requested.
+20250620_22:42:25.576 [o.s.b.w.e.t.GracefulShutdown] [INFO] Commencing graceful shutdown. Waiting for active requests to complete
+20250620_22:42:25.596 [o.a.c.h.Http11NioProtocol] [INFO] Pausing ProtocolHandler ["http-nio-8080"]
+20250620_22:42:25.626 [o.s.b.w.e.t.GracefulShutdown] [INFO] Graceful shutdown complete
+20250620_22:42:25.664 [o.a.c.h.Http11NioProtocol] [INFO] Stopping ProtocolHandler ["http-nio-8080"]
+20250620_22:42:25.958 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Closing JPA EntityManagerFactory for persistence unit 'default'
+20250620_22:42:26.057 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown initiated...
+20250620_22:42:26.287 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown completed.
+20250620_22:44:07.605 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Starting SpringbootProjectScheduleApplication using Java 21.0.6 with PID 36156 (C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes started by andrew wu in C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule)
+20250620_22:44:07.610 [o.h.v.i.u.Version] [INFO] HV000001: Hibernate Validator 8.0.2.Final
+20250620_22:44:07.646 [c.e.d.SpringbootProjectScheduleApplication] [INFO] No active profile set, falling back to 1 default profile: "default"
+20250620_22:44:08.521 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_22:44:08.536 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+20250620_22:44:08.639 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+20250620_22:44:08.653 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 49 ms. Found 0 JDBC repository interfaces.
+20250620_22:44:08.675 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_22:44:08.691 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+20250620_22:44:08.921 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 194 ms. Found 1 JPA repository interface.
+20250620_22:44:08.945 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_22:44:08.959 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+20250620_22:44:09.010 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+20250620_22:44:09.024 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 31 ms. Found 0 Redis repository interfaces.
+20250620_22:44:10.486 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat initialized with port 8080 (http)
+20250620_22:44:10.508 [o.a.c.h.Http11NioProtocol] [INFO] Initializing ProtocolHandler ["http-nio-8080"]
+20250620_22:44:10.522 [o.a.c.c.StandardService] [INFO] Starting service [Tomcat]
+20250620_22:44:10.534 [o.a.c.c.StandardEngine] [INFO] Starting Servlet engine: [Apache Tomcat/10.1.41]
+20250620_22:44:10.683 [o.a.j.s.TldScanner] [INFO] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20250620_22:44:10.703 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring embedded WebApplicationContext
+20250620_22:44:10.729 [o.s.b.w.s.c.ServletWebServerApplicationContext] [INFO] Root WebApplicationContext: initialization completed in 3015 ms
+20250620_22:44:11.590 [o.h.Version] [INFO] HHH000412: Hibernate ORM core version 6.6.15.Final
+20250620_22:44:11.800 [o.h.c.i.RegionFactoryInitiator] [INFO] HHH000026: Second-level cache disabled
+20250620_22:44:13.594 [o.s.o.j.p.SpringPersistenceUnitInfo] [INFO] No LoadTimeWeaver setup: ignoring JPA class transformer
+20250620_22:44:14.074 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Starting...
+20250620_22:44:14.121 [c.z.h.p.HikariPool] [INFO] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@53564a4c
+20250620_22:44:14.134 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Start completed.
+20250620_22:44:14.261 [o.h.o.c.pooling] [INFO] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+20250620_22:56:00.580 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Starting SpringbootProjectScheduleApplication using Java 21.0.6 with PID 27512 (C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes started by andrew wu in C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule)
+20250620_22:56:00.581 [o.h.v.i.u.Version] [INFO] HV000001: Hibernate Validator 8.0.2.Final
+20250620_22:56:00.619 [c.e.d.SpringbootProjectScheduleApplication] [INFO] No active profile set, falling back to 1 default profile: "default"
+20250620_22:56:00.844 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginController.class]
+20250620_22:56:00.859 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginRestController.class]
+20250620_22:56:01.432 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_22:56:01.448 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+20250620_22:56:01.546 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+20250620_22:56:01.560 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 46 ms. Found 0 JDBC repository interfaces.
+20250620_22:56:01.580 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_22:56:01.592 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+20250620_22:56:01.787 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 165 ms. Found 1 JPA repository interface.
+20250620_22:56:01.811 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_22:56:01.826 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+20250620_22:56:01.870 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+20250620_22:56:01.881 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 24 ms. Found 0 Redis repository interfaces.
+20250620_22:56:02.162 [o.s.c.a.ClassPathScanningCandidateComponentProvider] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\filter\LoginFilter.class]
+20250620_22:56:03.255 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat initialized with port 8080 (http)
+20250620_22:56:03.277 [o.a.c.h.Http11NioProtocol] [INFO] Initializing ProtocolHandler ["http-nio-8080"]
+20250620_22:56:03.290 [o.a.c.c.StandardService] [INFO] Starting service [Tomcat]
+20250620_22:56:03.301 [o.a.c.c.StandardEngine] [INFO] Starting Servlet engine: [Apache Tomcat/10.1.41]
+20250620_22:56:03.450 [o.a.j.s.TldScanner] [INFO] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20250620_22:56:03.469 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring embedded WebApplicationContext
+20250620_22:56:03.493 [o.s.b.w.s.c.ServletWebServerApplicationContext] [INFO] Root WebApplicationContext: initialization completed in 2811 ms
+20250620_22:56:03.507 [o.s.b.f.s.DefaultListableBeanFactory] [DEBUG] Creating shared instance of singleton bean 'com.example.demo.filter.LoginFilter'
+20250620_22:56:03.591 [o.s.b.w.s.ServletContextInitializerBeans] [DEBUG] Mapping filters: com.example.demo.filter.LoginFilter urls=[/project/*, /projects/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, hiddenHttpMethodFilter urls=[/*] order=-10000, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+20250620_22:56:04.271 [o.h.Version] [INFO] HHH000412: Hibernate ORM core version 6.6.15.Final
+20250620_22:56:04.482 [o.h.c.i.RegionFactoryInitiator] [INFO] HHH000026: Second-level cache disabled
+20250620_22:56:06.249 [o.s.o.j.p.SpringPersistenceUnitInfo] [INFO] No LoadTimeWeaver setup: ignoring JPA class transformer
+20250620_22:56:06.727 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Starting...
+20250620_22:56:06.770 [c.z.h.p.HikariPool] [INFO] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@240291d9
+20250620_22:56:06.782 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Start completed.
+20250620_22:56:06.907 [o.h.o.c.pooling] [INFO] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+20250620_22:56:11.989 [o.h.e.t.j.p.i.JtaPlatformInitiator] [INFO] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+20250620_22:56:12.114 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Initialized JPA EntityManagerFactory for persistence unit 'default'
+20250620_22:56:12.512 [o.s.d.j.r.q.QueryEnhancerFactory] [INFO] Hibernate is in classpath; If applicable, HQL parser will be used.
+20250620_22:56:13.388 [o.s.b.a.w.s.WelcomePageHandlerMapping] [INFO] Adding welcome page: class path resource [static/index.html]
+20250620_22:56:13.692 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginController:
+	{POST [/login]}: checkLogin(String,String,Model,HttpSession)
+	{GET [/login]}: loginPage()
+20250620_22:56:13.712 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginRestController:
+	{POST [/rest/login]}: login(String,String,HttpSession)
+	{GET [/rest/logout]}: logout(HttpSession)
+	{GET [/rest/check-login]}: checkLogin(HttpSession)
+20250620_22:56:23.373 [o.a.c.h.Http11NioProtocol] [INFO] Starting ProtocolHandler ["http-nio-8080"]
+20250620_22:56:23.406 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat started on port 8080 (http) with context path '/'
+20250620_22:56:23.837 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Started SpringbootProjectScheduleApplication in 23.952 seconds (process running for 24.421)
+20250620_22:56:24.521 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring DispatcherServlet 'dispatcherServlet'
+20250620_22:56:24.536 [o.s.w.s.DispatcherServlet] [INFO] Initializing Servlet 'dispatcherServlet'
+20250620_22:56:24.615 [o.s.w.s.DispatcherServlet] [INFO] Completed initialization in 65 ms
+20250620_22:56:24.651 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_22:56:24.921 [c.e.d.c.LoginRestController] [INFO] 用户 john 成功登入 
+20250620_22:56:30.154 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_22:56:30.346 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_22:56:33.490 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_22:56:33.580 [c.e.d.c.LoginRestController] [INFO] 用户 john 成功登入 
+20250620_22:57:20.081 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_22:57:20.236 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_22:57:24.795 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_22:57:24.893 [c.e.d.c.LoginRestController] [INFO] 用户 john 成功登入 
+20250620_22:57:54.697 [c.e.d.c.ProjectContoller] [INFO] 新增項目成功 
+20250620_22:57:54.885 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_22:59:27.221 [o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin] [INFO] Application shutdown requested.
+20250620_22:59:27.312 [o.s.b.w.e.t.GracefulShutdown] [INFO] Commencing graceful shutdown. Waiting for active requests to complete
+20250620_22:59:27.322 [o.a.c.h.Http11NioProtocol] [INFO] Pausing ProtocolHandler ["http-nio-8080"]
+20250620_22:59:27.338 [o.s.b.w.e.t.GracefulShutdown] [INFO] Graceful shutdown complete
+20250620_22:59:27.357 [o.a.c.h.Http11NioProtocol] [INFO] Stopping ProtocolHandler ["http-nio-8080"]
+20250620_22:59:27.523 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Closing JPA EntityManagerFactory for persistence unit 'default'
+20250620_22:59:27.578 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown initiated...
+20250620_22:59:27.702 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown completed.
+20250620_22:59:59.510 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Starting SpringbootProjectScheduleApplication using Java 21.0.6 with PID 23916 (C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes started by andrew wu in C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule)
+20250620_22:59:59.515 [o.h.v.i.u.Version] [INFO] HV000001: Hibernate Validator 8.0.2.Final
+20250620_22:59:59.550 [c.e.d.SpringbootProjectScheduleApplication] [INFO] No active profile set, falling back to 1 default profile: "default"
+20250620_22:59:59.769 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginController.class]
+20250620_22:59:59.784 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginRestController.class]
+20250620_23:00:00.352 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_23:00:00.368 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+20250620_23:00:00.459 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+20250620_23:00:00.472 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 44 ms. Found 0 JDBC repository interfaces.
+20250620_23:00:00.491 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_23:00:00.505 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+20250620_23:00:00.701 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 167 ms. Found 1 JPA repository interface.
+20250620_23:00:00.725 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_23:00:00.738 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+20250620_23:00:00.785 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+20250620_23:00:00.798 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 28 ms. Found 0 Redis repository interfaces.
+20250620_23:00:01.078 [o.s.c.a.ClassPathScanningCandidateComponentProvider] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\filter\LoginFilter.class]
+20250620_23:00:02.140 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat initialized with port 8080 (http)
+20250620_23:00:02.163 [o.a.c.h.Http11NioProtocol] [INFO] Initializing ProtocolHandler ["http-nio-8080"]
+20250620_23:00:02.176 [o.a.c.c.StandardService] [INFO] Starting service [Tomcat]
+20250620_23:00:02.185 [o.a.c.c.StandardEngine] [INFO] Starting Servlet engine: [Apache Tomcat/10.1.41]
+20250620_23:00:02.329 [o.a.j.s.TldScanner] [INFO] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20250620_23:00:02.346 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring embedded WebApplicationContext
+20250620_23:00:02.369 [o.s.b.w.s.c.ServletWebServerApplicationContext] [INFO] Root WebApplicationContext: initialization completed in 2756 ms
+20250620_23:00:02.382 [o.s.b.f.s.DefaultListableBeanFactory] [DEBUG] Creating shared instance of singleton bean 'com.example.demo.filter.LoginFilter'
+20250620_23:00:02.471 [o.s.b.w.s.ServletContextInitializerBeans] [DEBUG] Mapping filters: com.example.demo.filter.LoginFilter urls=[/project/*, /projects/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, hiddenHttpMethodFilter urls=[/*] order=-10000, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+20250620_23:00:03.192 [o.h.Version] [INFO] HHH000412: Hibernate ORM core version 6.6.15.Final
+20250620_23:00:03.361 [o.h.c.i.RegionFactoryInitiator] [INFO] HHH000026: Second-level cache disabled
+20250620_23:00:04.993 [o.s.o.j.p.SpringPersistenceUnitInfo] [INFO] No LoadTimeWeaver setup: ignoring JPA class transformer
+20250620_23:00:05.486 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Starting...
+20250620_23:00:05.531 [c.z.h.p.HikariPool] [INFO] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@630c3af3
+20250620_23:00:05.541 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Start completed.
+20250620_23:00:05.654 [o.h.o.c.pooling] [INFO] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+20250620_23:00:10.639 [o.h.e.t.j.p.i.JtaPlatformInitiator] [INFO] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+20250620_23:00:10.767 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Initialized JPA EntityManagerFactory for persistence unit 'default'
+20250620_23:00:11.154 [o.s.d.j.r.q.QueryEnhancerFactory] [INFO] Hibernate is in classpath; If applicable, HQL parser will be used.
+20250620_23:01:38.850 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Starting SpringbootProjectScheduleApplication using Java 21.0.6 with PID 14536 (C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes started by andrew wu in C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule)
+20250620_23:01:38.854 [o.h.v.i.u.Version] [INFO] HV000001: Hibernate Validator 8.0.2.Final
+20250620_23:01:38.889 [c.e.d.SpringbootProjectScheduleApplication] [INFO] No active profile set, falling back to 1 default profile: "default"
+20250620_23:01:39.104 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginController.class]
+20250620_23:01:39.117 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginRestController.class]
+20250620_23:01:39.679 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_23:01:39.696 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+20250620_23:01:39.799 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+20250620_23:01:39.812 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 50 ms. Found 0 JDBC repository interfaces.
+20250620_23:01:39.834 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_23:01:39.852 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+20250620_23:01:40.048 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 160 ms. Found 1 JPA repository interface.
+20250620_23:01:40.072 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+20250620_23:01:40.084 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+20250620_23:01:40.133 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+20250620_23:01:40.143 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 28 ms. Found 0 Redis repository interfaces.
+20250620_23:01:40.418 [o.s.c.a.ClassPathScanningCandidateComponentProvider] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\filter\LoginFilter.class]
+20250620_23:01:41.447 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat initialized with port 8080 (http)
+20250620_23:01:41.467 [o.a.c.h.Http11NioProtocol] [INFO] Initializing ProtocolHandler ["http-nio-8080"]
+20250620_23:01:41.480 [o.a.c.c.StandardService] [INFO] Starting service [Tomcat]
+20250620_23:01:41.490 [o.a.c.c.StandardEngine] [INFO] Starting Servlet engine: [Apache Tomcat/10.1.41]
+20250620_23:01:41.658 [o.a.j.s.TldScanner] [INFO] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20250620_23:01:41.677 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring embedded WebApplicationContext
+20250620_23:01:41.704 [o.s.b.w.s.c.ServletWebServerApplicationContext] [INFO] Root WebApplicationContext: initialization completed in 2751 ms
+20250620_23:01:41.722 [o.s.b.f.s.DefaultListableBeanFactory] [DEBUG] Creating shared instance of singleton bean 'com.example.demo.filter.LoginFilter'
+20250620_23:01:41.823 [o.s.b.w.s.ServletContextInitializerBeans] [DEBUG] Mapping filters: com.example.demo.filter.LoginFilter urls=[/project/*, /projects/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, hiddenHttpMethodFilter urls=[/*] order=-10000, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+20250620_23:01:42.542 [o.h.Version] [INFO] HHH000412: Hibernate ORM core version 6.6.15.Final
+20250620_23:01:42.718 [o.h.c.i.RegionFactoryInitiator] [INFO] HHH000026: Second-level cache disabled
+20250620_23:01:44.285 [o.s.o.j.p.SpringPersistenceUnitInfo] [INFO] No LoadTimeWeaver setup: ignoring JPA class transformer
+20250620_23:01:44.735 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Starting...
+20250620_23:01:44.780 [c.z.h.p.HikariPool] [INFO] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6a97517
+20250620_23:01:44.792 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Start completed.
+20250620_23:01:44.899 [o.h.o.c.pooling] [INFO] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+20250620_23:01:49.630 [o.h.e.t.j.p.i.JtaPlatformInitiator] [INFO] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+20250620_23:01:49.745 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Initialized JPA EntityManagerFactory for persistence unit 'default'
+20250620_23:01:50.107 [o.s.d.j.r.q.QueryEnhancerFactory] [INFO] Hibernate is in classpath; If applicable, HQL parser will be used.
+20250620_23:01:50.802 [o.s.b.a.w.s.WelcomePageHandlerMapping] [INFO] Adding welcome page: class path resource [static/index.html]
+20250620_23:01:50.990 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginController:
+	{POST [/login]}: checkLogin(String,String,Model,HttpSession)
+	{GET [/login]}: loginPage()
+20250620_23:01:51.004 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginRestController:
+	{GET [/rest/logout]}: logout(HttpSession)
+	{POST [/rest/login]}: login(String,String,HttpSession)
+	{GET [/rest/check-login]}: checkLogin(HttpSession)
+20250620_23:01:58.615 [o.a.c.h.Http11NioProtocol] [INFO] Starting ProtocolHandler ["http-nio-8080"]
+20250620_23:01:58.648 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat started on port 8080 (http) with context path '/'
+20250620_23:01:58.684 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring DispatcherServlet 'dispatcherServlet'
+20250620_23:01:58.697 [o.s.w.s.DispatcherServlet] [INFO] Initializing Servlet 'dispatcherServlet'
+20250620_23:01:59.198 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Started SpringbootProjectScheduleApplication in 21.023 seconds (process running for 21.474)
+20250620_23:01:59.201 [o.s.w.s.DispatcherServlet] [INFO] Completed initialization in 495 ms
+20250620_23:01:59.351 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_23:01:59.679 [c.e.d.c.LoginRestController] [INFO] 用户 john 成功登入 
+20250620_23:02:09.329 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_23:02:09.538 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_23:02:12.309 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_23:02:12.412 [c.e.d.c.LoginRestController] [INFO] 用户 john 成功登入 
+20250620_23:02:19.714 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_23:02:21.378 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_23:02:23.220 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_23:02:31.334 [c.e.d.c.ProjectContoller] [INFO] 新增項目成功 
+20250620_23:02:31.474 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_23:03:27.587 [c.e.d.c.ProjectContoller] [INFO] 新增項目成功 
+20250620_23:03:27.848 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_23:04:14.941 [c.e.d.c.ProjectContoller] [INFO] 新增項目成功 
+20250620_23:04:15.169 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+20250620_23:05:01.359 [o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin] [INFO] Application shutdown requested.
+20250620_23:05:01.512 [o.s.b.w.e.t.GracefulShutdown] [INFO] Commencing graceful shutdown. Waiting for active requests to complete
+20250620_23:05:01.531 [o.a.c.h.Http11NioProtocol] [INFO] Pausing ProtocolHandler ["http-nio-8080"]
+20250620_23:05:01.563 [o.s.b.w.e.t.GracefulShutdown] [INFO] Graceful shutdown complete
+20250620_23:05:01.594 [o.a.c.h.Http11NioProtocol] [INFO] Stopping ProtocolHandler ["http-nio-8080"]
+20250620_23:05:01.860 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Closing JPA EntityManagerFactory for persistence unit 'default'
+20250620_23:05:01.997 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown initiated...
+20250620_23:05:02.235 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown completed.
+2025/06/20_23:11:19.003 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Starting SpringbootProjectScheduleApplication using Java 21.0.6 with PID 7252 (C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes started by andrew wu in C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule)
+2025/06/20_23:11:19.005 [o.h.v.i.u.Version] [INFO] HV000001: Hibernate Validator 8.0.2.Final
+2025/06/20_23:11:19.038 [c.e.d.SpringbootProjectScheduleApplication] [INFO] No active profile set, falling back to 1 default profile: "default"
+2025/06/20_23:11:19.798 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:11:19.809 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025/06/20_23:11:19.897 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025/06/20_23:11:19.910 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 43 ms. Found 0 JDBC repository interfaces.
+2025/06/20_23:11:19.930 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:11:19.942 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025/06/20_23:11:20.136 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 167 ms. Found 1 JPA repository interface.
+2025/06/20_23:11:20.158 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:11:20.173 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025/06/20_23:11:20.222 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025/06/20_23:11:20.234 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 29 ms. Found 0 Redis repository interfaces.
+2025/06/20_23:11:21.536 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat initialized with port 8080 (http)
+2025/06/20_23:11:21.558 [o.a.c.h.Http11NioProtocol] [INFO] Initializing ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:11:21.571 [o.a.c.c.StandardService] [INFO] Starting service [Tomcat]
+2025/06/20_23:11:21.583 [o.a.c.c.StandardEngine] [INFO] Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025/06/20_23:11:21.731 [o.a.j.s.TldScanner] [INFO] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025/06/20_23:11:21.748 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring embedded WebApplicationContext
+2025/06/20_23:11:21.772 [o.s.b.w.s.c.ServletWebServerApplicationContext] [INFO] Root WebApplicationContext: initialization completed in 2672 ms
+2025/06/20_23:11:22.605 [o.h.Version] [INFO] HHH000412: Hibernate ORM core version 6.6.15.Final
+2025/06/20_23:11:22.802 [o.h.c.i.RegionFactoryInitiator] [INFO] HHH000026: Second-level cache disabled
+2025/06/20_23:11:24.602 [o.s.o.j.p.SpringPersistenceUnitInfo] [INFO] No LoadTimeWeaver setup: ignoring JPA class transformer
+2025/06/20_23:11:25.071 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Starting...
+2025/06/20_23:11:25.110 [c.z.h.p.HikariPool] [INFO] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5c3924fd
+2025/06/20_23:11:25.124 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Start completed.
+2025/06/20_23:11:25.245 [o.h.o.c.pooling] [INFO] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025/06/20_23:11:31.226 [o.h.e.t.j.p.i.JtaPlatformInitiator] [INFO] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025/06/20_23:11:31.353 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025/06/20_23:11:31.743 [o.s.d.j.r.q.QueryEnhancerFactory] [INFO] Hibernate is in classpath; If applicable, HQL parser will be used.
+2025/06/20_23:11:32.731 [o.s.b.a.w.s.WelcomePageHandlerMapping] [INFO] Adding welcome page: class path resource [static/index.html]
+2025/06/20_23:11:42.541 [o.a.c.h.Http11NioProtocol] [INFO] Starting ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:11:42.573 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat started on port 8080 (http) with context path '/'
+2025/06/20_23:11:42.649 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025/06/20_23:11:42.660 [o.s.w.s.DispatcherServlet] [INFO] Initializing Servlet 'dispatcherServlet'
+2025/06/20_23:11:43.020 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Started SpringbootProjectScheduleApplication in 24.69 seconds (process running for 25.179)
+2025/06/20_23:11:43.069 [o.s.w.s.DispatcherServlet] [INFO] Completed initialization in 397 ms
+2025/06/20_23:11:43.377 [c.e.d.c.LoginRestController] [INFO] 用户 john 成功登入 
+2025/06/20_23:11:46.807 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:11:46.977 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:11:50.231 [c.e.d.c.LoginRestController] [INFO] 用户 john 成功登入 
+2025/06/20_23:12:10.267 [c.e.d.c.ProjectContoller] [INFO] 新增項目成功 
+2025/06/20_23:12:10.427 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:12:44.983 [o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin] [INFO] Application shutdown requested.
+2025/06/20_23:12:45.184 [o.s.b.w.e.t.GracefulShutdown] [INFO] Commencing graceful shutdown. Waiting for active requests to complete
+2025/06/20_23:12:45.213 [o.a.c.h.Http11NioProtocol] [INFO] Pausing ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:12:45.241 [o.s.b.w.e.t.GracefulShutdown] [INFO] Graceful shutdown complete
+2025/06/20_23:12:45.282 [o.a.c.h.Http11NioProtocol] [INFO] Stopping ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:12:45.598 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Closing JPA EntityManagerFactory for persistence unit 'default'
+2025/06/20_23:12:45.690 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown initiated...
+2025/06/20_23:12:45.902 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown completed.
+2025/06/20_23:15:30.287 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Starting SpringbootProjectScheduleApplication using Java 21.0.6 with PID 6660 (C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes started by andrew wu in C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule)
+2025/06/20_23:15:30.291 [o.h.v.i.u.Version] [INFO] HV000001: Hibernate Validator 8.0.2.Final
+2025/06/20_23:15:30.322 [c.e.d.SpringbootProjectScheduleApplication] [INFO] No active profile set, falling back to 1 default profile: "default"
+2025/06/20_23:15:31.105 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:15:31.124 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025/06/20_23:15:31.216 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025/06/20_23:15:31.229 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 43 ms. Found 0 JDBC repository interfaces.
+2025/06/20_23:15:31.251 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:15:31.265 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025/06/20_23:15:31.462 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 172 ms. Found 1 JPA repository interface.
+2025/06/20_23:15:31.486 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:15:31.498 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025/06/20_23:15:31.545 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025/06/20_23:15:31.556 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 30 ms. Found 0 Redis repository interfaces.
+2025/06/20_23:15:32.946 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat initialized with port 8080 (http)
+2025/06/20_23:15:32.968 [o.a.c.h.Http11NioProtocol] [INFO] Initializing ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:15:32.983 [o.a.c.c.StandardService] [INFO] Starting service [Tomcat]
+2025/06/20_23:15:32.996 [o.a.c.c.StandardEngine] [INFO] Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025/06/20_23:15:33.155 [o.a.j.s.TldScanner] [INFO] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025/06/20_23:15:33.173 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring embedded WebApplicationContext
+2025/06/20_23:15:33.198 [o.s.b.w.s.c.ServletWebServerApplicationContext] [INFO] Root WebApplicationContext: initialization completed in 2816 ms
+2025/06/20_23:15:34.068 [o.h.Version] [INFO] HHH000412: Hibernate ORM core version 6.6.15.Final
+2025/06/20_23:15:34.287 [o.h.c.i.RegionFactoryInitiator] [INFO] HHH000026: Second-level cache disabled
+2025/06/20_23:15:36.178 [o.s.o.j.p.SpringPersistenceUnitInfo] [INFO] No LoadTimeWeaver setup: ignoring JPA class transformer
+2025/06/20_23:15:36.661 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Starting...
+2025/06/20_23:15:36.709 [c.z.h.p.HikariPool] [INFO] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7c9512c6
+2025/06/20_23:15:36.723 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Start completed.
+2025/06/20_23:15:36.855 [o.h.o.c.pooling] [INFO] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025/06/20_23:15:42.440 [o.h.e.t.j.p.i.JtaPlatformInitiator] [INFO] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025/06/20_23:15:42.584 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025/06/20_23:15:43.169 [o.s.d.j.r.q.QueryEnhancerFactory] [INFO] Hibernate is in classpath; If applicable, HQL parser will be used.
+2025/06/20_23:15:44.394 [o.s.b.a.w.s.WelcomePageHandlerMapping] [INFO] Adding welcome page: class path resource [static/index.html]
+2025/06/20_23:15:58.764 [o.a.c.h.Http11NioProtocol] [INFO] Starting ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:15:58.823 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat started on port 8080 (http) with context path '/'
+2025/06/20_23:15:59.766 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025/06/20_23:15:59.970 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Started SpringbootProjectScheduleApplication in 30.357 seconds (process running for 30.831)
+2025/06/20_23:15:59.972 [o.s.w.s.DispatcherServlet] [INFO] Initializing Servlet 'dispatcherServlet'
+2025/06/20_23:16:00.105 [o.s.w.s.DispatcherServlet] [INFO] Completed initialization in 116 ms
+2025/06/20_23:16:00.409 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:16:00.807 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:16:02.469 [c.e.d.c.LoginRestController] [INFO] 用户 john 成功登入 
+2025/06/20_23:16:09.191 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:16:10.887 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:16:12.587 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:16:14.306 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:16:21.235 [c.e.d.c.ProjectContoller] [INFO] 新增項目成功 
+2025/06/20_23:16:21.467 [c.e.d.c.ProjectContoller] [INFO] 查詢成功 
+2025/06/20_23:17:09.323 [o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin] [INFO] Application shutdown requested.
+2025/06/20_23:17:09.408 [o.s.b.w.e.t.GracefulShutdown] [INFO] Commencing graceful shutdown. Waiting for active requests to complete
+2025/06/20_23:17:09.418 [o.a.c.h.Http11NioProtocol] [INFO] Pausing ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:17:09.434 [o.s.b.w.e.t.GracefulShutdown] [INFO] Graceful shutdown complete
+2025/06/20_23:17:09.455 [o.a.c.h.Http11NioProtocol] [INFO] Stopping ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:17:09.638 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Closing JPA EntityManagerFactory for persistence unit 'default'
+2025/06/20_23:17:09.694 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown initiated...
+2025/06/20_23:17:09.812 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown completed.
+2025/06/20_23:18:57.940 [o.h.v.i.u.Version] [INFO] HV000001: Hibernate Validator 8.0.2.Final
+2025/06/20_23:18:57.940 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Starting SpringbootProjectScheduleApplication using Java 21.0.6 with PID 2044 (C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes started by andrew wu in C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule)
+2025/06/20_23:18:57.973 [c.e.d.SpringbootProjectScheduleApplication] [INFO] No active profile set, falling back to 1 default profile: "default"
+2025/06/20_23:18:58.780 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:18:58.795 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025/06/20_23:18:58.878 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025/06/20_23:18:58.892 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 41 ms. Found 0 JDBC repository interfaces.
+2025/06/20_23:18:58.911 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:18:58.924 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025/06/20_23:18:59.129 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 177 ms. Found 1 JPA repository interface.
+2025/06/20_23:18:59.152 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:18:59.167 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025/06/20_23:18:59.211 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025/06/20_23:18:59.224 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 28 ms. Found 0 Redis repository interfaces.
+2025/06/20_23:19:00.604 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat initialized with port 8080 (http)
+2025/06/20_23:19:00.627 [o.a.c.h.Http11NioProtocol] [INFO] Initializing ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:19:00.640 [o.a.c.c.StandardService] [INFO] Starting service [Tomcat]
+2025/06/20_23:19:00.652 [o.a.c.c.StandardEngine] [INFO] Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025/06/20_23:19:00.799 [o.a.j.s.TldScanner] [INFO] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025/06/20_23:19:00.818 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring embedded WebApplicationContext
+2025/06/20_23:19:00.843 [o.s.b.w.s.c.ServletWebServerApplicationContext] [INFO] Root WebApplicationContext: initialization completed in 2810 ms
+2025/06/20_23:19:01.632 [o.h.Version] [INFO] HHH000412: Hibernate ORM core version 6.6.15.Final
+2025/06/20_23:19:01.845 [o.h.c.i.RegionFactoryInitiator] [INFO] HHH000026: Second-level cache disabled
+2025/06/20_23:19:03.553 [o.s.o.j.p.SpringPersistenceUnitInfo] [INFO] No LoadTimeWeaver setup: ignoring JPA class transformer
+2025/06/20_23:19:04.111 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Starting...
+2025/06/20_23:19:04.149 [c.z.h.p.HikariPool] [INFO] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@61ca5134
+2025/06/20_23:19:04.160 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Start completed.
+2025/06/20_23:19:04.275 [o.h.o.c.pooling] [INFO] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025/06/20_23:19:12.582 [o.h.e.t.j.p.i.JtaPlatformInitiator] [INFO] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025/06/20_23:19:12.787 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025/06/20_23:19:13.530 [o.s.d.j.r.q.QueryEnhancerFactory] [INFO] Hibernate is in classpath; If applicable, HQL parser will be used.
+2025/06/20_23:19:14.967 [o.s.b.a.w.s.WelcomePageHandlerMapping] [INFO] Adding welcome page: class path resource [static/index.html]
+2025/06/20_23:19:28.600 [o.a.c.h.Http11NioProtocol] [INFO] Starting ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:19:28.661 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat started on port 8080 (http) with context path '/'
+2025/06/20_23:19:29.585 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Started SpringbootProjectScheduleApplication in 32.334 seconds (process running for 32.791)
+2025/06/20_23:19:55.166 [o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin] [INFO] Application shutdown requested.
+2025/06/20_23:19:55.327 [o.s.b.w.e.t.GracefulShutdown] [INFO] Commencing graceful shutdown. Waiting for active requests to complete
+2025/06/20_23:19:55.347 [o.a.c.h.Http11NioProtocol] [INFO] Pausing ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:19:55.372 [o.s.b.w.e.t.GracefulShutdown] [INFO] Graceful shutdown complete
+2025/06/20_23:19:55.405 [o.a.c.h.Http11NioProtocol] [INFO] Stopping ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:19:55.721 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Closing JPA EntityManagerFactory for persistence unit 'default'
+2025/06/20_23:19:55.815 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown initiated...
+2025/06/20_23:19:56.028 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown completed.
+2025/06/20_23:41:49.457 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Starting SpringbootProjectScheduleApplication using Java 21.0.6 with PID 31192 (C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes started by andrew wu in C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule)
+2025/06/20_23:41:49.468 [o.h.v.i.u.Version] [INFO] HV000001: Hibernate Validator 8.0.2.Final
+2025/06/20_23:41:49.496 [c.e.d.SpringbootProjectScheduleApplication] [INFO] No active profile set, falling back to 1 default profile: "default"
+2025/06/20_23:41:50.379 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:41:50.395 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025/06/20_23:41:50.496 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025/06/20_23:41:50.508 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 49 ms. Found 0 JDBC repository interfaces.
+2025/06/20_23:41:50.527 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:41:50.541 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025/06/20_23:41:50.749 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 179 ms. Found 1 JPA repository interface.
+2025/06/20_23:41:50.775 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Multiple Spring Data modules found, entering strict repository configuration mode
+2025/06/20_23:41:50.789 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025/06/20_23:41:50.839 [o.s.d.r.c.RepositoryConfigurationExtensionSupport] [INFO] Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025/06/20_23:41:50.853 [o.s.d.r.c.RepositoryConfigurationDelegate] [INFO] Finished Spring Data repository scanning in 31 ms. Found 0 Redis repository interfaces.
+2025/06/20_23:41:52.355 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat initialized with port 8080 (http)
+2025/06/20_23:41:52.382 [o.a.c.h.Http11NioProtocol] [INFO] Initializing ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:41:52.395 [o.a.c.c.StandardService] [INFO] Starting service [Tomcat]
+2025/06/20_23:41:52.406 [o.a.c.c.StandardEngine] [INFO] Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025/06/20_23:41:52.582 [o.a.j.s.TldScanner] [INFO] At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025/06/20_23:41:52.602 [o.a.c.c.C.[.[.[/]] [INFO] Initializing Spring embedded WebApplicationContext
+2025/06/20_23:41:52.633 [o.s.b.w.s.c.ServletWebServerApplicationContext] [INFO] Root WebApplicationContext: initialization completed in 3066 ms
+2025/06/20_23:41:53.580 [o.h.Version] [INFO] HHH000412: Hibernate ORM core version 6.6.15.Final
+2025/06/20_23:41:53.797 [o.h.c.i.RegionFactoryInitiator] [INFO] HHH000026: Second-level cache disabled
+2025/06/20_23:41:55.788 [o.s.o.j.p.SpringPersistenceUnitInfo] [INFO] No LoadTimeWeaver setup: ignoring JPA class transformer
+2025/06/20_23:41:56.330 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Starting...
+2025/06/20_23:41:56.371 [c.z.h.p.HikariPool] [INFO] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7204d98f
+2025/06/20_23:41:56.383 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Start completed.
+2025/06/20_23:41:56.523 [o.h.o.c.pooling] [INFO] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025/06/20_23:42:02.436 [o.h.e.t.j.p.i.JtaPlatformInitiator] [INFO] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025/06/20_23:42:02.583 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025/06/20_23:42:03.045 [o.s.d.j.r.q.QueryEnhancerFactory] [INFO] Hibernate is in classpath; If applicable, HQL parser will be used.
+2025/06/20_23:42:03.980 [o.s.b.a.w.s.WelcomePageHandlerMapping] [INFO] Adding welcome page: class path resource [static/index.html]
+2025/06/20_23:42:12.923 [o.a.c.h.Http11NioProtocol] [INFO] Starting ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:42:12.957 [o.s.b.w.e.t.TomcatWebServer] [INFO] Tomcat started on port 8080 (http) with context path '/'
+2025/06/20_23:42:13.380 [c.e.d.SpringbootProjectScheduleApplication] [INFO] Started SpringbootProjectScheduleApplication in 24.631 seconds (process running for 25.138)
+2025/06/20_23:43:06.288 [o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin] [INFO] Application shutdown requested.
+2025/06/20_23:43:06.390 [o.s.b.w.e.t.GracefulShutdown] [INFO] Commencing graceful shutdown. Waiting for active requests to complete
+2025/06/20_23:43:06.402 [o.a.c.h.Http11NioProtocol] [INFO] Pausing ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:43:06.417 [o.s.b.w.e.t.GracefulShutdown] [INFO] Graceful shutdown complete
+2025/06/20_23:43:06.443 [o.a.c.h.Http11NioProtocol] [INFO] Stopping ProtocolHandler ["http-nio-8080"]
+2025/06/20_23:43:06.626 [o.s.o.j.LocalContainerEntityManagerFactoryBean] [INFO] Closing JPA EntityManagerFactory for persistence unit 'default'
+2025/06/20_23:43:06.692 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown initiated...
+2025/06/20_23:43:06.839 [c.z.h.HikariDataSource] [INFO] HikariPool-1 - Shutdown completed.

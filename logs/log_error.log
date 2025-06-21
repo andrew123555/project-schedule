@@ -45,3 +45,167 @@ Caused by: java.lang.IllegalStateException: DBAppender cannot function if the JD
 	at org.springframework.boot.logging.logback.LogbackLoggingSystem.configureByResourceUrl(LogbackLoggingSystem.java:298)
 	at org.springframework.boot.logging.logback.LogbackLoggingSystem.lambda$loadConfiguration$2(LogbackLoggingSystem.java:260)
 	... 25 common frames omitted
+20250620_22:54:29.404 [o.s.b.SpringApplication] [ERROR] Application run failed
+java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.model.processor.ImplicitModelHandler - Could not create component [filter] of type [chapters.filters.SampleFilter] java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+ERROR in ch.qos.logback.core.model.processor.ImplicitModelHandler - Could not create component [filter] of type [chapters.filters.SampleFilter] java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+ERROR in ch.qos.logback.core.model.processor.ImplicitModelHandler - Could not create component [filter] of type [chapters.filters.SampleFilter] java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+ERROR in ch.qos.logback.core.model.processor.ImplicitModelHandler - Could not create component [filter] of type [chapters.filters.SampleFilter] java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:347)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:298)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:246)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:223)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:185)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:178)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:156)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:138)
+	at org.springframework.boot.context.event.EventPublishingRunListener.multicastInitialEvent(EventPublishingRunListener.java:136)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:81)
+	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:64)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:118)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:112)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:63)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:353)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:313)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351)
+	at com.example.demo.SpringbootProjectScheduleApplication.main(SpringbootProjectScheduleApplication.java:14)
+Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.model.processor.ImplicitModelHandler - Could not create component [filter] of type [chapters.filters.SampleFilter] java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+ERROR in ch.qos.logback.core.model.processor.ImplicitModelHandler - Could not create component [filter] of type [chapters.filters.SampleFilter] java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+ERROR in ch.qos.logback.core.model.processor.ImplicitModelHandler - Could not create component [filter] of type [chapters.filters.SampleFilter] java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+ERROR in ch.qos.logback.core.model.processor.ImplicitModelHandler - Could not create component [filter] of type [chapters.filters.SampleFilter] java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reportConfigurationErrorsIfNecessary(LogbackLoggingSystem.java:289)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:267)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithSpecificConfig(AbstractLoggingSystem.java:67)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:58)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:195)
+	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:335)
+	... 19 common frames omitted
+	Suppressed: java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+		at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+		at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+		at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+		at ch.qos.logback.core.util.Loader.loadClass(Loader.java:116)
+		at ch.qos.logback.core.model.processor.ImplicitModelHandler.doComplex(ImplicitModelHandler.java:134)
+		at ch.qos.logback.core.model.processor.ImplicitModelHandler.handle(ImplicitModelHandler.java:94)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:241)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:253)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:253)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.traversalLoop(DefaultProcessor.java:90)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.process(DefaultProcessor.java:106)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.processModel(GenericXMLConfigurator.java:222)
+		at org.springframework.boot.logging.logback.SpringBootJoranConfigurator.processModel(SpringBootJoranConfigurator.java:136)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:178)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:123)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:66)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.configureByResourceUrl(LogbackLoggingSystem.java:298)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.lambda$loadConfiguration$2(LogbackLoggingSystem.java:260)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.withLoggingSuppressed(LogbackLoggingSystem.java:481)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:252)
+		... 23 common frames omitted
+	Suppressed: java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+		at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+		at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+		at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+		at ch.qos.logback.core.util.Loader.loadClass(Loader.java:116)
+		at ch.qos.logback.core.model.processor.ImplicitModelHandler.doComplex(ImplicitModelHandler.java:134)
+		at ch.qos.logback.core.model.processor.ImplicitModelHandler.handle(ImplicitModelHandler.java:94)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:241)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:253)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:253)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.traversalLoop(DefaultProcessor.java:90)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.process(DefaultProcessor.java:106)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.processModel(GenericXMLConfigurator.java:222)
+		at org.springframework.boot.logging.logback.SpringBootJoranConfigurator.processModel(SpringBootJoranConfigurator.java:136)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:178)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:123)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:66)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.configureByResourceUrl(LogbackLoggingSystem.java:298)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.lambda$loadConfiguration$2(LogbackLoggingSystem.java:260)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.withLoggingSuppressed(LogbackLoggingSystem.java:481)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:252)
+		... 23 common frames omitted
+	Suppressed: java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+		at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+		at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+		at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+		at ch.qos.logback.core.util.Loader.loadClass(Loader.java:116)
+		at ch.qos.logback.core.model.processor.ImplicitModelHandler.doComplex(ImplicitModelHandler.java:134)
+		at ch.qos.logback.core.model.processor.ImplicitModelHandler.handle(ImplicitModelHandler.java:94)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:241)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:253)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:253)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.traversalLoop(DefaultProcessor.java:90)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.process(DefaultProcessor.java:106)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.processModel(GenericXMLConfigurator.java:222)
+		at org.springframework.boot.logging.logback.SpringBootJoranConfigurator.processModel(SpringBootJoranConfigurator.java:136)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:178)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:123)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:66)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.configureByResourceUrl(LogbackLoggingSystem.java:298)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.lambda$loadConfiguration$2(LogbackLoggingSystem.java:260)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.withLoggingSuppressed(LogbackLoggingSystem.java:481)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:252)
+		... 23 common frames omitted
+	Suppressed: java.lang.ClassNotFoundException: chapters.filters.SampleFilter
+		at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+		at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+		at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+		at ch.qos.logback.core.util.Loader.loadClass(Loader.java:116)
+		at ch.qos.logback.core.model.processor.ImplicitModelHandler.doComplex(ImplicitModelHandler.java:134)
+		at ch.qos.logback.core.model.processor.ImplicitModelHandler.handle(ImplicitModelHandler.java:94)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:241)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:253)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.secondPhaseTraverse(DefaultProcessor.java:253)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.traversalLoop(DefaultProcessor.java:90)
+		at ch.qos.logback.core.model.processor.DefaultProcessor.process(DefaultProcessor.java:106)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.processModel(GenericXMLConfigurator.java:222)
+		at org.springframework.boot.logging.logback.SpringBootJoranConfigurator.processModel(SpringBootJoranConfigurator.java:136)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:178)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:123)
+		at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:66)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.configureByResourceUrl(LogbackLoggingSystem.java:298)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.lambda$loadConfiguration$2(LogbackLoggingSystem.java:260)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.withLoggingSuppressed(LogbackLoggingSystem.java:481)
+		at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:252)
+		... 23 common frames omitted
+20250620_22:56:00.844 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginController.class]
+20250620_22:56:00.859 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginRestController.class]
+20250620_22:56:02.162 [o.s.c.a.ClassPathScanningCandidateComponentProvider] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\filter\LoginFilter.class]
+20250620_22:56:03.507 [o.s.b.f.s.DefaultListableBeanFactory] [DEBUG] Creating shared instance of singleton bean 'com.example.demo.filter.LoginFilter'
+20250620_22:56:03.591 [o.s.b.w.s.ServletContextInitializerBeans] [DEBUG] Mapping filters: com.example.demo.filter.LoginFilter urls=[/project/*, /projects/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, hiddenHttpMethodFilter urls=[/*] order=-10000, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+20250620_22:56:13.692 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginController:
+	{POST [/login]}: checkLogin(String,String,Model,HttpSession)
+	{GET [/login]}: loginPage()
+20250620_22:56:13.712 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginRestController:
+	{POST [/rest/login]}: login(String,String,HttpSession)
+	{GET [/rest/logout]}: logout(HttpSession)
+	{GET [/rest/check-login]}: checkLogin(HttpSession)
+20250620_22:56:24.651 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_22:56:33.490 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_22:57:24.795 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_22:59:59.769 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginController.class]
+20250620_22:59:59.784 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginRestController.class]
+20250620_23:00:01.078 [o.s.c.a.ClassPathScanningCandidateComponentProvider] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\filter\LoginFilter.class]
+20250620_23:00:02.382 [o.s.b.f.s.DefaultListableBeanFactory] [DEBUG] Creating shared instance of singleton bean 'com.example.demo.filter.LoginFilter'
+20250620_23:00:02.471 [o.s.b.w.s.ServletContextInitializerBeans] [DEBUG] Mapping filters: com.example.demo.filter.LoginFilter urls=[/project/*, /projects/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, hiddenHttpMethodFilter urls=[/*] order=-10000, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+20250620_23:01:39.104 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginController.class]
+20250620_23:01:39.117 [o.s.c.a.ClassPathBeanDefinitionScanner] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\controller\LoginRestController.class]
+20250620_23:01:40.418 [o.s.c.a.ClassPathScanningCandidateComponentProvider] [DEBUG] Identified candidate component class: file [C:\Users\andrew wu\eclipse-workspace\springboot-project-schedule\target\classes\com\example\demo\filter\LoginFilter.class]
+20250620_23:01:41.722 [o.s.b.f.s.DefaultListableBeanFactory] [DEBUG] Creating shared instance of singleton bean 'com.example.demo.filter.LoginFilter'
+20250620_23:01:41.823 [o.s.b.w.s.ServletContextInitializerBeans] [DEBUG] Mapping filters: com.example.demo.filter.LoginFilter urls=[/project/*, /projects/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, hiddenHttpMethodFilter urls=[/*] order=-10000, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+20250620_23:01:50.990 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginController:
+	{POST [/login]}: checkLogin(String,String,Model,HttpSession)
+	{GET [/login]}: loginPage()
+20250620_23:01:51.004 [_.s.w.s.H.Mappings] [DEBUG] 
+	c.e.d.c.LoginRestController:
+	{GET [/rest/logout]}: logout(HttpSession)
+	{POST [/rest/login]}: login(String,String,HttpSession)
+	{GET [/rest/check-login]}: checkLogin(HttpSession)
+20250620_23:01:59.351 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
+20250620_23:02:12.309 [o.s.w.s.m.m.a.RequestMappingHandlerMapping] [DEBUG] Mapped to com.example.demo.controller.LoginRestController#login(String, String, HttpSession)
