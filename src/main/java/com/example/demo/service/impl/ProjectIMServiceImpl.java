@@ -6,18 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.example.demo.exception.ProjectException;
-import com.example.demo.exception.ProjectNotFoundException;
-import com.example.demo.mapper.ProjectMapper;
 import com.example.demo.model.dto.ProjectInformationDDto;
-import com.example.demo.model.entity.ProjectInformationD;
 import com.example.demo.repository.ProjectIMRepository;
 import com.example.demo.service.ProjectIMService;
 
 @Service
 public class ProjectIMServiceImpl implements ProjectIMService{
 
-	@Autowired
-	private ProjectMapper projectMapper;
+	
 	
 	@Autowired
 	@Qualifier("projectIMRepositoryJdbcImpl") 

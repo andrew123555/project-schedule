@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.exception.ProjectException;
 import com.example.demo.model.dto.ProjectInformationBDto;
 import com.example.demo.model.dto.ProjectInformationDDto;
@@ -31,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ProjectController {
 
 	
-	//Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private ProjectService projectService;
@@ -47,7 +45,6 @@ public class ProjectController {
 			
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,"查無此項目"));
 		}
-		//logger.info("查詢成功 ");
 		return ResponseEntity.ok(ApiResponse.success("查詢成功TTTEST:", projects));
 	}
 	
@@ -66,7 +63,6 @@ public class ProjectController {
 	public ResponseEntity<ApiResponse<ProjectInformationBDto>> addProject(@RequestBody ProjectInformationBDto projectInformationDao) {
 		try {
 			projectService.addProject(projectInformationDao);
-			//logger.info("新增項目成功 ");
 			return ResponseEntity.ok(ApiResponse.success("新增成功", projectInformationDao));
 		} catch (ProjectException e) {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,e.getMessage()));
@@ -78,7 +74,6 @@ public class ProjectController {
 	public ResponseEntity<ApiResponse< String>> deletedProject(@PathVariable Integer projectId) {
 		try {
 			projectService.deleteProject(projectId);
-			//log.info("刪除ID[{}]"+"+ 項目[{}]", projectId,projectService.getProjectByName(projectId));
 			return ResponseEntity.ok(ApiResponse.success("刪除成功", ""));
 		} catch (ProjectException e) {
 			return ResponseEntity.badRequest().body(ApiResponse.error(401 ,e.getMessage()));

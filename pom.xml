@@ -173,13 +173,7 @@
 		</dependency>
 		
 		
-		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>javax.servlet-api</artifactId>
-		    <version>3.1.0</version>
-		    <!-- 此包一般在Servlet容器中都有提供 -->
-		    <scope>provided</scope>
-		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
 		<dependency>
 		    <groupId>ch.qos.logback</groupId>
@@ -205,10 +199,38 @@
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
             <version>1.21</version>
-        </dependency>		
+        </dependency>	
+        
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus -->
+		<dependency>
+		    <groupId>com.baomidou</groupId>
+		    <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+		    <version>3.5.5</version> <!-- 或更新版本 -->
+		</dependency>
+        
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
 
-                        
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		      	         
 		
 	</dependencies>
 
