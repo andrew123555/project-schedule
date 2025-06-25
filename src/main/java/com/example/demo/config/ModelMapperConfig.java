@@ -4,13 +4,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration // Springboot 啟動完成前會先執行此配置
+@Configuration // 這個註解告訴 Spring 這個類包含 Bean 定義
 public class ModelMapperConfig {
-	
-	// Springboot 會自動建立此物件並管理
-	// 其他程式可以透過 @Autowired 來取得該實體物件
-	@Bean
-	ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+
+    @Bean // 這個註解告訴 Spring 創建並管理一個 ModelMapper 的實例
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }

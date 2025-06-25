@@ -1,17 +1,62 @@
+// src/main/java/com/example/demo/exception/handler/GlobalExceptionHandler.java
 package com.example.demo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException; // 導入 Spring Security 的 AccessDeniedException
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 
-@ControllerAdvice
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+@ControllerAdvice // 讓這個類別能夠處理所有控制器的例外
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Throwable.class)
-    public ResponseEntity<String> handle(Throwable ex) {
-        ex.printStackTrace(); // 強制印出錯誤堆疊
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                             .body("💥 系統錯誤：" + ex.getMessage());
+    // 處理 AccessDeniedException
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", new Date());
+        body.put("status", HttpStatus.FORBIDDEN.value());
+        body.put("error", "Forbidden");
+        body.put("message", "您沒有足夠的權限執行此操作。所需權限：MODERATOR 或 ADMIN。"); // 這裡明確指出所需權限
+        body.put("path", request.getDescription(false).replace("uri=", "")); // 獲取請求的路徑
+
+        // 也可以記錄到日誌中
+        System.err.println("Access Denied: " + ex.getMessage() + " for path: " + request.getDescription(false));
+
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN); // 返回 403 Forbidden
+    }
+
+    // 您可能已經有處理 ResourceNotFoundException 的方法，如果沒有，也可以在這裡添加
+    // 假設您的 ResourceNotFoundException 在 com.example.demo.exception 套件下
+    @ExceptionHandler(com.example.demo.exception.ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleResourceNotFoundException(
+            com.example.demo.exception.ResourceNotFoundException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", new Date());
+        body.put("status", HttpStatus.NOT_FOUND.value());
+        body.put("error", "Not Found");
+        body.put("message", ex.getMessage());
+        body.put("path", request.getDescription(false).replace("uri=", ""));
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND); // 返回 404 Not Found
+    }
+
+    // 處理其他未被特定處理的通用例外
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGlobalException(Exception ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", new Date());
+        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        body.put("error", "Internal Server Error");
+        body.put("message", "發生了一個未預期的錯誤：" + ex.getMessage());
+        body.put("path", request.getDescription(false).replace("uri=", ""));
+
+        ex.printStackTrace(); // 在開發環境中可以打印堆棧跟踪
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR); // 返回 500 Internal Server Error
     }
 }
