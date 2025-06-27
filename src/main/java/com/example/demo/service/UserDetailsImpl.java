@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
@@ -46,10 +47,18 @@ public class UserDetailsImpl implements UserDetails {
                 authorities);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+    public Long getId() {
+        return id;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    
+
+
+  
 
     @Override
     public String getPassword() {
@@ -81,14 +90,6 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -97,5 +98,10 @@ public class UserDetailsImpl implements UserDetails {
             return false;
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
+    }
+    
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
     }
 }

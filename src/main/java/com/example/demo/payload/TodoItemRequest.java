@@ -1,121 +1,100 @@
 package com.example.demo.payload;
 
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import java.time.Instant; // 使用 Instant 來表示時間戳，更推薦用於後端
+import java.time.LocalDateTime;
 
 public class TodoItemRequest {
 
-    @NotBlank(message = "待辦事項名稱不能為空")
-    @Size(max = 100, message = "待辦事項名稱不能超過100個字元")
-    private String name;
+    @NotBlank(message = "標題不能為空")
+    @Size(max = 255, message = "標題長度不能超過 255 個字符")
+    private String title;
 
-    @NotBlank(message = "類別不能為空")
-    @Size(max = 50, message = "類別不能超過50個字元")
-    private String category;
+    private String type;
 
-    @NotNull(message = "開始時間不能為空")
-    private Instant startTime; // 使用 Instant 來接收 ISO 8601 格式的日期時間
+    private String description;
 
-    @NotNull(message = "結束時間不能為空")
-    private Instant endTime;   // 使用 Instant 來接收 ISO 8601 格式的日期時間
+    @NotBlank(message = "狀態不能為空")
+    private String status; // 使用 String 類型，後端再轉換為枚舉
 
-    @NotNull(message = "專案ID不能為空")
-    private Long projectId;
+    @NotNull(message = "優先級不能為空")
+    private Integer priority;
 
-    // 負責人可以是可選的，所以使用 Long 而不是原始類型 long
-    // 如果是可選的，不需要 @NotNull，但在業務邏輯中處理 null
-    private Long assigneeId;
+    @NotNull(message = "到期日不能為空")
+    private LocalDateTime dueDate;
 
-    @NotNull(message = "機密性不能為空")
-    private Boolean confidential;
+    // ⭐ 新增欄位：部門 ⭐
+    @Size(max = 100, message = "部門長度不能超過 100 個字符")
+    private String department;
 
-    // 無參建構子是必要的，供 Spring 反序列化 JSON 使用
-    public TodoItemRequest() {
+    // ⭐ 新增欄位：負責人 ID ⭐
+    private Long assigneeId; // 負責人的用戶 ID
+
+    // Getters and Setters
+    public String getTitle() {
+        return title;
     }
 
-    // 帶參數的建構子，方便測試或手動創建
-    public TodoItemRequest(String name, String category, Instant startTime, Instant endTime, Long projectId, Long assigneeId, Boolean confidential) {
-        this.name = name;
-        this.category = category;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.projectId = projectId;
-        this.assigneeId = assigneeId;
-        this.confidential = confidential;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    // --- Getter 和 Setter 方法 ---
-
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getCategory() {
-        return category;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Instant getStartTime() {
-        return startTime;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStartTime(Instant startTime) {
-        this.startTime = startTime;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Instant getEndTime() {
-        return endTime;
+    public Integer getPriority() {
+        return priority;
     }
 
-    public void setEndTime(Instant endTime) {
-        this.endTime = endTime;
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 
-    public Long getProjectId() {
-        return projectId;
+    public LocalDateTime getDueDate() {
+        return dueDate;
     }
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
     }
 
+    // ⭐ 新增 Department 的 Getter 和 Setter ⭐
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    // ⭐ 新增 AssigneeId 的 Getter 和 Setter ⭐
     public Long getAssigneeId() {
         return assigneeId;
     }
 
     public void setAssigneeId(Long assigneeId) {
         this.assigneeId = assigneeId;
-    }
-
-    public Boolean getConfidential() {
-        return confidential;
-    }
-
-    public void setConfidential(Boolean confidential) {
-        this.confidential = confidential;
-    }
-
-    @Override
-    public String toString() {
-        return "TodoItemRequest{" +
-                "name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", projectId=" + projectId +
-                ", assigneeId=" + assigneeId +
-                ", confidential=" + confidential +
-                '}';
     }
 }

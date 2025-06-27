@@ -1,105 +1,150 @@
-package com.example.demo.model.entity; // 確認此套件路徑與您的檔案實際位置相符
+package com.example.demo.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "todo_items") // 建議的表名
+@Table(name = "todo_items")
 public class TodoItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 待辦事項序號 (主鍵)
+    private Long id;
 
-    @Column(nullable = false)
-    private String name; // 待辦事項名稱
+    private String title;
 
-    @Column(nullable = false)
-    private String category; // 類別 (例如：開發、測試、設計、會議)
+    private String type;
 
-    @Column(nullable = false)
-    private Instant startTime; // 開始時間
+    private String description;
 
-    @Column(nullable = false)
-    private Instant endTime; // 結束時間
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
-    @Column(nullable = false)
-    private Boolean confidential; // 機密性 (使用 Boolean)
+    private Integer priority;
 
-    @Column(nullable = false) // 如果您確保在創建時總是給定一個 boolean 值 (例如 false)，則可以保持 nullable = false
-    private Boolean completed; // 完成狀態
+    private LocalDateTime dueDate;
 
-    // 與 Project 的 Many-to-One 關聯
+    private LocalDateTime createdAt;
+
+    private LocalDateTime lastModifiedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", nullable = false) // 外鍵列名，Project 是必須的
-    @JsonIgnore // 防止循環引用和 LazyInitializationException
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    // 與 User 的 Many-to-One 關聯 (負責人)
+    // ⭐ 新增欄位：部門 (Department) ⭐
+    @Column(length = 100) // 設定長度，例如 100
+    private String department;
+
+    // ⭐ 新增欄位：負責人 (Assignee) - 與 User 實體的關聯 ⭐
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assignee_id") // 負責人外鍵列名，如果允許為 null，則不加 nullable = false
-                                      // 如果 assigneeId 在 TodoItemRequest 中可以為 null，這裡應允許 null
-    @JsonIgnore // 防止循環引用和 LazyInitializationException
-    private User assignee; // 負責人 (關聯到 User 實體)
+    @JoinColumn(name = "assignee_id") // 外鍵指向 users 表的 id 欄位
+    private User assignee;
 
-    // Constructors
-    public TodoItem() {}
-
-    public TodoItem(String name, String category, Instant startTime, Instant endTime,
-                    Boolean confidential, Boolean completed, Project project, User assignee) {
-        this.name = name;
-        this.category = category;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.confidential = confidential;
-        this.completed = completed; // 初始化 completed 欄位
-        this.project = project;
-        this.assignee = assignee;
+    // 枚舉定義 (如果沒有，請從其他地方複製過來)
+    public enum Status {
+        PENDING,
+        IN_PROGRESS,
+        COMPLETED,
+        CANCELLED
     }
 
     // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public Instant getStartTime() { return startTime; }
-    public void setStartTime(Instant startTime) { this.startTime = startTime; }
+    public String getType() {
+        return type;
+    }
 
-    public Instant getEndTime() { return endTime; }
-    public void setEndTime(Instant endTime) { this.endTime = endTime; }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-    public Boolean getConfidential() { return confidential; }
-    public void setConfidential(Boolean confidential) { this.confidential = confidential; }
+    public String getDescription() {
+        return description;
+    }
 
-    public Boolean getCompleted() { return completed; }
-    public void setCompleted(Boolean completed) { this.completed = completed; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public Project getProject() { return project; }
-    public void setProject(Project project) { this.project = project; }
+    public Status getStatus() {
+        return status;
+    }
 
-    public User getAssignee() { return assignee; }
-    public void setAssignee(User assignee) { this.assignee = assignee; }
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
-    // --- 建議添加 toString() 方法用於除錯 ---
-    @Override
-    public String toString() {
-        return "TodoItem{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", confidential=" + confidential +
-                ", completed=" + completed +
-                ", projectId=" + (project != null ? project.getId() : "null") + // 避免 LazyInitializationException
-                ", assigneeId=" + (assignee != null ? assignee.getId() : "null") + // 避免 LazyInitializationException
-                '}';
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getLastModifiedAt() {
+        return lastModifiedAt;
+    }
+
+    public void setLastModifiedAt(LocalDateTime lastModifiedAt) {
+        this.lastModifiedAt = lastModifiedAt;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    // ⭐ 新增 Department 的 Getter 和 Setter ⭐
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    // ⭐ 新增 Assignee 的 Getter 和 Setter ⭐
+    public User getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(User assignee) {
+        this.assignee = assignee;
     }
 }

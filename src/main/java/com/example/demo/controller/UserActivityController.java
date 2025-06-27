@@ -1,61 +1,46 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.entity.UserActivity;
-import com.example.demo.repository.UserActivityRepository;
+import com.example.demo.response.UserActivityResponse;
+import com.example.demo.service.UserActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173", maxAge = 3600)
-@RequestMapping("/api/activities")
+@RequestMapping("/activities") // 用戶活動 API 的基礎路徑
 public class UserActivityController {
 
     @Autowired
-    private UserActivityRepository userActivityRepository;
+    private UserActivityService userActivityService;
 
     /**
-     * 獲取所有使用者活動日誌，支援篩選。
-     * 只有擁有 ROLE_ADMIN 權限的使用者才能訪問。
-     *
-     * @param username 可選，按使用者名稱篩選 (模糊匹配)
-     * @param startDate 可選，開始日期 (yyyy-MM-dd HH:mm:ss 格式)
-     * @param endDate   可選，結束日期 (yyyy-MM-dd HH:mm:ss 格式)
-     * @return 包含活動日誌列表的 ResponseEntity
+     * 獲取所有用戶活動條目，支持分頁和搜尋
+     * GET /api/activities?page=0&size=10&sortBy=timestamp&sortDir=desc&searchTerm=project&actionTypeFilter=CREATE_PROJECT
      */
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')") // 只有管理員才能查看
-    public ResponseEntity<?> getAllActivities(
-            @RequestParam(required = false) String username,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate) {
+    public ResponseEntity<Page<UserActivityResponse>> getAllActivities(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "timestamp") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDir,
+            @RequestParam(required = false) String searchTerm,
+            @RequestParam(required = false) String actionTypeFilter) { // 新增 ActionType 過濾器
 
-        List<UserActivity> activities;
+        Page<UserActivityResponse> activitiesPage = userActivityService.getAllActivities(
+                page, size, sortBy, sortDir, searchTerm, actionTypeFilter);
+        return ResponseEntity.ok(activitiesPage);
+    }
 
-        if (username != null && !username.isEmpty() && startDate != null && endDate != null) {
-            // 根據使用者名稱和時間範圍篩選
-            activities = userActivityRepository.findByUsernameContainingIgnoreCaseAndTimestampBetweenOrderByTimestampDesc(username, startDate, endDate);
-        } else if (username != null && !username.isEmpty()) {
-            // 只根據使用者名稱篩選
-            activities = userActivityRepository.findByUsernameContainingIgnoreCaseOrderByTimestampDesc(username);
-        } else if (startDate != null && endDate != null) {
-            // 只根據時間範圍篩選
-            activities = userActivityRepository.findByTimestampBetweenOrderByTimestampDesc(startDate, endDate);
-        } else {
-            // 獲取所有活動
-            activities = userActivityRepository.findAllByOrderByTimestampDesc();
-        }
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("data", activities);
-        response.put("message", "操作日誌獲取成功!");
-        return ResponseEntity.ok(response);
+    /**
+     * 根據 ID 獲取單個用戶活動條目
+     * GET /api/activities/{id}
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<UserActivityResponse> getActivityById(@PathVariable Long id) {
+        return userActivityService.getActivityById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

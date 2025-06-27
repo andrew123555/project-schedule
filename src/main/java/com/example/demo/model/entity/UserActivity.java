@@ -1,6 +1,7 @@
 package com.example.demo.model.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,6 +11,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
+import com.example.demo.converter.ActionTypeConverter;
+
+// 如果您之前在其他實體中使用了 Lombok 的 @Data，建議在這裡也添加
+// import lombok.Data;
+// import lombok.NoArgsConstructor;
+// import lombok.AllArgsConstructor;
+// @Data
+// @NoArgsConstructor
+// @AllArgsConstructor
 @Entity
 @Table(name = "user_activities") // 定義資料庫表名
 public class UserActivity {
@@ -21,12 +31,11 @@ public class UserActivity {
     @Column(nullable = false)
     private String username; // 執行操作的使用者名稱
 
-    // ⭐ 新增這個 'action' 字段，因為錯誤訊息提到了它
-    @Column(nullable = false) // 如果數據庫中 'action' 列也是 NOT NULL
+    @Column(length = 500) 
     private String action; // 例如："使用者登入", "專案創建" 等更詳細的描述
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "action_type", nullable = false) // 確保這裡的 name 與數據庫列名匹配
+    @Column(length = 50) // 設定為 50 個字符長
     private ActionType actionType; // 操作類型 (例如 LOGIN_SUCCESS, CREATE_PROJECT)
 
     @Column(columnDefinition = "TEXT") // 儲存詳細資訊，允許較長內容
@@ -42,10 +51,9 @@ public class UserActivity {
     }
 
     // 常用建構子
-    // ⭐ 更新建構子以包含新的 'action' 字段
     public UserActivity(String username, String action, ActionType actionType, String details, String ipAddress) {
         this.username = username;
-        this.action = action; // ⭐ 初始化 action
+        this.action = action;
         this.actionType = actionType;
         this.details = details;
         this.timestamp = LocalDateTime.now(); // 自動設定當前時間
@@ -69,21 +77,20 @@ public class UserActivity {
         this.username = username;
     }
 
-    // ⭐ 新增 action 的 Getter 和 Setter
- // ⭐ Getter 和 Setter for 'action'
     public String getAction() {
         return action;
     }
 
     public void setAction(String action) {
-        this.action = action; // ⭐ 將這裡修正為 this.action = action;
+        this.action = action;
     }
 
+    // setActionType 方法現在期望接收 UserActivity.ActionType 類型
     public ActionType getActionType() {
         return actionType;
     }
 
-    public void setActionType(ActionType actionType) {
+    public void setActionType(ActionType actionType) { // <-- 參數類型是內部 ActionType
         this.actionType = actionType;
     }
 
@@ -113,20 +120,33 @@ public class UserActivity {
 
     // --- ActionType Enum ---
     public enum ActionType {
-        LOGIN_SUCCESS,
-        LOGIN_FAILED,
-        LOGOUT,
-        REGISTER,
-        CREATE_PROJECT,
-        UPDATE_PROJECT,
-        DELETE_PROJECT,
-        VIEW_ALL_PROJECTS,
-        CREATE_PROJECT_ITEM,
-        UPDATE_PROJECT_ITEM,
-        DELETE_PROJECT_ITEM,
-        VIEW_PROJECT_ITEMS_BY_ID,
-        API_ACCESS,
-        USER_PROFILE_UPDATE,
-        PASSWORD_CHANGE,
+    	
+    	user_management,
+        login_success,
+        login_failed,
+        logout,
+        register,
+        create_reoject,
+        update_project,
+        delete_project,
+        view_all_projects,
+		create_stakeholder,
+		update_stakeholder,
+		delete_stakeholder,
+		view_stakeholders,
+		create_todo_item,
+		update_todo_item,
+		delete_todo_item,
+		view_todo_items,
+		api_access,
+		user_profile_update,
+		password_change,
+		create_project_item,
+		update_project_item,
+		delete_project_item,
+		todo_item_management,
+		project_management,
+		error
+     
     }
 }

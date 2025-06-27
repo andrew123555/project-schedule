@@ -28,8 +28,8 @@ public class StakeholderService {
         stakeholder.setPhone(stakeholderRequest.getPhone());
         stakeholder.setEmail(stakeholderRequest.getEmail());
         stakeholder.setRequirement(stakeholderRequest.getRequirement());
-        stakeholder.setPower(stakeholderRequest.getPower());
-        stakeholder.setInterest(stakeholderRequest.getInterest());
+        stakeholder.setPower(stakeholderRequest.isPower());
+        stakeholder.setInterest(stakeholderRequest.isInterest());
         // ⭐ 修正：從 getMatrixStatus() 獲取，而不是 getMatrix_status() ⭐
         stakeholder.setMatrixStatus(stakeholderRequest.getMatrixStatus());
         stakeholder.setProjectId(stakeholderRequest.getProjectId());
@@ -60,8 +60,8 @@ public class StakeholderService {
         existingStakeholder.setPhone(stakeholderRequest.getPhone());
         existingStakeholder.setEmail(stakeholderRequest.getEmail());
         existingStakeholder.setRequirement(stakeholderRequest.getRequirement());
-        existingStakeholder.setPower(stakeholderRequest.getPower());
-        existingStakeholder.setInterest(stakeholderRequest.getInterest());
+        existingStakeholder.setPower(stakeholderRequest.isPower());
+        existingStakeholder.setInterest(stakeholderRequest.isInterest());
         // ⭐ 修正：從 getMatrixStatus() 獲取，而不是 getMatrix_status() ⭐
         existingStakeholder.setMatrixStatus(stakeholderRequest.getMatrixStatus());
         // 通常編輯時不允許修改 projectId，如果需要，請根據業務邏輯處理
@@ -87,8 +87,8 @@ public class StakeholderService {
         response.setPhone(stakeholder.getPhone());
         response.setEmail(stakeholder.getEmail());
         response.setRequirement(stakeholder.getRequirement());
-        response.setPower(stakeholder.getPower());
-        response.setInterest(stakeholder.getInterest());
+        response.setPower(stakeholder.isPower());
+        response.setInterest(stakeholder.isInterest());
         // ⭐ 修正：設置 setMatrixStatus()，而不是 setMatrix_status() ⭐
         response.setMatrixStatus(stakeholder.getMatrixStatus());
         response.setProjectId(stakeholder.getProjectId());

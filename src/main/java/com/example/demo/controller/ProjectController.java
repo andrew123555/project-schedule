@@ -1,151 +1,149 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.entity.Project;
-import com.example.demo.model.entity.User; // 導入 User 實體
-import com.example.demo.repository.ProjectRepository;
-import com.example.demo.repository.UserRepository; // 導入 UserRepository
+import com.example.demo.model.entity.UserActivity;
+import com.example.demo.payload.ProjectRequest;
+import com.example.demo.response.ProjectResponse;
+import com.example.demo.service.ProjectService;
+import com.example.demo.service.UserActivityService;
 import com.example.demo.service.UserDetailsImpl;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.exception.ResourceNotFoundException; // 導入 ResourceNotFoundException
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication; // 導入 Authentication
-import org.springframework.security.core.context.SecurityContextHolder; // 導入 SecurityContextHolder
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:5173", maxAge = 3600)
 @RestController
-@RequestMapping("/api/rest/project")
+@RequestMapping("/project") 
 public class ProjectController {
 
     @Autowired
-    ProjectRepository projectRepository;
+    private ProjectService projectService;
 
     @Autowired
-    UserRepository userRepository; // ⭐ 注入 UserRepository ⭐
+    private UserActivityService userActivityService;
 
-    @GetMapping // 查詢所有專案
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<List<Project>> getAllProjects() {
-        // 目前是查找所有專案。如果您未來需要根據用戶篩選，再進行修改。
-        List<Project> projects = projectRepository.findAll();
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping 
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<ProjectResponse>> getAllProjects() { 
+        List<Project> projects = projectService.getAllProjects(); 
+        
         if (projects.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            userActivityService.logUserActivity(getCurrentUsername(), "查看了所有專案 (無內容)", UserActivity.ActionType.project_management);
+            return ResponseEntity.noContent().build(); 
         }
-        return new ResponseEntity<>(projects, HttpStatus.OK);
+        
+        List<ProjectResponse> responses = projects.stream()
+                .map(ProjectResponse::new) 
+                .collect(Collectors.toList());
+        
+        userActivityService.logUserActivity(getCurrentUsername(), "查看了所有專案", UserActivity.ActionType.project_management);
+        return ResponseEntity.ok(responses); 
     }
 
-    @GetMapping("/{id}") // 根據 ID 查詢單一專案
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<Project> getProjectById(@PathVariable("id") long id) {
-        Optional<Project> projectData = projectRepository.findById(id);
-        return projectData.map(project -> new ResponseEntity<>(project, HttpStatus.OK))
-                          .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{id}")
+    public ResponseEntity<ProjectResponse> getProjectById(@PathVariable Long id) {
+        System.out.println("ProjectController: 接收到獲取專案 ID: " + id + " 的請求。");
+        Project project = projectService.getProjectById(id)
+                .orElseThrow(() -> {
+                    System.err.println("ProjectController: 未找到專案 ID: " + id + "，拋出 RuntimeException。");
+                    userActivityService.logUserActivity(getCurrentUsername(), "操作失敗: getProjectById (未找到專案 ID: " + id + ")", UserActivity.ActionType.api_access);
+                    return new RuntimeException("Project not found with id " + id);
+                });
+        
+        System.out.println("ProjectController: 成功從服務層獲取專案物件。名稱: " + project.getName());
+        userActivityService.logUserActivity(getCurrentUsername(), "查看了專案: " + project.getName(), UserActivity.ActionType.project_management);
+        
+        ProjectResponse response = new ProjectResponse(project);
+        System.out.println("ProjectController: 已創建 ProjectResponse。名稱: " + response.getName());
+        return ResponseEntity.ok(response); 
     }
 
-    @PostMapping // 新增專案
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<Project> createProject(@RequestBody Project project) {
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping 
+    public ResponseEntity<ProjectResponse> createProject(@Valid @RequestBody ProjectRequest projectRequest) {
         try {
-            // ⭐ 獲取當前登入用戶的 ID ⭐
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            Long currentUserId = userDetails.getId();
+            Long currentUserId = getCurrentUserId();
+            Project newProject = new Project();
+            newProject.setName(projectRequest.getName());
+            newProject.setDescription(projectRequest.getDescription());
 
-            // 從資料庫中獲取完整的 User 對象
-            Optional<User> currentUserOptional = userRepository.findById(currentUserId);
-            if (!currentUserOptional.isPresent()) {
-                // 如果用戶不存在，這是一個不應該發生的錯誤（除非數據庫用戶被刪除但Token仍有效）
-                System.err.println("創建專案失敗：當前登入用戶 ID " + currentUserId + " 未找到。");
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            User currentUser = currentUserOptional.get();
-
-            // ⭐ 檢查是否已經存在同名專案 (如果您的專案名稱設定為唯一) ⭐
-            if (projectRepository.findByName(project.getName()).isPresent()) {
-                System.err.println("創建專案失敗：專案名稱 '" + project.getName() + "' 已存在。");
-                return new ResponseEntity<>(HttpStatus.CONFLICT); // 返回 409 Conflict
-            }
-
-            // ⭐ 創建新專案並設置用戶 ⭐
-            Project newProject = new Project(project.getName(), project.getDescription());
-            newProject.setUser(currentUser); // ⭐ 將當前登入用戶設置給專案的 'user' 欄位 ⭐
-
-            Project _project = projectRepository.save(newProject);
-            return new ResponseEntity<>(_project, HttpStatus.CREATED);
+            Project savedProject = projectService.createProject(newProject, currentUserId);
+            userActivityService.logUserActivity(getCurrentUsername(), "創建了專案: " + savedProject.getName(), UserActivity.ActionType.project_management);
+            return new ResponseEntity<>(new ProjectResponse(savedProject), HttpStatus.CREATED);
         } catch (Exception e) {
             System.err.println("創建專案時發生內部錯誤: " + e.getMessage());
-            e.printStackTrace(); // 打印完整的堆疊追蹤到後台控制台
-            // 返回 500 錯誤，並可以考慮在生產環境中返回一個更友好的通用錯誤訊息
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/{id}") // 修改專案
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<Project> updateProject(@PathVariable("id") long id, @RequestBody Project project) {
-        Optional<Project> projectData = projectRepository.findById(id);
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/{id}") 
+    public ResponseEntity<ProjectResponse> updateProject(@PathVariable Long id, @Valid @RequestBody ProjectRequest projectRequest) {
+        try {
+            Long currentUserId = getCurrentUserId();
+            Project projectDetails = new Project();
+            projectDetails.setName(projectRequest.getName());
+            projectDetails.setDescription(projectRequest.getDescription());
 
-        if (projectData.isPresent()) {
-            Project _project = projectData.get();
-            _project.setName(project.getName());
-            _project.setDescription(project.getDescription());
-
-            // ⭐ 安全檢查 (可選): 只有專案創建者或管理員才能修改 ⭐
-            // 如果啟用這個，請確保前端也處理了 403 Forbidden
-            /*
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            // 檢查是否是創建者，或者是否是 ADMIN 角色
-            boolean isCreator = _project.getUser() != null && _project.getUser().getId().equals(userDetails.getId());
-            boolean isAdmin = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-            if (!isCreator && !isAdmin) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN); // 403 Forbidden
-            }
-            */
-
-            // 注意：user_id (創建者) 通常不應通過 PUT 請求從前端修改。
-            // 這個欄位是專案創建時固定的。
-
-            return new ResponseEntity<>(projectRepository.save(_project), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            Project updatedProject = projectService.updateProject(id, projectDetails, currentUserId);
+            userActivityService.logUserActivity(getCurrentUsername(), "更新了專案: " + updatedProject.getName(), UserActivity.ActionType.project_management);
+            return ResponseEntity.ok(new ProjectResponse(updatedProject));
+        } catch (Exception e) {
+            System.err.println("更新專案時發生內部錯誤: " + e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("/{id}") // 刪除專案
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<HttpStatus> deleteProject(@PathVariable("id") long id) {
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/{id}") 
+    public ResponseEntity<HttpStatus> deleteProject(@PathVariable Long id) {
         try {
-            // ⭐ 安全檢查 (可選): 只有專案創建者或管理員才能刪除 ⭐
-            // 如果啟用這個，請確保前端也處理了 403 Forbidden
-            /*
-            Optional<Project> projectData = projectRepository.findById(id);
-            if (projectData.isPresent()) {
-                Project projectToDelete = projectData.get();
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-                boolean isCreator = projectToDelete.getUser() != null && projectToDelete.getUser().getId().equals(userDetails.getId());
-                boolean isAdmin = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-                if (!isCreator && !isAdmin) {
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN); // 403 Forbidden
-                }
-            } else {
-                // 如果要刪除的專案不存在，也可以直接返回 NOT_FOUND 或 NO_CONTENT，取決於您的設計
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            */
-
-            projectRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content 表示成功但無返回內容
+            Long currentUserId = getCurrentUserId();
+            projectService.deleteProject(id, currentUserId);
+            userActivityService.logUserActivity(getCurrentUsername(), "刪除了專案 ID: " + id,UserActivity.ActionType.project_management);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 成功刪除，返回 204
+        } catch (ResourceNotFoundException e) { // ⭐ 修正點：捕獲 ResourceNotFoundException ⭐
+            System.err.println("刪除專案失敗: " + e.getMessage());
+            userActivityService.logUserActivity(getCurrentUsername(), "操作失敗: 刪除專案 (未找到或無權限刪除 ID: " + id + ")", UserActivity.ActionType.api_access);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 返回 404
         } catch (Exception e) {
             System.err.println("刪除專案時發生內部錯誤: " + e.getMessage());
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 返回 500
+        }
+    }
+
+    private String getCurrentUsername() {
+        try {
+            return ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        } catch (Exception e) {
+            System.err.println("Error getting current username: " + e.getMessage());
+            return "anonymousUser";
+        }
+    }
+
+    private Long getCurrentUserId() {
+        try {
+            return ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        } catch (Exception e) {
+            System.err.println("Error getting current user ID: " + e.getMessage());
+            throw new RuntimeException("無法獲取當前用戶 ID，請登入。");
         }
     }
 }

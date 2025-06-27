@@ -15,10 +15,10 @@ public class StakeholderRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    private String interest;
+    private boolean interest;
     private String matrixStatus;
     private String phone;
-    private String power;
+    private boolean power;
     private String requirement;
 
     private Long projectId; // 如果需要關聯專案
@@ -29,14 +29,14 @@ public class StakeholderRequest {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getInterest() { return interest; }
-    public void setInterest(String interest) { this.interest = interest; }
+    public boolean isInterest() { return interest; }
+    public void setInterest(boolean interest) { this.interest = interest; }
     public String getMatrixStatus() { return matrixStatus; }
     public void setMatrixStatus(String matrixStatus) { this.matrixStatus = matrixStatus; }
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
-    public String getPower() { return power; }
-    public void setPower(String power) { this.power = power; }
+    public boolean isPower() { return power; }
+    public void setPower(boolean power) { this.power = power; }
     public String getRequirement() { return requirement; }
     public void setRequirement(String requirement) { this.requirement = requirement; }
 

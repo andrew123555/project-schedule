@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:5173", maxAge = 3600) // 允許前端的跨域請求
 @RestController // ⭐ 關鍵：標記這個類別是一個 RESTful API 控制器
-@RequestMapping("/api/test") // ⭐ 關鍵：定義這個控制器所有方法的基礎路徑
+@RequestMapping("/test") // ⭐ 關鍵：定義這個控制器所有方法的基礎路徑
 public class TestController {
 
     @GetMapping("/all") // ⭐ 關鍵：定義處理 GET /api/test/all 請求的方法

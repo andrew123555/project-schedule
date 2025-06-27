@@ -1,156 +1,74 @@
 package com.example.demo.response;
 
-
-import java.time.Instant; // 與 Request 中保持一致
+import com.example.demo.model.entity.TodoItem;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset; // 用於 Instant 到特定時區的轉換，如果需要
 
 public class TodoItemResponse {
-
-    private Long id; // ID 通常由資料庫生成，Response 中包含
-    private String name;
-    private String category;
-    private Instant startTime;
-    private Instant endTime;
+    private Long id;
+    private String title;
+    private String type;
+    private String description;
+    private String status;
+    private Integer priority;
+    private LocalDateTime dueDate;
+    private LocalDateTime createdAt;
+    private LocalDateTime lastModifiedAt;
     private Long projectId;
-    private Long assigneeId;
-    private String assigneeUsername; // 可能會包含負責人的用戶名，方便前端顯示
-    private Boolean confidential;
-    private Boolean completed; // 待辦事項是否完成的狀態
 
-    // 無參建構子是必要的
-    public TodoItemResponse() {
+    private String department;
+    private String assigneeUsername; 
+    private Long assigneeId; 
+
+    public TodoItemResponse(TodoItem todoItem) {
+        this.id = todoItem.getId();
+        this.title = todoItem.getTitle();
+        this.type = todoItem.getType();
+        this.description = todoItem.getDescription();
+        this.status = todoItem.getStatus().name(); 
+        this.priority = todoItem.getPriority();
+        this.dueDate = todoItem.getDueDate();
+        this.createdAt = todoItem.getCreatedAt();
+        this.lastModifiedAt = todoItem.getLastModifiedAt();
+        this.projectId = todoItem.getProject().getId();
+
+        this.department = todoItem.getDepartment();
+        
+        // 這個 null 檢查是正確的，但 LazyInitializationException 發生在 getUsername() 上
+        // 這表示 todoItem.getAssignee() 返回的是一個未初始化的代理物件
+        if (todoItem.getAssignee() != null) {
+            this.assigneeUsername = todoItem.getAssignee().getUsername(); // 這裡會拋出異常
+            this.assigneeId = todoItem.getAssignee().getId();
+        } else {
+            this.assigneeUsername = null;
+            this.assigneeId = null;
+        }
     }
 
-    // 帶所有參數的建構子，方便從實體轉換
-    public TodoItemResponse(Long id, String name, String category, Instant startTime, Instant endTime, Long projectId, Long assigneeId, String assigneeUsername, Boolean confidential, Boolean completed) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.projectId = projectId;
-        this.assigneeId = assigneeId;
-        this.assigneeUsername = assigneeUsername;
-        this.confidential = confidential;
-        this.completed = completed;
-    }
-
-    // --- Getter 和 Setter 方法 ---
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Instant getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Instant startTime) {
-        this.startTime = startTime;
-    }
-
-    public Instant getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Instant endTime) {
-        this.endTime = endTime;
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
-
-    public Long getAssigneeId() {
-        return assigneeId;
-    }
-
-    public void setAssigneeId(Long assigneeId) {
-        this.assigneeId = assigneeId;
-    }
-
-    public String getAssigneeUsername() {
-        return assigneeUsername;
-    }
-
-    public void setAssigneeUsername(String assigneeUsername) {
-        this.assigneeUsername = assigneeUsername;
-    }
-
-    public Boolean getConfidential() {
-        return confidential;
-    }
-
-    public void setConfidential(Boolean confidential) {
-        this.confidential = confidential;
-    }
-
-    public Boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
-    }
-
-    @Override
-    public String toString() {
-        return "TodoItemResponse{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", projectId=" + projectId +
-                ", assigneeId=" + assigneeId +
-                ", assigneeUsername='" + assigneeUsername + '\'' +
-                ", confidential=" + confidential +
-                ", completed=" + completed +
-                '}';
-    }
-
-    // 可以添加一個從 TodoItem 實體轉換為 TodoItemResponse 的靜態方法，方便Service層使用
-    // 前提是您的 TodoItem 實體已經存在且有對應的 getter 方法
-    /*
-    public static TodoItemResponse fromEntity(TodoItem todoItem, String assigneeUsername) {
-        if (todoItem == null) return null;
-        return new TodoItemResponse(
-            todoItem.getId(),
-            todoItem.getName(),
-            todoItem.getCategory(),
-            todoItem.getStartTime(),
-            todoItem.getEndTime(),
-            todoItem.getProject() != null ? todoItem.getProject().getId() : null,
-            todoItem.getAssignee() != null ? todoItem.getAssignee().getId() : null,
-            assigneeUsername, // 這裡傳入負責人的用戶名
-            todoItem.getConfidential(),
-            todoItem.getCompleted()
-        );
-    }
-    */
+    // Getters and Setters (省略，保持不變)
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public Integer getPriority() { return priority; }
+    public void setPriority(Integer priority) { this.priority = priority; }
+    public LocalDateTime getDueDate() { return dueDate; }
+    public void setDueDate(LocalDateTime dueDate) { this.dueDate = dueDate; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public LocalDateTime getLastModifiedAt() { return lastModifiedAt; }
+    public void setLastModifiedAt(LocalDateTime lastModifiedAt) { this.lastModifiedAt = lastModifiedAt; }
+    public Long getProjectId() { return projectId; }
+    public void setProjectId(Long projectId) { this.projectId = projectId; }
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+    public String getAssigneeUsername() { return assigneeUsername; }
+    public void setAssigneeUsername(String assigneeUsername) { this.assigneeUsername = assigneeUsername; }
+    public Long getAssigneeId() { return assigneeId; }
+    public void setAssigneeId(Long assigneeId) { this.assigneeId = assigneeId; }
 }

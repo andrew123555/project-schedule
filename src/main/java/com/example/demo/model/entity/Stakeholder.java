@@ -22,8 +22,8 @@ public class Stakeholder {
     private String phone;
     private String email;
     private String requirement;
-    private String power;
-    private String interest;
+    private boolean power;
+    private boolean interest;
 
     @Column(name = "matrix_status") // 如果資料庫欄位名不同，請指定
     private String matrixStatus; // 使用 camelCase 與 Java 命名習慣一致

@@ -2,6 +2,7 @@ package com.example.demo.model.entity;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -9,8 +10,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Enumerated(EnumType.STRING) // 這一行是關鍵，它告訴 JPA 將枚舉存儲為字符串
+    @Column(length = 20) // 這會映射到 VARCHAR(20)
     private ERole name;
 
     public Role() {
@@ -33,6 +34,7 @@ public class Role {
     }
 
     public void setName(ERole name) {
-        this.name = name;
+    	   this.name = name;
     }
-}
+    }
+   

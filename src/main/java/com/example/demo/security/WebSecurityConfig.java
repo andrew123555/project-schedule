@@ -56,10 +56,13 @@ public class WebSecurityConfig {
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/projects/{projectId}/stakeholders/**").permitAll() // 這裡仍然是要求認證
-                .requestMatchers("/api/test/**").permitAll()
-                .requestMatchers("/api/users/**").authenticated()
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/project/**").permitAll() // 這裡仍然是要求認證
+                //.requestMatchers("/project/{projectId}/stakeholders/**").permitAll() // 這裡仍然是要求認證
+                .requestMatchers("/activities/**").permitAll() // 這裡仍然是要求認證
+                //.requestMatchers("user/test/**").permitAll()
+                .requestMatchers("/users/**").permitAll()
+                .requestMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
             );
 

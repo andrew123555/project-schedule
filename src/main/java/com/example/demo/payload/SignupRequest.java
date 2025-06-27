@@ -1,5 +1,7 @@
 package com.example.demo.payload;
 
+import java.util.Set;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,6 +20,7 @@ public class SignupRequest {
     @Size(min = 6, max = 40, message = "密碼長度必須在 6 到 40 個字元之間")
     private String password;
 
+    private Set<String> role;
     // 無參數建構子 (通常需要，特別是如果使用 Jackson 進行 JSON 反序列化)
     public SignupRequest() {
     }
@@ -52,5 +55,15 @@ public class SignupRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    // ⭐ 添加 getRole() 方法 ⭐
+    public Set<String> getRole() {
+        return this.role;
+    }
+
+    // ⭐ 添加 setRole() 方法 ⭐
+    public void setRole(Set<String> role) {
+        this.role = role;
     }
 }

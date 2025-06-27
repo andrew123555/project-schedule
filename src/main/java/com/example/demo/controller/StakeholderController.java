@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173", maxAge = 3600)
 @RestController
 // ⭐ 調整基礎路徑以包含 projectId ⭐
-@RequestMapping("/projects/{projectId}/stakeholders")
+@RequestMapping("/project/{projectId}/stakeholders")
 public class StakeholderController {
 
     @Autowired
