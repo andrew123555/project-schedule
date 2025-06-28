@@ -1,23 +1,20 @@
 package com.example.demo.service;
 
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.entity.Project;
 import com.example.demo.model.entity.TodoItem;
-import com.example.demo.model.entity.User; 
+import com.example.demo.model.entity.Project;
 import com.example.demo.payload.TodoItemRequest;
-import com.example.demo.repository.ProjectRepository;
 import com.example.demo.repository.TodoItemRepository;
-import com.example.demo.repository.UserRepository; 
+import com.example.demo.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional; // 導入 Transactional
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional // 確保服務層方法在事務中執行
 public class TodoItemService {
 
     @Autowired
@@ -26,109 +23,85 @@ public class TodoItemService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Autowired
-    private UserRepository userRepository; 
-
-    public List<TodoItem> getAllTodoItems() {
-        return todoItemRepository.findAll();
+    // ⭐ 關鍵修正：添加 @Transactional(readOnly = true) ⭐
+    @Transactional(readOnly = true)
+    public Page<TodoItem> getTodoItemsByProjectId(Long projectId, Pageable pageable) {
+        // 當執行 findByProjectId 時，@EntityGraph 會確保 Project 被加載
+        return todoItemRepository.findByProjectId(projectId, pageable);
     }
 
-    // 根據專案 ID 獲取待辦事項
-    public List<TodoItem> getTodoItemsByProjectId(Long projectId) {
-        List<TodoItem> todoItems = todoItemRepository.findByProjectId(projectId);
-        // ⭐ 修正點：在事務內部強制初始化負責人屬性 ⭐
-        // 這樣可以確保在轉換為 DTO 之前，assignee 已經被加載
-        todoItems.forEach(item -> {
-            if (item.getAssignee() != null) {
-                // 訪問任何一個屬性即可觸發初始化
-                item.getAssignee().getUsername(); 
-            }
-            // 如果 project 也有可能被懶加載並在 DTO 中使用，也需要類似處理
-            if (item.getProject() != null) {
-                item.getProject().getName(); // 觸摸 project 屬性
-            }
-        });
-        return todoItems;
-    }
-
-    // 根據 ID 獲取待辦事項
+    @Transactional(readOnly = true) // 對於讀取單個待辦事項也添加事務
     public Optional<TodoItem> getTodoItemById(Long id) {
-        // 如果這個方法也需要負責人/專案資訊，您可能需要一個專門的預加載查詢
-        // 例如：todoItemRepository.findByIdWithAssignee(id);
-        return todoItemRepository.findById(id); 
+        return todoItemRepository.findById(id);
     }
 
-    // 創建待辦事項
+    @Transactional // 對於寫操作添加事務
     public TodoItem createTodoItem(Long projectId, TodoItemRequest todoItemRequest) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id " + projectId));
+                .orElseThrow(() -> new RuntimeException("Project not found with id " + projectId));
 
         TodoItem todoItem = new TodoItem();
         todoItem.setTitle(todoItemRequest.getTitle());
-        todoItem.setType(todoItemRequest.getType());
         todoItem.setDescription(todoItemRequest.getDescription());
-        todoItem.setStatus(TodoItem.Status.valueOf(todoItemRequest.getStatus()));
-        todoItem.setPriority(todoItemRequest.getPriority());
-        todoItem.setDueDate(todoItemRequest.getDueDate());
-        todoItem.setCreatedAt(LocalDateTime.now());
-        todoItem.setLastModifiedAt(LocalDateTime.now());
-        todoItem.setProject(project);
 
-        todoItem.setDepartment(todoItemRequest.getDepartment());
-
-        if (todoItemRequest.getAssigneeId() != null) {
-            User assignee = userRepository.findById(todoItemRequest.getAssigneeId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Assignee not found with id " + todoItemRequest.getAssigneeId()));
-            todoItem.setAssignee(assignee);
-        } else {
-            todoItem.setAssignee(null); 
+        try {
+            todoItem.setStatus(TodoItem.Status.valueOf(todoItemRequest.getStatus()));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("無效的待辦事項狀態: " + todoItemRequest.getStatus());
         }
 
+        try {
+            todoItem.setPriority(TodoItem.Priority.valueOf(todoItemRequest.getPriority()));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("無效的待辦事項優先級: " + todoItemRequest.getPriority());
+        }
+        
+        todoItem.setDueDate(todoItemRequest.getDueDate());
+        todoItem.setProject(project);
+        todoItem.setCreatedAt(LocalDateTime.now());
+        todoItem.setUpdatedAt(LocalDateTime.now());
+        // 處理 assignedTo (如果需要)
         return todoItemRepository.save(todoItem);
     }
 
-    // 更新待辦事項
+    @Transactional // 對於寫操作添加事務
     public TodoItem updateTodoItem(Long projectId, Long todoItemId, TodoItemRequest todoItemRequest) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id " + projectId));
+        TodoItem existingTodoItem = todoItemRepository.findById(todoItemId)
+                .orElseThrow(() -> new RuntimeException("TodoItem not found with id " + todoItemId));
 
-        return todoItemRepository.findById(todoItemId).map(todoItem -> {
-            if (!todoItem.getProject().getId().equals(projectId)) {
-                throw new ResourceNotFoundException("TodoItem does not belong to Project with id " + projectId);
-            }
-            todoItem.setTitle(todoItemRequest.getTitle());
-            todoItem.setType(todoItemRequest.getType());
-            todoItem.setDescription(todoItemRequest.getDescription());
-            todoItem.setStatus(TodoItem.Status.valueOf(todoItemRequest.getStatus()));
-            todoItem.setPriority(todoItemRequest.getPriority());
-            todoItem.setDueDate(todoItemRequest.getDueDate());
-            todoItem.setLastModifiedAt(LocalDateTime.now());
+        if (!existingTodoItem.getProject().getId().equals(projectId)) {
+            throw new RuntimeException("TodoItem with ID " + todoItemId + " does not belong to Project with ID " + projectId);
+        }
 
-            todoItem.setDepartment(todoItemRequest.getDepartment());
+        existingTodoItem.setTitle(todoItemRequest.getTitle());
+        existingTodoItem.setDescription(todoItemRequest.getDescription());
 
-            if (todoItemRequest.getAssigneeId() != null) {
-                User assignee = userRepository.findById(todoItemRequest.getAssigneeId())
-                        .orElseThrow(() -> new ResourceNotFoundException("Assignee not found with id " + todoItemRequest.getAssigneeId()));
-                todoItem.setAssignee(assignee);
-            } else {
-                todoItem.setAssignee(null); 
-            }
+        try {
+            existingTodoItem.setStatus(TodoItem.Status.valueOf(todoItemRequest.getStatus()));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("無效的待辦事項狀態: " + todoItemRequest.getStatus());
+        }
 
-            return todoItemRepository.save(todoItem);
-        }).orElseThrow(() -> new ResourceNotFoundException("TodoItem not found with id " + todoItemId));
+        try {
+            existingTodoItem.setPriority(TodoItem.Priority.valueOf(todoItemRequest.getPriority()));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("無效的待辦事項優先級: " + todoItemRequest.getPriority());
+        }
+
+        existingTodoItem.setDueDate(todoItemRequest.getDueDate());
+        existingTodoItem.setUpdatedAt(LocalDateTime.now());
+        // 處理 assignedTo 更新 (如果需要)
+        return todoItemRepository.save(existingTodoItem);
     }
 
-    // 刪除待辦事項
+    @Transactional // 對於寫操作添加事務
     public void deleteTodoItem(Long projectId, Long todoItemId) {
-        if (!projectRepository.existsById(projectId)) {
-            throw new ResourceNotFoundException("Project not found with id " + projectId);
+        TodoItem todoItem = todoItemRepository.findById(todoItemId)
+                .orElseThrow(() -> new RuntimeException("TodoItem not found with id " + todoItemId));
+
+        if (!todoItem.getProject().getId().equals(projectId)) {
+            throw new RuntimeException("TodoItem with ID " + todoItemId + " does not belong to Project with ID " + projectId);
         }
-        todoItemRepository.findById(todoItemId).map(todoItem -> {
-            if (!todoItem.getProject().getId().equals(projectId)) {
-                throw new ResourceNotFoundException("TodoItem does not belong to Project with id " + projectId);
-            }
-            todoItemRepository.delete(todoItem);
-            return true;
-        }).orElseThrow(() -> new ResourceNotFoundException("TodoItem not found with id " + todoItemId));
+        todoItemRepository.delete(todoItem);
     }
 }

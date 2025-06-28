@@ -1,72 +1,84 @@
 package com.example.demo.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-import com.example.demo.converter.ActionTypeConverter;
-
-// 如果您之前在其他實體中使用了 Lombok 的 @Data，建議在這裡也添加
-// import lombok.Data;
-// import lombok.NoArgsConstructor;
-// import lombok.AllArgsConstructor;
-// @Data
-// @NoArgsConstructor
-// @AllArgsConstructor
 @Entity
-@Table(name = "user_activities") // 定義資料庫表名
+@Table(name = "user_activities")
 public class UserActivity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String username; // 執行操作的使用者名稱
+    @Column(name = "user_id")
+    private Long userId; // 新增：用戶 ID 欄位
 
-    @Column(length = 500) 
-    private String action; // 例如："使用者登入", "專案創建" 等更詳細的描述
+    @Column(name = "username")
+    private String username;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 50) // 設定為 50 個字符長
-    private ActionType actionType; // 操作類型 (例如 LOGIN_SUCCESS, CREATE_PROJECT)
+    @Column(name = "action_type", nullable = false)
+    private ActionType actionType;
 
-    @Column(columnDefinition = "TEXT") // 儲存詳細資訊，允許較長內容
-    private String details; // 操作的具體細節 (例如 "新增了項目: ProjectX")
+    @Column(name = "action", nullable = false)
+    private String action; // 動作描述，例如 "用戶登入成功", "創建專案"
 
-    @Column(nullable = false)
-    private LocalDateTime timestamp; // 操作發生的時間
+    @Column(name = "details", columnDefinition = "TEXT")
+    private String details; // 詳細資訊，例如 "用戶: testuser", "專案: ProjectX"
 
-    private String ipAddress; // 操作者的 IP 地址
+    @Column(name = "ip_address", length = 45)
+    private String ipAddress;
 
-    // 無參數建構子 (JPA 需要)
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp; // 確保類型正確
+
+    // ⭐ 關鍵修正：擴展 ActionType 枚舉 ⭐
+    public enum ActionType {
+        login_success,
+        login_failure,
+        register_success,
+        register_failure,
+        logout,
+        project_create,
+        project_update,
+        project_delete,
+        todo_create, // 保持為 todo_create
+        todo_update, // 保持為 todo_update
+        todo_delete, // 保持為 todo_delete
+        todo_view, // ⭐ 新增：用於查看待辦事項 ⭐
+        stakeholder_create,
+        stakeholder_update,
+        stakeholder_delete,
+        stakeholder_add_to_project,
+        stakeholder_remove_from_project,
+        user_role_update, // ⭐ 新增：用於更新用戶角色 ⭐
+        user_view_all, // ⭐ 新增：用於查看所有用戶列表 ⭐
+        api_access, // 一般 API 訪問
+        admin_action, // 管理員操作，例如刪除日誌
+        error // 應用程式錯誤
+    }
+
+    // Constructors
     public UserActivity() {
+        this.timestamp = LocalDateTime.now();
     }
 
-    // 常用建構子
-    public UserActivity(String username, String action, ActionType actionType, String details, String ipAddress) {
-        this.username = username;
-        this.action = action;
-        this.actionType = actionType;
-        this.details = details;
-        this.timestamp = LocalDateTime.now(); // 自動設定當前時間
-        this.ipAddress = ipAddress;
-    }
-
-    // --- Getters and Setters ---
+    // Getters and Setters (保持不變，已在上次修正中添加 userId 的 getter/setter)
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -77,21 +89,20 @@ public class UserActivity {
         this.username = username;
     }
 
+    public ActionType getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(ActionType actionType) {
+        this.actionType = actionType;
+    }
+
     public String getAction() {
         return action;
     }
 
     public void setAction(String action) {
         this.action = action;
-    }
-
-    // setActionType 方法現在期望接收 UserActivity.ActionType 類型
-    public ActionType getActionType() {
-        return actionType;
-    }
-
-    public void setActionType(ActionType actionType) { // <-- 參數類型是內部 ActionType
-        this.actionType = actionType;
     }
 
     public String getDetails() {
@@ -102,14 +113,6 @@ public class UserActivity {
         this.details = details;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public String getIpAddress() {
         return ipAddress;
     }
@@ -118,35 +121,11 @@ public class UserActivity {
         this.ipAddress = ipAddress;
     }
 
-    // --- ActionType Enum ---
-    public enum ActionType {
-    	
-    	user_management,
-        login_success,
-        login_failed,
-        logout,
-        register,
-        create_reoject,
-        update_project,
-        delete_project,
-        view_all_projects,
-		create_stakeholder,
-		update_stakeholder,
-		delete_stakeholder,
-		view_stakeholders,
-		create_todo_item,
-		update_todo_item,
-		delete_todo_item,
-		view_todo_items,
-		api_access,
-		user_profile_update,
-		password_change,
-		create_project_item,
-		update_project_item,
-		delete_project_item,
-		todo_item_management,
-		project_management,
-		error
-     
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }

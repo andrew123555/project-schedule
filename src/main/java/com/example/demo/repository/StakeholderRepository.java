@@ -1,15 +1,14 @@
 package com.example.demo.repository;
 
-// src/main/java/com/example/demo/repository/StakeholderRepository.java
-
 import com.example.demo.model.entity.Stakeholder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
+// No specific findByProjectId or findByProjectIdAndUserId methods here
+// as the primary way to get stakeholders for a project will be through the Project entity
+// or by using @Query if direct repository access is needed for complex queries.
 @Repository
 public interface StakeholderRepository extends JpaRepository<Stakeholder, Long> {
-    // 根據關聯的 Project ID 查找所有 Stakeholder
-    List<Stakeholder> findByProjectId(Long projectId); // 這個方法名很重要，JPA 會自動解析
+    // You can add custom query methods here if needed, e.g.,
+    // List<Stakeholder> findByUserId(Long userId); // If you want to find stakeholders by their creator
 }

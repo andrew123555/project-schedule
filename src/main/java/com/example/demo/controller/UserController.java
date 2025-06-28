@@ -7,21 +7,23 @@ import com.example.demo.payload.UserRoleUpdateRequest;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.response.UserInfoResponse;
-import com.example.demo.service.UserActivityService; 
+import com.example.demo.service.UserActivityService;
+import com.example.demo.service.UserDetailsImpl;
+import com.example.demo.model.entity.UserActivity.ActionType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import jakarta.validation.Valid;
 import java.util.HashSet;
 import java.util.Optional;
-import org.springframework.security.core.Authentication; 
-import org.springframework.security.core.context.SecurityContextHolder; 
-import com.example.demo.service.UserDetailsImpl; 
-import com.example.demo.model.entity.UserActivity; 
 
 @CrossOrigin(origins = "http://localhost:5173", maxAge = 3600)
 @RestController
@@ -37,38 +39,30 @@ public class UserController {
     @Autowired
     UserActivityService userActivityService;
 
-    protected String getCurrentUsername() { 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && !(authentication.getPrincipal() instanceof String)) {
-            if (authentication.getPrincipal() instanceof UserDetailsImpl) {
-                UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-                return userDetails.getUsername();
-            }
-            return authentication.getName(); 
-        }
-        return "anonymousUser"; 
-    }
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/users")
-    public ResponseEntity<List<UserInfoResponse>> getAllUsers() {
-        // 使用 findAllWithRoles() 來預先加載角色，這應該會獲取所有用戶
-        List<User> users = userRepository.findAllWithRoles(); 
+    public ResponseEntity<List<UserInfoResponse>> getAllUsers(HttpServletRequest request) {
+        List<User> users = userRepository.findAllWithRoles();
         List<UserInfoResponse> userDTOs = users.stream().map(user -> {
             List<String> roles = user.getRoles().stream()
-                                     .map(role -> role.getName().name())
-                                     .collect(Collectors.toList());
+                                         .map(role -> role.getName().name())
+                                         .collect(Collectors.toList());
             return new UserInfoResponse(user.getId(), user.getUsername(), user.getEmail(), roles, null);
         }).collect(Collectors.toList());
 
-        userActivityService.logUserActivity(getCurrentUsername(), "查看了所有用戶列表", UserActivity.ActionType.api_access); 
+        // ⭐ 修正點：使用 ActionType.user_view_all ⭐
+        userActivityService.recordActivity(ActionType.user_view_all,
+                                           "查看所有用戶", // actionDescription
+                                           "查看了所有用戶列表 (共 " + users.size() + " 個用戶)", // details
+                                           request.getRemoteAddr());
         return ResponseEntity.ok(userDTOs);
     }
 
     @PutMapping("/users/{id}/roles")
-    @PreAuthorize("isAuthenticated()") 
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateUserRoles(@PathVariable("id") Long id,
-                                             @Valid @RequestBody UserRoleUpdateRequest roleUpdateRequest) {
+                                             @Valid @RequestBody UserRoleUpdateRequest roleUpdateRequest,
+                                             HttpServletRequest request) {
         Optional<User> userData = userRepository.findById(id);
 
         if (userData.isPresent()) {
@@ -82,9 +76,9 @@ public class UserController {
                 roles.add(userRole);
             } else {
                 strRoles.forEach(roleStr -> {
-                    String normalizedRoleStr = roleStr.replace("ROLE_", "").toLowerCase(); 
+                    String normalizedRoleStr = roleStr.replace("ROLE_", "").toLowerCase();
                     
-                    switch (normalizedRoleStr) { 
+                    switch (normalizedRoleStr) {
                         case "admin":
                             Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                     .orElseThrow(() -> new RuntimeException("Error: Admin Role is not found."));
@@ -108,10 +102,12 @@ public class UserController {
             user.setRoles(roles);
             User updatedUser = userRepository.save(user);
 
-            userActivityService.logUserActivity(updatedUser.getUsername(), 
-                                               "更新了用戶 " + updatedUser.getUsername() + " 的角色為 " + 
-                                               updatedUser.getRoles().stream().map(r -> r.getName().name()).collect(Collectors.joining(", ")), 
-                                               UserActivity.ActionType.user_management);
+            // ⭐ 修正點：使用 ActionType.user_role_update ⭐
+            String newRoles = updatedUser.getRoles().stream().map(r -> r.getName().name()).collect(Collectors.joining(", "));
+            userActivityService.recordActivity(ActionType.user_role_update,
+                                               "更新用戶角色", // actionDescription
+                                               "用戶: " + updatedUser.getUsername() + ", 新角色: " + newRoles, // details
+                                               request.getRemoteAddr());
 
             List<String> updatedRoleNames = updatedUser.getRoles().stream()
                     .map(role -> role.getName().name())
@@ -122,31 +118,48 @@ public class UserController {
                     updatedUser.getUsername(),
                     updatedUser.getEmail(),
                     updatedRoleNames,
-                    null 
+                    null
             ));
 
         } else {
+            // ⭐ 修正點：recordActivity 呼叫現在匹配新的四參數簽名 ⭐
+            userActivityService.recordActivity(ActionType.error,
+                                               "更新用戶角色失敗", // actionDescription
+                                               "未找到用戶 ID: " + id, // details
+                                               request.getRemoteAddr());
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/test/all")
-    public String allAccess() {
-        userActivityService.logUserActivity(getCurrentUsername(), "執行了操作: allAccess", UserActivity.ActionType.api_access);
+    public String allAccess(HttpServletRequest request) {
+        // ⭐ 修正點：recordActivity 呼叫現在匹配新的四參數簽名 ⭐
+        userActivityService.recordActivity(ActionType.api_access,
+                                           "執行公共訪問測試", // actionDescription
+                                           "訪問了 /test/all 端點", // details
+                                           request.getRemoteAddr());
         return "Public Content.";
     }
 
     @GetMapping("/test/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public String userAccess() {
-        userActivityService.logUserActivity(getCurrentUsername(), "執行了操作: userAccess", UserActivity.ActionType.api_access);
+    public String userAccess(HttpServletRequest request) {
+        // ⭐ 修正點：recordActivity 呼叫現在匹配新的四參數簽名 ⭐
+        userActivityService.recordActivity(ActionType.api_access,
+                                           "執行用戶訪問測試", // actionDescription
+                                           "訪問了 /test/user 端點", // details
+                                           request.getRemoteAddr());
         return "User Content.";
     }
 
     @GetMapping("/test/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public String adminAccess() {
-        userActivityService.logUserActivity(getCurrentUsername(), "執行了操作: adminAccess", UserActivity.ActionType.api_access);
+    public String adminAccess(HttpServletRequest request) {
+        // ⭐ 修正點：recordActivity 呼叫現在匹配新的四參數簽名 ⭐
+        userActivityService.recordActivity(ActionType.api_access,
+                                           "執行管理員訪問測試", // actionDescription
+                                           "訪問了 /test/admin 端點", // details
+                                           request.getRemoteAddr());
         return "Admin Board.";
     }
 }

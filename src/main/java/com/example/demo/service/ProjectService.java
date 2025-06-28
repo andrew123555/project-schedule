@@ -2,86 +2,132 @@ package com.example.demo.service;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.entity.Project;
-import com.example.demo.model.entity.User;
+import com.example.demo.model.entity.Stakeholder;
+import com.example.demo.model.entity.User; // 導入 User 實體
+import com.example.demo.payload.ProjectRequest;
+import com.example.demo.response.ProjectResponse;
 import com.example.demo.repository.ProjectRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.StakeholderRepository;
+import com.example.demo.repository.UserRepository; // 導入 UserRepository
+import com.example.demo.service.UserDetailsImpl; // 導入 UserDetailsImpl
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service; 
+import org.springframework.security.core.Authentication; // 導入 Authentication
+import org.springframework.security.core.context.SecurityContextHolder; // 導入 SecurityContextHolder
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@Service 
-@Transactional // 確保服務層方法在事務中執行
+@Service
+@Transactional
 public class ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private StakeholderRepository stakeholderRepository;
 
-    public List<Project> getAllProjects() {
-        System.out.println("ProjectService: 正在獲取所有專案 (包含用戶信息)。");
-        return projectRepository.findAll(); 
+    @Autowired
+    private UserRepository userRepository; // ⭐ 新增：注入 UserRepository ⭐
+
+    public List<ProjectResponse> getAllProjects() {
+        List<Project> projects = projectRepository.findAll();
+        return projects.stream()
+                .map(ProjectResponse::new)
+                .collect(Collectors.toList());
     }
 
-    public List<Project> getProjectsByUserId(Long userId) {
-        return projectRepository.findByUserId(userId);
+    public ProjectResponse getProjectById(Long id) {
+        Project project = projectRepository.findById(id) 
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id " + id));
+        return new ProjectResponse(project);
     }
 
-    public Optional<Project> getProjectById(Long id) {
-        System.out.println("ProjectService: 正在嘗試從資料庫獲取專案 ID: " + id);
-        Optional<Project> projectOptional = projectRepository.findById(id);
-        
-        if (projectOptional.isPresent()) {
-            Project project = projectOptional.get();
-            System.out.println("ProjectService: 成功獲取專案物件: ID=" + project.getId() + ", Name=" + project.getName());
-            if (project.getUser() != null) {
-                System.out.println("ProjectService: 專案用戶存在，用戶名: " + project.getUser().getUsername());
-                project.getUser().getUsername(); 
-            } else {
-                System.out.println("ProjectService: 專案用戶為空。");
+    public ProjectResponse createProject(ProjectRequest projectRequest) {
+        // ⭐ 關鍵修正：獲取當前認證的用戶並設置到專案中 ⭐
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // 獲取當前登入的用戶名
+
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+
+        Project project = new Project();
+        project.setName(projectRequest.getName());
+        project.setDescription(projectRequest.getDescription());
+        project.setStatus(projectRequest.getStatus());
+        project.setUser(currentUser); // ⭐ 將當前用戶設置為專案的創建者 ⭐
+
+        if (projectRequest.getStakeholderIds() != null && !projectRequest.getStakeholderIds().isEmpty()) {
+            Set<Stakeholder> stakeholders = new HashSet<>();
+            for (Long stakeholderId : projectRequest.getStakeholderIds()) {
+                Stakeholder stakeholder = stakeholderRepository.findById(stakeholderId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Stakeholder not found with id " + stakeholderId));
+                stakeholders.add(stakeholder);
             }
-        } else {
-            System.out.println("ProjectService: 未找到 ID 為 " + id + " 的專案。返回 Optional.empty()");
+            project.setStakeholders(stakeholders);
         }
-        return projectOptional;
+
+        Project savedProject = projectRepository.save(project);
+        return new ProjectResponse(savedProject);
     }
 
-    public Project createProject(Project project, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + userId));
-        project.setUser(user);
-        project.setCreatedAt(LocalDateTime.now());
-        project.setLastModifiedAt(LocalDateTime.now());
-        return projectRepository.save(project);
-    }
+    public ProjectResponse updateProject(Long id, ProjectRequest projectRequest) {
+        Project project = projectRepository.findById(id) 
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id " + id));
 
-    public Project updateProject(Long id, Project projectDetails, Long userId) {
-        return projectRepository.findById(id).map(project -> {
-            if (!project.getUser().getId().equals(userId)) {
-                throw new ResourceNotFoundException("Project does not belong to user with id " + userId);
+        project.setName(projectRequest.getName());
+        project.setDescription(projectRequest.getDescription());
+        project.setStatus(projectRequest.getStatus());
+
+        if (projectRequest.getStakeholderIds() != null) {
+            Set<Stakeholder> newStakeholders = new HashSet<>();
+            for (Long stakeholderId : projectRequest.getStakeholderIds()) {
+                Stakeholder stakeholder = stakeholderRepository.findById(stakeholderId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Stakeholder not found with id " + stakeholderId));
+                newStakeholders.add(stakeholder);
             }
-            project.setName(projectDetails.getName());
-            project.setDescription(projectDetails.getDescription());
-            project.setLastModifiedAt(LocalDateTime.now());
-            return projectRepository.save(project);
-        }).orElseThrow(() -> new ResourceNotFoundException("Project not found with id " + id));
+            project.setStakeholders(newStakeholders);
+        } else {
+            project.setStakeholders(new HashSet<>()); 
+        }
+
+        Project updatedProject = projectRepository.save(project);
+        return new ProjectResponse(updatedProject);
     }
 
-    // ⭐ 修正點：確保 deleteProject 方法正確處理刪除，並移除不必要的返回值 ⭐
-    public void deleteProject(Long id, Long userId) {
-        projectRepository.findById(id).ifPresentOrElse(project -> { // 使用 ifPresentOrElse 更簡潔
-            if (!project.getUser().getId().equals(userId)) {
-                throw new ResourceNotFoundException("Project does not belong to user with id " + userId);
-            }
-            projectRepository.delete(project); // 執行刪除
-            System.out.println("ProjectService: 成功刪除了專案 ID: " + id); // 添加日誌
-        }, () -> {
-            throw new ResourceNotFoundException("Project not found with id " + id);
-        });
+    public void deleteProject(Long id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id " + id));
+        
+        new HashSet<>(project.getStakeholders()).forEach(stakeholder -> stakeholder.getProjects().remove(project));
+        project.getStakeholders().clear(); 
+        
+        projectRepository.delete(project);
+    }
+
+    public void addStakeholderToProject(Long projectId, Long stakeholderId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id " + projectId));
+        Stakeholder stakeholder = stakeholderRepository.findById(stakeholderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Stakeholder not found with id " + stakeholderId));
+
+        project.addStakeholder(stakeholder);
+        projectRepository.save(project);
+    }
+
+    public void removeStakeholderFromProject(Long projectId, Long stakeholderId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id " + projectId));
+        Stakeholder stakeholder = stakeholderRepository.findById(stakeholderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Stakeholder not found with id " + stakeholderId));
+
+        project.removeStakeholder(stakeholder);
+        projectRepository.save(project);
     }
 }

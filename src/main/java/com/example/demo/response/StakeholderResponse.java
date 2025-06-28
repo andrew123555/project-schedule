@@ -1,45 +1,43 @@
 package com.example.demo.response;
 
+import com.example.demo.model.entity.Stakeholder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StakeholderResponse {
     private Long id;
     private String name;
     private String email;
-    private boolean interest;        // 新增欄位
-    private boolean power;  
-    private String matrixStatus;   // 新增欄位
-    private String phone;           // 新增欄位
-    private String requirement;     // 新增欄位
-    private Long projectId;
-    private String projectName; // 顯示專案名稱
+    private String role; 
+    private String contactInfo;
+    private String phone; // ⭐ 新增 phone 欄位 ⭐
+    private String requirement; // ⭐ 新增 requirement 欄位 ⭐
+    private String power; // ⭐ 新增 power 欄位 ⭐
+    private String interest; // ⭐ 新增 interest 欄位 ⭐
+    private String matrixStatus; // ⭐ 新增 matrixStatus 欄位 ⭐
 
-    // Getters and Setters for all fields
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-    
-    
-    public boolean isInterest() { return interest; }
-    public void setInterest(boolean interest) { this.interest = interest; }
-    
-    
-    public String getMatrixStatus() { return matrixStatus; }
-    public void setMatrixStatus(String matrixStatus) { this.matrixStatus = matrixStatus; }
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-   
-    
-    public boolean isPower() { return power; }
-    public void setPower(boolean power) { this.power = power; }
-   
-    
-    public String getRequirement() { return requirement; }
-    public void setRequirement(String requirement) { this.requirement = requirement; }
+    private Long userId; // For associated User
+    private String username; // For associated User
 
-    public Long getProjectId() { return projectId; }
-    public void setProjectId(Long projectId) { this.projectId = projectId; }
-    public String getProjectName() { return projectName; }
-    public void setProjectName(String projectName) { this.projectName = projectName; }
+    public StakeholderResponse(Stakeholder stakeholder) {
+        this.id = stakeholder.getId();
+        this.name = stakeholder.getName();
+        this.email = stakeholder.getEmail();
+        this.role = stakeholder.getRole();
+        this.contactInfo = stakeholder.getContactInfo();
+        this.phone = stakeholder.getPhone(); // ⭐ 設置 phone ⭐
+        this.requirement = stakeholder.getRequirement(); // ⭐ 設置 requirement ⭐
+        this.power = stakeholder.getPower(); // ⭐ 設置 power ⭐
+        this.interest = stakeholder.getInterest(); // ⭐ 設置 interest ⭐
+        this.matrixStatus = stakeholder.getMatrixStatus(); // ⭐ 設置 matrixStatus ⭐
+
+        if (stakeholder.getUser() != null) {
+            this.userId = stakeholder.getUser().getId();
+            this.username = stakeholder.getUser().getUsername();
+        }
+    }
 }

@@ -1,15 +1,21 @@
 package com.example.demo.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data; // 使用 Lombok 自動生成 getter/setter/equals/hashCode/toString
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode; // 導入 EqualsAndHashCode
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "stakeholders") // 確保表格名稱是正確的
-@Data // Lombok: Generates getters, setters, toString, equals, and hashCode
-@NoArgsConstructor // Lombok: Generates a no-argument constructor
-@AllArgsConstructor // Lombok: Generates a constructor with all fields
+@Table(name = "stakeholders")
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor 
+// ⭐ 關鍵修正點：在 Stakeholder 實體的 @Data 註解上排除 projects 集合 ⭐
+@EqualsAndHashCode(exclude = "projects") 
 public class Stakeholder {
 
     @Id
@@ -19,21 +25,37 @@ public class Stakeholder {
     @Column(nullable = false)
     private String name;
 
-    private String phone;
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false) 
+    private String role; 
+
+    @Column(name = "contact_info", columnDefinition = "TEXT") 
+    private String contactInfo;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "requirement", columnDefinition = "TEXT")
     private String requirement;
-    private boolean power;
-    private boolean interest;
 
-    @Column(name = "matrix_status") // 如果資料庫欄位名不同，請指定
-    private String matrixStatus; // 使用 camelCase 與 Java 命名習慣一致
+    @Column(name = "power")
+    private String power; 
 
-    @Column(name = "project_id", nullable = false)
-    private Long projectId; // 用於關聯專案
+    @Column(name = "interest")
+    private String interest; 
 
-    // 如果沒有使用 Lombok，你需要手動添加 getter/setter 和 constructors
-    // 例如:
-    // public Long getId() { return id; }
-    // public void setId(Long id) { this.id = id; }
-    // ...
+    @Column(name = "matrix_status")
+    private String matrixStatus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToMany(mappedBy = "stakeholders", fetch = FetchType.LAZY)
+    private Set<Project> projects = new HashSet<>();
+
+    // Lombok 的 @Data 會自動生成 getter/setter。
+    // 如果沒有 Lombok，需要手動添加所有 getter/setter。
 }

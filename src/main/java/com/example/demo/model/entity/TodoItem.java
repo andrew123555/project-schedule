@@ -1,6 +1,8 @@
 package com.example.demo.model.entity;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,45 +13,43 @@ public class TodoItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    @Column(name = "title", nullable = false)
+    private String title; // 確保有這個字段
 
-    private String type;
-
-    private String description;
+    @Column(name = "description")
+    private String description; // 確保有這個字段
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private Status status;
 
-    private Integer priority;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority")
+    private Priority priority;
 
-    private LocalDateTime dueDate;
+    @Column(name = "due_date")
+    private LocalDate dueDate;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime lastModifiedAt;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // <-- 如果是 LAZY，則需要以下 Repository 修正
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    // ⭐ 新增欄位：部門 (Department) ⭐
-    @Column(length = 100) // 設定長度，例如 100
-    private String department;
-
-    // ⭐ 新增欄位：負責人 (Assignee) - 與 User 實體的關聯 ⭐
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assignee_id") // 外鍵指向 users 表的 id 欄位
-    private User assignee;
+    @JoinColumn(name = "assigned_to_user_id") // 假設您有這個字段來關聯用戶
+    private User assignedTo;
 
-    // 枚舉定義 (如果沒有，請從其他地方複製過來)
-    public enum Status {
-        PENDING,
-        IN_PROGRESS,
-        COMPLETED,
-        CANCELLED
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    // 構造函數 (如果需要，可以添加無參構造函數和全參構造函數)
+    public TodoItem() {
     }
 
-    // Getters and Setters
+    // --- Getter 和 Setter 方法 ---
+
     public Long getId() {
         return id;
     }
@@ -58,27 +58,19 @@ public class TodoItem {
         this.id = id;
     }
 
-    public String getTitle() {
+    public String getTitle() { // 確保有 getter
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title) { // ⭐ 關鍵修正：添加 setTitle 方法 ⭐
         this.title = title;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
+    public String getDescription() { // 確保有 getter
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description) { // ⭐ 關鍵修正：添加 setDescription 方法 ⭐
         this.description = description;
     }
 
@@ -90,36 +82,20 @@ public class TodoItem {
         this.status = status;
     }
 
-    public Integer getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(Integer priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
-    public LocalDateTime getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getLastModifiedAt() {
-        return lastModifiedAt;
-    }
-
-    public void setLastModifiedAt(LocalDateTime lastModifiedAt) {
-        this.lastModifiedAt = lastModifiedAt;
     }
 
     public Project getProject() {
@@ -130,21 +106,41 @@ public class TodoItem {
         this.project = project;
     }
 
-    // ⭐ 新增 Department 的 Getter 和 Setter ⭐
-    public String getDepartment() {
-        return department;
+    public User getAssignedTo() {
+        return assignedTo;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setAssignedTo(User assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
-    // ⭐ 新增 Assignee 的 Getter 和 Setter ⭐
-    public User getAssignee() {
-        return assignee;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setAssignee(User assignee) {
-        this.assignee = assignee;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // 枚舉定義
+    public enum Status {
+        PENDING,
+        IN_PROGRESS,
+        COMPLETED,
+        CANCELLED
+    }
+
+    public enum Priority {
+        LOW,
+        MEDIUM,
+        HIGH
     }
 }

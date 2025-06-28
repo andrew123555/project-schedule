@@ -5,13 +5,13 @@ import jakarta.validation.constraints.Size;
 
 public class ResetPasswordRequest {
     @NotBlank
-    private String token; // 從 URL 中獲取的 Token
+    private String token;
 
     @NotBlank
-    @Size(min = 6, max = 40, message = "密碼長度必須在 6 到 40 個字符之間")
+    @Size(min = 6, max = 40)
     private String newPassword;
 
-    @NotBlank
+    @NotBlank // ⭐ 新增：確認密碼字段 ⭐
     private String confirmPassword;
 
     public String getToken() {
@@ -26,10 +26,12 @@ public class ResetPasswordRequest {
         return newPassword;
     }
 
-    public void setNewPassword(String newPassword) {
+    // ⭐ 修正：將 voidNewPassword 改為 setNewPassword ⭐
+    public void setNewPassword(String newPassword) { 
         this.newPassword = newPassword;
     }
 
+    // ⭐ 新增：confirmPassword 的 getter 和 setter ⭐
     public String getConfirmPassword() {
         return confirmPassword;
     }

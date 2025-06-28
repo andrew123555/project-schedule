@@ -1,51 +1,40 @@
 package com.example.demo.payload;
 
+import com.example.demo.model.entity.TodoItem; // 確保導入 TodoItem 以使用其枚舉
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TodoItemRequest {
 
-    @NotBlank(message = "標題不能為空")
-    @Size(max = 255, message = "標題長度不能超過 255 個字符")
+    @NotBlank
     private String title;
-
-    private String type;
 
     private String description;
 
-    @NotBlank(message = "狀態不能為空")
-    private String status; // 使用 String 類型，後端再轉換為枚舉
+    @NotBlank // 確保狀態也不是空的
+    private String status; // ⭐ 關鍵修正：將類型改回 String ⭐
 
-    @NotNull(message = "優先級不能為空")
-    private Integer priority;
+    @NotBlank // 確保優先級也不是空的
+    private String priority; // ⭐ 關鍵修正：將類型改回 String ⭐
 
-    @NotNull(message = "到期日不能為空")
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
-    // ⭐ 新增欄位：部門 ⭐
-    @Size(max = 100, message = "部門長度不能超過 100 個字符")
-    private String department;
+    @NotNull
+    private Long projectId;
 
-    // ⭐ 新增欄位：負責人 ID ⭐
-    private Long assigneeId; // 負責人的用戶 ID
+    // 負責人 ID，如果存在
+    private AssignedToRequest assignedTo;
 
-    // Getters and Setters
+    // Getter 和 Setter 方法
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getDescription() {
@@ -56,45 +45,56 @@ public class TodoItemRequest {
         this.description = description;
     }
 
-    public String getStatus() {
+    public String getStatus() { // ⭐ 這裡返回 String ⭐
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(String status) { // ⭐ 這裡接收 String ⭐
         this.status = status;
     }
 
-    public Integer getPriority() {
+    public String getPriority() { // ⭐ 這裡返回 String ⭐
         return priority;
     }
 
-    public void setPriority(Integer priority) {
+    public void setPriority(String priority) { // ⭐ 這裡接收 String ⭐
         this.priority = priority;
     }
 
-    public LocalDateTime getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
-    // ⭐ 新增 Department 的 Getter 和 Setter ⭐
-    public String getDepartment() {
-        return department;
+    public Long getProjectId() {
+        return projectId;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
-    // ⭐ 新增 AssigneeId 的 Getter 和 Setter ⭐
-    public Long getAssigneeId() {
-        return assigneeId;
+    public AssignedToRequest getAssignedTo() {
+        return assignedTo;
     }
 
-    public void setAssigneeId(Long assigneeId) {
-        this.assigneeId = assigneeId;
+    public void setAssignedTo(AssignedToRequest assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
+    // 內部類，用於處理 assignedTo
+    public static class AssignedToRequest {
+        private Long id;
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
     }
 }

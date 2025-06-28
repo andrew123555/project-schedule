@@ -1,89 +1,135 @@
 package com.example.demo.controller;
 
-import com.example.demo.payload.StakeholderRequest;
+import com.example.demo.model.entity.Stakeholder;
+import com.example.demo.model.entity.UserActivity;
+import com.example.demo.payload.StakeholderRequest; 
+import com.example.demo.response.MessageResponse;
 import com.example.demo.response.StakeholderResponse;
 import com.example.demo.service.StakeholderService;
+import com.example.demo.service.UserActivityService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173", maxAge = 3600)
 @RestController
-// ⭐ 調整基礎路徑以包含 projectId ⭐
-@RequestMapping("/project/{projectId}/stakeholders")
+@CrossOrigin(origins = "http://localhost:5173", maxAge = 3600)
+@RequestMapping("/project/{projectId}/stakeholders") 
 public class StakeholderController {
 
     @Autowired
     private StakeholderService stakeholderService;
 
-    // POST /projects/{projectId}/stakeholders
-    // 新增利害關係人到指定專案
-    @PostMapping
-    public ResponseEntity<StakeholderResponse> createStakeholder(
-            @PathVariable Long projectId, // 從路徑中獲取 projectId
-            @RequestBody StakeholderRequest stakeholderRequest) {
-        // 確保 DTO 中的 projectId 與路徑中的 projectId 一致 (可選，但建議)
-        if (!stakeholderRequest.getProjectId().equals(projectId)) {
-            // 或者拋出一個自定義異常，指示請求數據不一致
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        StakeholderResponse newStakeholder = stakeholderService.createStakeholder(stakeholderRequest);
-        return new ResponseEntity<>(newStakeholder, HttpStatus.CREATED);
-    }
+    @Autowired
+    private UserActivityService userActivityService;
 
-    // GET /projects/{projectId}/stakeholders
-    // 獲取指定專案的所有利害關係人
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") // 重新啟用
     public ResponseEntity<List<StakeholderResponse>> getStakeholdersByProjectId(
-            @PathVariable Long projectId) {
-        // ⭐ 不需要額外的 /project/{projectId} 了，因為基礎路徑已經包含了 ⭐
+            @PathVariable Long projectId, 
+            HttpServletRequest request) {
+        userActivityService.recordActivity(
+            UserActivity.ActionType.api_access,
+            "查看專案下的利害關係人",
+            "查看了專案 ID: " + projectId + " 的利害關係人列表",
+            request.getRemoteAddr()
+        );
         List<StakeholderResponse> stakeholders = stakeholderService.getStakeholdersByProjectId(projectId);
         return ResponseEntity.ok(stakeholders);
     }
 
-    // GET /projects/{projectId}/stakeholders/{id}
-    // 獲取指定專案中特定 ID 的利害關係人
-    @GetMapping("/{id}")
+    @GetMapping("/{stakeholderId}") 
+    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") // 重新啟用
     public ResponseEntity<StakeholderResponse> getStakeholderById(
-            @PathVariable Long projectId, // 確保路徑中包含 projectId
-            @PathVariable Long id) {
-        // 這裡可以選擇性地添加邏輯，驗證該 stakeholder 是否真的屬於此 projectId
-        // StakeholderResponse stakeholder = stakeholderService.getStakeholderByIdAndProjectId(id, projectId);
-        // 但目前先沿用現有的，它會根據 ID 查找，然後在服務層處理邏輯
-        StakeholderResponse stakeholder = stakeholderService.getStakeholderById(id);
-        // 如果需要進一步驗證，可以在服務層或這裡添加：
-        // if (!stakeholder.getProjectId().equals(projectId)) {
-        //     throw new ResourceNotFoundException("Stakeholder not found in this project");
-        // }
-        return ResponseEntity.ok(stakeholder);
+            @PathVariable Long projectId, 
+            @PathVariable Long stakeholderId, 
+            HttpServletRequest request) {
+        userActivityService.recordActivity(
+            UserActivity.ActionType.api_access,
+            "查看單個利害關係人",
+            "查看了專案 ID: " + projectId + " 下的利害關係人 ID: " + stakeholderId,
+            request.getRemoteAddr()
+        );
+        return stakeholderService.getStakeholderById(projectId, stakeholderId) 
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // PUT /projects/{projectId}/stakeholders/{id}
-    // 更新指定專案中特定 ID 的利害關係人
-    @PutMapping("/{id}")
+    @PostMapping("/user/{userId}") 
+    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") // 重新啟用
+    public ResponseEntity<StakeholderResponse> createStakeholder(
+            @PathVariable Long projectId, 
+            @PathVariable Long userId,
+            @Valid @RequestBody StakeholderRequest stakeholderRequest, 
+            HttpServletRequest request) {
+        
+        Stakeholder newStakeholder = new Stakeholder();
+        newStakeholder.setName(stakeholderRequest.getName());
+        newStakeholder.setEmail(stakeholderRequest.getEmail());
+        newStakeholder.setPhone(stakeholderRequest.getPhone());
+        newStakeholder.setRequirement(stakeholderRequest.getRequirement());
+        newStakeholder.setPower(stakeholderRequest.getPower());
+        newStakeholder.setInterest(stakeholderRequest.getInterest());
+        newStakeholder.setMatrixStatus(stakeholderRequest.getMatrixStatus());
+        newStakeholder.setRole(stakeholderRequest.getRole()); 
+
+        StakeholderResponse createdStakeholder = stakeholderService.createStakeholder(projectId, newStakeholder, userId);
+        userActivityService.recordActivity(
+            UserActivity.ActionType.stakeholder_create,
+            "創建利害關係人",
+            "創建了利害關係人: " + createdStakeholder.getName() + " 並關聯到專案 ID: " + projectId,
+            request.getRemoteAddr()
+        );
+        return new ResponseEntity<>(createdStakeholder, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{stakeholderId}") 
+    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") // 重新啟用
     public ResponseEntity<StakeholderResponse> updateStakeholder(
-            @PathVariable Long projectId, // 確保路徑中包含 projectId
-            @PathVariable Long id,
-            @RequestBody StakeholderRequest stakeholderRequest) {
-        // 確保 DTO 中的 projectId 與路徑中的 projectId 一致 (可選，但建議)
-        if (!stakeholderRequest.getProjectId().equals(projectId)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        StakeholderResponse updatedStakeholder = stakeholderService.updateStakeholder(id, stakeholderRequest);
+            @PathVariable Long projectId, 
+            @PathVariable Long stakeholderId, 
+            @Valid @RequestBody StakeholderRequest stakeholderRequest, 
+            HttpServletRequest request) {
+        
+        Stakeholder updatedStakeholderDetails = new Stakeholder();
+        updatedStakeholderDetails.setName(stakeholderRequest.getName());
+        updatedStakeholderDetails.setEmail(stakeholderRequest.getEmail());
+        updatedStakeholderDetails.setPhone(stakeholderRequest.getPhone());
+        updatedStakeholderDetails.setRequirement(stakeholderRequest.getRequirement());
+        updatedStakeholderDetails.setPower(stakeholderRequest.getPower());
+        updatedStakeholderDetails.setInterest(stakeholderRequest.getInterest());
+        updatedStakeholderDetails.setMatrixStatus(stakeholderRequest.getMatrixStatus());
+        updatedStakeholderDetails.setRole(stakeholderRequest.getRole()); 
+
+        StakeholderResponse updatedStakeholder = stakeholderService.updateStakeholder(stakeholderId, updatedStakeholderDetails);
+        userActivityService.recordActivity(
+            UserActivity.ActionType.stakeholder_update,
+            "更新利害關係人",
+            "更新了專案 ID: " + projectId + " 下的利害關係人 ID: " + stakeholderId + " (名稱: " + updatedStakeholder.getName() + ")",
+            request.getRemoteAddr()
+        );
         return ResponseEntity.ok(updatedStakeholder);
     }
 
-    // DELETE /projects/{projectId}/stakeholders/{id}
-    // 刪除指定專案中特定 ID 的利害關係人
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStakeholder(
-            @PathVariable Long projectId, // 確保路徑中包含 projectId
-            @PathVariable Long id) {
-        // 這裡同樣可以選擇性地添加邏輯，驗證該 stakeholder 是否真的屬於此 projectId
-        stakeholderService.deleteStakeholder(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{stakeholderId}") 
+    @PreAuthorize("hasAnyRole('ADMIN')") // 重新啟用
+    public ResponseEntity<MessageResponse> deleteStakeholder(
+            @PathVariable Long projectId, 
+            @PathVariable Long stakeholderId, 
+            HttpServletRequest request) {
+        
+        stakeholderService.deleteStakeholder(stakeholderId); 
+        userActivityService.recordActivity(
+            UserActivity.ActionType.stakeholder_delete,
+            "刪除利害關係人",
+            "刪除了專案 ID: " + projectId + " 下的利害關係人 ID: " + stakeholderId,
+            request.getRemoteAddr()
+        );
+        return ResponseEntity.ok(new MessageResponse("利害關係人刪除成功！"));
     }
 }
