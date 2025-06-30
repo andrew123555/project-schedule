@@ -29,7 +29,7 @@ public class StakeholderController {
     private UserActivityService userActivityService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") // 重新啟用
+    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") 
     public ResponseEntity<List<StakeholderResponse>> getStakeholdersByProjectId(
             @PathVariable Long projectId, 
             HttpServletRequest request) {
@@ -44,7 +44,7 @@ public class StakeholderController {
     }
 
     @GetMapping("/{stakeholderId}") 
-    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") // 重新啟用
+    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") 
     public ResponseEntity<StakeholderResponse> getStakeholderById(
             @PathVariable Long projectId, 
             @PathVariable Long stakeholderId, 
@@ -61,7 +61,7 @@ public class StakeholderController {
     }
 
     @PostMapping("/user/{userId}") 
-    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") // 重新啟用
+    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") 
     public ResponseEntity<StakeholderResponse> createStakeholder(
             @PathVariable Long projectId, 
             @PathVariable Long userId,
@@ -89,7 +89,7 @@ public class StakeholderController {
     }
 
     @PutMapping("/{stakeholderId}") 
-    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") // 重新啟用
+    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')") 
     public ResponseEntity<StakeholderResponse> updateStakeholder(
             @PathVariable Long projectId, 
             @PathVariable Long stakeholderId, 
@@ -117,7 +117,7 @@ public class StakeholderController {
     }
 
     @DeleteMapping("/{stakeholderId}") 
-    @PreAuthorize("hasAnyRole('ADMIN')") // 重新啟用
+    @PreAuthorize("hasAnyRole('ADMIN')") 
     public ResponseEntity<MessageResponse> deleteStakeholder(
             @PathVariable Long projectId, 
             @PathVariable Long stakeholderId, 

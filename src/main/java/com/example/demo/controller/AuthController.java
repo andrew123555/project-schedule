@@ -43,7 +43,8 @@ public class AuthController {
             );
             return ResponseEntity.ok(jwtResponse);
         } catch (Exception e) {
-            userActivityService.recordActivity(
+        	e.printStackTrace();
+        	userActivityService.recordActivity(
                 UserActivity.ActionType.login_failure, 
                 "用戶登入失敗", 
                 "用戶: " + loginRequest.getUsername() + ", 錯誤: " + e.getMessage(), 
@@ -110,22 +111,18 @@ public class AuthController {
         }
     }
     
-    // ⭐ 關鍵修正：調用 AuthService 中的業務邏輯 ⭐
     @PostMapping("/forgot-password")
     public ResponseEntity<?> requestPasswordReset(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
         try {
             authService.requestPasswordReset(forgotPasswordRequest.getEmail());
             return ResponseEntity.ok(new MessageResponse("密碼重設連結已發送到您的電子郵件。請檢查您的收件箱。"));
         } catch (ResourceNotFoundException e) {
-            // 如果找不到用戶，返回 404 Not Found
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse(e.getMessage()));
         } catch (Exception e) {
-            // 處理其他意外錯誤
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("請求密碼重設時發生錯誤: " + e.getMessage()));
         }
     }
 
-    // ⭐ 關鍵修正：調用 AuthService 中的業務邏輯 ⭐
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
         try {

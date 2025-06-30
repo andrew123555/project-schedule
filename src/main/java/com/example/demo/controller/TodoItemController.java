@@ -35,18 +35,17 @@ public class TodoItemController {
     private TodoItemService todoItemService;
 
     @Autowired
-    private UserActivityService userActivityService; // 使用您原有的服務
+    private UserActivityService userActivityService; 
 
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/assignees")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") // 添加權限控制
-    @Transactional(readOnly = true) // ⭐ 新增：確保事務開放以加載用戶角色等懶加載屬性 ⭐
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") 
+    @Transactional(readOnly = true) 
     public ResponseEntity<List<UserInfoResponse>> getAllUsersForAssignee(HttpServletRequest request) {
         List<User> users = userRepository.findAll();
         List<UserInfoResponse> userDTOs = users.stream().map(user -> {
-            // 這裡假設 UserInfoResponse 構造函數可以處理 User 實體
             return new UserInfoResponse(user.getId(), user.getUsername(), user.getEmail(), null, null);
         }).collect(Collectors.toList());
         userActivityService.recordActivity(ActionType.api_access,
@@ -57,8 +56,8 @@ public class TodoItemController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") // 添加權限控制
-    @Transactional(readOnly = true) // ⭐ 關鍵修正：添加事務註解 ⭐
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") 
+    @Transactional(readOnly = true) 
     public ResponseEntity<Page<TodoItemResponse>> getAllTodoItems(
             @PathVariable Long projectId,
             @RequestParam(defaultValue = "0") int page,
@@ -69,10 +68,7 @@ public class TodoItemController {
         Sort sorting = Sort.by(Sort.Direction.fromString(sort[1]), sort[0]);
         Pageable pageable = PageRequest.of(page, size, sorting);
 
-        // todoItemService.getTodoItemsByProjectId 應該會返回包含 Project 和 AssignedTo 的 TodoItem 實體
         Page<TodoItem> todoItemsPage = todoItemService.getTodoItemsByProjectId(projectId, pageable);
-        
-        // 在這裡，由於 @Transactional，todoItemsPage 中的每個 TodoItem 的 project 和 assignedTo 都應該被加載
         Page<TodoItemResponse> responsesPage = todoItemsPage.map(TodoItemResponse::new);
 
         userActivityService.recordActivity(ActionType.todo_view,
@@ -83,12 +79,11 @@ public class TodoItemController {
     }
 
     @GetMapping("/{todoItemId}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") // 添加權限控制
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") 
     @Transactional(readOnly = true) // ⭐ 關鍵修正：添加事務註解 ⭐
     public ResponseEntity<TodoItemResponse> getTodoItemById(@PathVariable Long projectId, @PathVariable Long todoItemId, HttpServletRequest request) {
         TodoItem todoItem = todoItemService.getTodoItemById(todoItemId)
                 .orElseThrow(() -> new RuntimeException("TodoItem not found with id " + todoItemId));
-        // 確保此處的 todoItem.getProject() 和 todoItem.getAssignedTo() 在事務中被訪問
         userActivityService.recordActivity(ActionType.todo_view,
                                            "查看單個待辦事項",
                                            "專案 ID: " + projectId + ", 待辦事項 ID: " + todoItemId,
@@ -97,8 +92,8 @@ public class TodoItemController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") // 添加權限控制
-    @Transactional // ⭐ 關鍵修正：添加事務註解 ⭐
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") 
+    @Transactional 
     public ResponseEntity<TodoItemResponse> createTodoItem(@PathVariable Long projectId, @Valid @RequestBody TodoItemRequest todoItemRequest, HttpServletRequest request) {
         TodoItem newTodoItem = todoItemService.createTodoItem(projectId, todoItemRequest);
         userActivityService.recordActivity(ActionType.todo_create,
@@ -109,21 +104,20 @@ public class TodoItemController {
     }
 
     @PutMapping("/{todoItemId}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") // 添加權限控制
-    @Transactional // ⭐ 關鍵修正：添加事務註解 ⭐
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')") 
+    @Transactional 
     public ResponseEntity<TodoItemResponse> updateTodoItem(@PathVariable Long projectId, @PathVariable Long todoItemId, @Valid @RequestBody TodoItemRequest todoItemRequest, HttpServletRequest request) {
         TodoItem updatedTodoItem = todoItemService.updateTodoItem(projectId, todoItemId, todoItemRequest);
         userActivityService.recordActivity(ActionType.todo_update,
                                            "更新待辦事項",
                                            "專案 ID: " + projectId + ", 待辦事項名稱: " + updatedTodoItem.getTitle(),
                                            request.getRemoteAddr());
-        // 在這裡，由於 @Transactional，updatedTodoItem 的 project 和 assignedTo 都應該被加載
         return ResponseEntity.ok(new TodoItemResponse(updatedTodoItem));
     }
 
     @DeleteMapping("/{todoItemId}")
-    @PreAuthorize("hasRole('ADMIN')") // 添加權限控制
-    @Transactional // ⭐ 關鍵修正：添加事務註解 ⭐
+    @PreAuthorize("hasRole('ADMIN')") 
+    @Transactional 
     public ResponseEntity<HttpStatus> deleteTodoItem(@PathVariable Long projectId, @PathVariable Long todoItemId, HttpServletRequest request) {
         try {
             todoItemService.deleteTodoItem(projectId, todoItemId);

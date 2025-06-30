@@ -12,27 +12,23 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice // 讓這個類別能夠處理所有控制器的例外
+@ControllerAdvice 
 public class GlobalExceptionHandler {
 
-    // 處理 AccessDeniedException
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Map<String, Object>> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", new Date());
         body.put("status", HttpStatus.FORBIDDEN.value());
         body.put("error", "Forbidden");
-        body.put("message", "您沒有足夠的權限執行此操作。所需權限：MODERATOR 或 ADMIN。"); // 這裡明確指出所需權限
-        body.put("path", request.getDescription(false).replace("uri=", "")); // 獲取請求的路徑
+        body.put("message", "您沒有足夠的權限執行此操作。所需權限：MODERATOR 或 ADMIN。"); 
+        body.put("path", request.getDescription(false).replace("uri=", "")); 
 
-        // 也可以記錄到日誌中
         System.err.println("Access Denied: " + ex.getMessage() + " for path: " + request.getDescription(false));
 
-        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN); // 返回 403 Forbidden
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN); 
     }
 
-    // 您可能已經有處理 ResourceNotFoundException 的方法，如果沒有，也可以在這裡添加
-    // 假設您的 ResourceNotFoundException 在 com.example.demo.exception 套件下
     @ExceptionHandler(com.example.demo.exception.ResourceNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleResourceNotFoundException(
             com.example.demo.exception.ResourceNotFoundException ex, WebRequest request) {

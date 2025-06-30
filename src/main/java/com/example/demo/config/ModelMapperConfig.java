@@ -4,10 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration // 這個註解告訴 Spring 這個類包含 Bean 定義
+@Configuration 
 public class ModelMapperConfig {
 
-    @Bean // 這個註解告訴 Spring 創建並管理一個 ModelMapper 的實例
+    @Bean 
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }

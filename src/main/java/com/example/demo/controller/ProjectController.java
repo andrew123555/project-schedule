@@ -92,7 +92,6 @@ public class ProjectController {
         return ResponseEntity.ok(new MessageResponse("專案刪除成功！"));
     }
 
-    // ⭐ 重新添加：新增添加利害關係人到專案的端點 ⭐
     @PostMapping("/{projectId}/add-stakeholder/{stakeholderId}")
     //@PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
     public ResponseEntity<MessageResponse> addStakeholderToProject(
@@ -109,7 +108,6 @@ public class ProjectController {
         return ResponseEntity.ok(new MessageResponse("利害關係人已成功添加到專案！"));
     }
 
-    // ⭐ 重新添加：新增從專案中移除利害關係人的端點 ⭐
     @DeleteMapping("/{projectId}/remove-stakeholder/{stakeholderId}")
     //@PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
     public ResponseEntity<MessageResponse> removeStakeholderFromProject(

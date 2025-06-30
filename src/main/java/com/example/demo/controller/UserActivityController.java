@@ -18,7 +18,7 @@ import java.time.format.DateTimeParseException;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173", maxAge = 3600)
-@RequestMapping("/activities") // ⭐ 關鍵修正：添加 /api 前綴 ⭐
+@RequestMapping("/activities") 
 public class UserActivityController {
 
     @Autowired

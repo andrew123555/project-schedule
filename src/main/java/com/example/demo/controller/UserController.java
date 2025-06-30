@@ -102,7 +102,6 @@ public class UserController {
             user.setRoles(roles);
             User updatedUser = userRepository.save(user);
 
-            // ⭐ 修正點：使用 ActionType.user_role_update ⭐
             String newRoles = updatedUser.getRoles().stream().map(r -> r.getName().name()).collect(Collectors.joining(", "));
             userActivityService.recordActivity(ActionType.user_role_update,
                                                "更新用戶角色", // actionDescription
@@ -122,10 +121,9 @@ public class UserController {
             ));
 
         } else {
-            // ⭐ 修正點：recordActivity 呼叫現在匹配新的四參數簽名 ⭐
             userActivityService.recordActivity(ActionType.error,
-                                               "更新用戶角色失敗", // actionDescription
-                                               "未找到用戶 ID: " + id, // details
+                                               "更新用戶角色失敗", 
+                                               "未找到用戶 ID: " + id, 
                                                request.getRemoteAddr());
             return ResponseEntity.notFound().build();
         }
@@ -133,9 +131,8 @@ public class UserController {
 
     @GetMapping("/test/all")
     public String allAccess(HttpServletRequest request) {
-        // ⭐ 修正點：recordActivity 呼叫現在匹配新的四參數簽名 ⭐
         userActivityService.recordActivity(ActionType.api_access,
-                                           "執行公共訪問測試", // actionDescription
+                                           "執行公共訪問測試", 
                                            "訪問了 /test/all 端點", // details
                                            request.getRemoteAddr());
         return "Public Content.";
@@ -144,10 +141,9 @@ public class UserController {
     @GetMapping("/test/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public String userAccess(HttpServletRequest request) {
-        // ⭐ 修正點：recordActivity 呼叫現在匹配新的四參數簽名 ⭐
         userActivityService.recordActivity(ActionType.api_access,
-                                           "執行用戶訪問測試", // actionDescription
-                                           "訪問了 /test/user 端點", // details
+                                           "執行用戶訪問測試", 
+                                           "訪問了 /test/user 端點", 
                                            request.getRemoteAddr());
         return "User Content.";
     }
@@ -155,10 +151,9 @@ public class UserController {
     @GetMapping("/test/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess(HttpServletRequest request) {
-        // ⭐ 修正點：recordActivity 呼叫現在匹配新的四參數簽名 ⭐
         userActivityService.recordActivity(ActionType.api_access,
-                                           "執行管理員訪問測試", // actionDescription
-                                           "訪問了 /test/admin 端點", // details
+                                           "執行管理員訪問測試", 
+                                           "訪問了 /test/admin 端點", 
                                            request.getRemoteAddr());
         return "Admin Board.";
     }
