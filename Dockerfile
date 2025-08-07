@@ -1,4 +1,5 @@
 # 階段 1：建置階段
+# 使用一個包含 OpenJDK 和 Maven 的基礎映像檔來建置專案
 FROM maven:3.9.5-eclipse-temurin-17-alpine AS builder
 
 # 設定工作目錄
@@ -14,23 +15,23 @@ RUN mvn dependency:go-offline -B
 # 複製所有專案原始碼
 COPY src ./src
 
-# 執行 Maven 建置，產生 .war 檔案，並跳過測試
-# 這裡加入了 -DskipTests 參數來解決測試失敗導致的建置問題
+# 執行 Maven 建置，產生可執行的 JAR 檔案，並跳過測試
+# 你的日誌顯示最終產物是 demo-0.0.1-SNAPSHOT.jar
 RUN mvn package -DskipTests
 
 # 階段 2：運行階段
-# 使用 Tomcat 官方映像檔
-FROM tomcat:9.0-jre17-temurin-focal
+# 使用一個輕量級的 Java 運行時環境作為基礎映像檔
+FROM eclipse-temurin:17-jre-alpine
 
-# 移除 Tomcat 預設的 ROOT 應用程式
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
+# 將建置階段產生的 JAR 檔案複製到運行階段的映像檔中
+# 注意：這裡的檔案名稱必須與 Maven 實際打包出來的名稱完全一致
+# 根據你的日誌，它是 demo-0.0.1-SNAPSHOT.jar
+COPY --from=builder /app/target/demo-0.0.1-SNAPSHOT.jar /app/app.jar
 
-# 從建置階段複製產生的 .war 檔案到 Tomcat 的 webapps 目錄
-# 假設你的 .war 檔案名稱是 target/your-app.war
-COPY --from=builder /app/target/demo.war /usr/local/tomcat/webapps/ROOT.war
-
-# 暴露 Tomcat 運行的埠號
+# 暴露應用程式運行的埠號
+# Spring Boot 應用程式預設運行在 8080 埠
 EXPOSE 8080
 
-# 啟動 Tomcat 伺服器
-CMD ["catalina.sh", "run"]
+# 啟動應用程式
+# 使用 java -jar 命令運行打包好的 JAR 檔案
+CMD ["java", "-jar", "/app/app.jar"]
