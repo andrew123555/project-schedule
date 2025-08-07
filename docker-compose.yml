@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  # 你的 Spring Boot 應用程式服務
+  app:
+    build: . # 使用當前目錄的 Dockerfile 來建置映像檔
+    ports:
+      - "8081:8080" # 將宿主機的 8081 埠映射到容器的 8080 埠
+    environment:
+      # 將資料庫 URL 指向 Docker Compose 網路中的 'db' 服務
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/projectinformation?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root # 替換為你的資料庫使用者名稱
+      SPRING_DATASOURCE_PASSWORD: abc123 # 替換為你的資料庫密碼
+    depends_on:
+      - db # 確保在啟動 app 之前啟動 db 服務
+
+  # MySQL 資料庫服務
+  db:
+    image: mysql:8.0 # 使用 MySQL 8.0 映像檔
+    environment:
+      MYSQL_ROOT_PASSWORD: abc123 # 替換為你的資料庫密碼
+      MYSQL_DATABASE: projectinformation # 替換為你的資料庫名稱
+    volumes:
+      - db_data:/var/lib/mysql # 將資料持久化到 Docker Volume
+
+volumes:
+  db_data: # 定義一個 Docker Volume 來持久化資料庫資料
