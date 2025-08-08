@@ -42,6 +42,10 @@ pipeline {
                         sh 'npm run build' // 這會產生靜態檔案，通常在 'build' 目錄
                     }
                 }
+                // 在 stash 之前，列出 build 資料夾的內容，以便調試
+                echo 'Listing frontend build directory contents before stashing...'
+                sh 'ls -R project-shedule-React/build/'
+                
                 // 將前端建置後的檔案打包並存儲起來，以便後續階段使用
                 stash includes: 'project-shedule-React/build/**', name: 'frontend-build-artifacts'
             }
