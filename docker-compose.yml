@@ -1,27 +1,62 @@
-version: '3.8'
-
 services:
-  # 你的 Spring Boot 應用程式服務
-  app:
-    build: . # 使用當前目錄的 Dockerfile 來建置映像檔
-    ports:
-      - "8081:8080" # 將宿主機的 8081 埠映射到容器的 8080 埠
-    environment:
-      # 將資料庫 URL 指向 Docker Compose 網路中的 'db' 服務
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/projectinformation?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root # 替換為你的資料庫使用者名稱
-      SPRING_DATASOURCE_PASSWORD: abc123 # 替換為你的資料庫密碼
-    depends_on:
-      - db # 確保在啟動 app 之前啟動 db 服務
-
   # MySQL 資料庫服務
   db:
-    image: mysql:8.0 # 使用 MySQL 8.0 映像檔
+    image: mysql:8.0
+    container_name: project-schedule-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: abc123 # 替換為你的資料庫密碼
-      MYSQL_DATABASE: projectinformation # 替換為你的資料庫名稱
+      MYSQL_ROOT_PASSWORD: abc123
+      MYSQL_DATABASE: projectinformation
+    # ports:
+    #   - "3307:3306"  # 如需外部訪問可取消註釋  # 可選：如果需要從外部連接資料庫
     volumes:
-      - db_data:/var/lib/mysql # 將資料持久化到 Docker Volume
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pabc123"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 40s
+    restart: unless-stopped
+
+  # Spring Boot 應用程式服務
+  app:
+    build: .
+    container_name: project-schedule-app
+    environment:
+      # 資料庫連接配置
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/projectinformation?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: abc123
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      
+      # JPA/Hibernate 配置
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_SHOW_SQL: true
+      
+      # 應用程式配置
+      SERVER_PORT: 8080
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8081:8080"
+    depends_on:
+      db:
+        condition: service_healthy  # 等待資料庫健康檢查通過
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health", "||", "exit", "1"]
+      timeout: 10s
+      retries: 5
+      interval: 30s
+      start_period: 60s
 
 volumes:
-  db_data: # 定義一個 Docker Volume 來持久化資料庫資料
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge

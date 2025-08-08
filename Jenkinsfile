@@ -2,38 +2,68 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = "my-nodejs-app"
-        CONTAINER_NAME = "my-nodejs-app-container"
-        HOST_PORT = "8081"
-        CONTAINER_PORT = "3000"
+        APP_EXTERNAL_PORT = "8081" // 宿主機外部訪問埠號
+        # 請替換為你的 React 前端 GitHub 儲存庫的 HTTPS URL
+        FRONTEND_REPO_URL = "https://github.com/andrew123555/project-shedule-React.git"
+        # 請替換為你的前端儲存庫的憑證 ID (如果它是私有的)
+        # 如果是公開儲存庫，可以將此行註釋掉或留空
+        # FRONTEND_CREDENTIALS_ID = "your-github-credentials-id" 
     }
 
     stages {
-        stage('Checkout Source Code') {
+        stage('Checkout Backend Source Code') {
             steps {
-                echo 'Checking out source code...'
+                echo 'Checking out backend source code from Git...'
+                # 這裡會自動拉取當前 Jenkins Pipeline 配置的後端專案
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Frontend') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} ."
-                    echo "Docker image ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} built."
+                    echo "Cloning frontend repository: ${FRONTEND_REPO_URL}..."
+                    # 克隆前端儲存庫到 Jenkins 工作區的一個子目錄 (例如 'frontend-app')
+                    # 如果前端儲存庫是私有的，請使用 credentialsId
+                    git branch: 'master', credentialsId: env.FRONTEND_CREDENTIALS_ID, url: env.FRONTEND_REPO_URL
+
+                    # 進入前端專案目錄
+                    dir('project-shedule-React') { // 這裡的名稱應該是你的前端儲存庫克隆下來的資料夾名稱
+                        echo 'Installing frontend dependencies...'
+                        sh 'npm install'
+
+                        echo 'Building frontend application...'
+                        sh 'npm run build' # 這會產生靜態檔案，通常在 'build' 目錄
+                    }
                 }
             }
         }
 
-        stage('Deploy to Docker') {
+        stage('Build and Deploy with Docker Compose') {
             steps {
                 script {
-                    echo 'Stopping and removing old container...'
-                    sh "docker stop ${CONTAINER_NAME} || true"
-                    sh "docker rm ${CONTAINER_NAME} || true"
+                    echo 'Building and deploying services with Docker Compose...'
+                    # 將前端建置後的靜態檔案移動到後端專案的靜態資源目錄
+                    # 假設前端建置後的檔案在 '你的前端專案名/build'
+                    # 假設後端靜態資源目錄是 'src/main/resources/static'
+                    sh "cp -R 你的前端專案名/build/. src/main/resources/static/"
 
-                    echo "Running new container..."
-                    sh "docker run -d -p ${HOST_PORT}:${CONTAINER_PORT} --name ${CONTAINER_NAME} ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
-                    echo "Container ${CONTAINER_NAME} deployed on port ${HOST_PORT}."
+                    # 使用 docker-compose up --build -d 來建置映像檔並啟動服務
+                    # --build 強制重新建置映像檔 (確保後端重新建置並包含新的前端檔案)
+                    # -d 在後台運行服務
+                    sh "docker-compose up --build -d"
+                    echo "Services deployed with Docker Compose. App accessible on port ${APP_EXTERNAL_PORT}."
+                }
+            }
+        }
+
+        stage('Verify Application') {
+            steps {
+                script {
+                    echo 'Waiting for application to be ready...'
+                    sh "sleep 60" # 增加等待時間，確保資料庫和Spring Boot都完全啟動
+                    echo "Checking application health at http://localhost:${APP_EXTERNAL_PORT}/"
+                    sh "curl -f http://localhost:${APP_EXTERNAL_PORT}/ || exit 1"
+                    echo 'Application is up and running!'
                 }
             }
         }
@@ -41,6 +71,8 @@ pipeline {
 
     post {
         always {
+            echo 'Stopping Docker Compose services...'
+            sh "docker-compose down || true" # 確保停止並移除服務
             cleanWs()
         }
         success {
