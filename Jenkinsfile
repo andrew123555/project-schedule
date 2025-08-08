@@ -1,13 +1,12 @@
 pipeline {
-    agent any
+    agent any // 整個 Pipeline 的默認代理，如果沒有特定階段的代理，則在此上運行
 
     environment {
-        APP_EXTERNAL_PORT = "8081" // 宿主機外部訪問埠號
-        // 請替換為你的 React 前端 GitHub 儲存庫的 HTTPS URL
-        FRONTEND_REPO_URL = "https://github.com/andrew123555/project-shedule-React.git"
+        FRONTEND_REPO_URL = "https://github.com/andrew123555/project-shedule-React.git" // 請確認這是你前端專案的正確 URL
         // 請替換為你的前端儲存庫的憑證 ID (如果它是私有的)
         // 如果是公開儲存庫，可以將此行註釋掉或留空
-        // FRONTEND_CREDENTIALS_ID = "your-github-credentials-id" 
+        // FRONTEND_CREDENTIALS_ID = "your-github-credentials-id"
+        APP_EXTERNAL_PORT = "8081" // 宿主機外部訪問埠號
     }
 
     stages {
@@ -19,11 +18,19 @@ pipeline {
         }
 
         stage('Build Frontend') {
+            // 這個階段將在一個新的 Docker 容器中運行，該容器基於 Node.js 映像檔
+            agent {
+                docker {
+                    image 'node:18-alpine' // 使用一個包含 Node.js 的輕量級映像檔
+                    args '-u root' // 在容器內以 root 用戶運行，以避免權限問題
+                }
+            }
             steps {
                 script {
                     echo "Cloning frontend repository: ${FRONTEND_REPO_URL}..."
-                    // 克隆前端儲存庫到 Jenkins 工作區的一個子目錄 (例如 'frontend-app')
-                    // 如果前端儲存庫是私有的，請使用 credentialsId
+                    // git 命令將在 'node:18-alpine' 容器內執行
+                    // 克隆前端儲存庫到 Jenkins 工作區的一個子目錄
+                    // 這裡的 'project-shedule-React' 應該是你的前端儲存庫克隆下來的資料夾名稱
                     git branch: 'master', credentialsId: env.FRONTEND_CREDENTIALS_ID, url: env.FRONTEND_REPO_URL
 
                     // 進入前端專案目錄
@@ -39,13 +46,14 @@ pipeline {
         }
 
         stage('Build and Deploy with Docker Compose') {
+            // 這個階段將回到默認的 Jenkins 代理上運行
             steps {
                 script {
                     echo 'Building and deploying services with Docker Compose...'
                     // 將前端建置後的靜態檔案移動到後端專案的靜態資源目錄
-                    // 假設前端建置後的檔案在 '你的前端專案名/build'
+                    // 假設前端建置後的檔案在 'project-shedule-React/build'
                     // 假設後端靜態資源目錄是 'src/main/resources/static'
-                    sh "cp -R 你的前端專案名/build/. src/main/resources/static/"
+                    sh "cp -R project-shedule-React/build/. src/main/resources/static/"
 
                     // 使用 docker-compose up --build -d 來建置映像檔並啟動服務
                     // --build 強制重新建置映像檔 (確保後端重新建置並包含新的前端檔案)
