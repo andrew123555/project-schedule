@@ -32,7 +32,7 @@ pipeline {
                         sh 'npm install'
 
                         echo 'Building frontend application...'
-                        sh 'npm run build' # 這會產生靜態檔案，通常在 'build' 目錄
+                        sh 'npm run build' // 這會產生靜態檔案，通常在 'build' 目錄
                     }
                 }
             }
@@ -60,7 +60,7 @@ pipeline {
             steps {
                 script {
                     echo 'Waiting for application to be ready...'
-                    sh "sleep 60" # 增加等待時間，確保資料庫和Spring Boot都完全啟動
+                    sh "sleep 60" // 增加等待時間，確保資料庫和Spring Boot都完全啟動
                     echo "Checking application health at http://localhost:${APP_EXTERNAL_PORT}/"
                     sh "curl -f http://localhost:${APP_EXTERNAL_PORT}/ || exit 1"
                     echo 'Application is up and running!'
@@ -72,7 +72,7 @@ pipeline {
     post {
         always {
             echo 'Stopping Docker Compose services...'
-            sh "docker-compose down || true" # 確保停止並移除服務
+            sh "docker-compose down || true" // 確保停止並移除服務
             cleanWs()
         }
         success {
