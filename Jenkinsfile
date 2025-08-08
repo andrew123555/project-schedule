@@ -32,21 +32,24 @@ pipeline {
                     // 克隆前端儲存庫到 Jenkins 工作區的一個子目錄 (例如 'project-shedule-React')
                     git branch: 'master', credentialsId: env.FRONTEND_CREDENTIALS_ID, url: env.FRONTEND_REPO_URL
 
-                    echo 'Installing frontend dependencies...'
-                    // 在 'project-shedule-React' 資料夾內執行 npm install
-                    sh 'npm install --prefix project-shedule-React'
+                    echo 'Listing cloned frontend repository contents before entering dir block...'
+                    sh 'ls -F project-shedule-React/' // 列出克隆後的前端專案根目錄內容
 
-                    echo 'Building frontend application...'
-                    // 在 'project-shedule-React' 資料夾內執行 npm run build
-                    sh 'npm run build --prefix project-shedule-React' // 這會產生靜態檔案，通常在 'project-shedule-React/dist' 目錄
+                    // 進入前端專案目錄
+                    dir('project-shedule-React') { // 這裡的名稱應該是你的前端儲存庫克隆下來的資料夾名稱
+                        echo 'Installing frontend dependencies (inside dir block)...'
+                        sh 'npm install'
 
-                    // 現在，在 Jenkins 工作區的根目錄執行 ls 和 stash
-                    echo 'Listing frontend build directory contents before stashing...'
-                    sh 'ls -R project-shedule-React/dist/' // 檢查 'project-shedule-React/dist/' 相對於工作區根目錄
+                        echo 'Building frontend application (inside dir block)...'
+                        sh 'npm run build' // 這會產生靜態檔案，通常在 'dist' 目錄
 
-                    // 將前端建置後的檔案打包並存儲起來，以便後續階段使用
-                    // stash 的 includes 路徑是相對於 Jenkins 工作區的根目錄
-                    stash includes: 'project-shedule-React/dist/**', name: 'frontend-build-artifacts'
+                        echo 'Listing frontend build directory contents (inside dir block) after build...'
+                        sh 'ls -F dist/' // 檢查 'dist' 相對於當前目錄 (project-shedule-React)
+
+                        // 將前端建置後的檔案打包並存儲起來，以便後續階段使用
+                        // stash 的 includes 路徑是相對於 'project-shedule-React' 目錄
+                        stash includes: 'dist/**', name: 'frontend-build-artifacts'
+                    }
                 }
             }
         }
