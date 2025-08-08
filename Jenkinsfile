@@ -39,15 +39,15 @@ pipeline {
                         sh 'npm install'
 
                         echo 'Building frontend application...'
-                        sh 'npm run build' // 這會產生靜態檔案，通常在 'build' 目錄
+                        sh 'npm run build' // 這會產生靜態檔案，通常在 'dist' 目錄
                     }
                 }
-                // 在 stash 之前，列出 build 資料夾的內容，以便調試
+                // 在 stash 之前，列出 dist 資料夾的內容，以便調試
                 echo 'Listing frontend build directory contents before stashing...'
-                sh 'ls -R project-shedule-React/build/'
+                sh 'ls -R project-shedule-React/dist/' // 將 build 改為 dist
                 
                 // 將前端建置後的檔案打包並存儲起來，以便後續階段使用
-                stash includes: 'project-shedule-React/build/**', name: 'frontend-build-artifacts'
+                stash includes: 'project-shedule-React/dist/**', name: 'frontend-build-artifacts' // 將 build 改為 dist
             }
         }
 
@@ -61,9 +61,9 @@ pipeline {
 
                     echo 'Building and deploying services with Docker Compose...'
                     // 將前端建置後的靜態檔案移動到後端專案的靜態資源目錄
-                    // 假設前端建置後的檔案在 'project-shedule-React/build' (現在已經被 unstash 到這裡)
+                    // 假設前端建置後的檔案在 'project-shedule-React/dist' (現在已經被 unstash 到這裡)
                     // 假設後端靜態資源目錄是 'src/main/resources/static'
-                    sh "cp -R project-shedule-React/build/. src/main/resources/static/"
+                    sh "cp -R project-shedule-React/dist/. src/main/resources/static/" // 將 build 改為 dist
 
                     // 使用 docker-compose up --build -d 來建置映像檔並啟動服務
                     // --build 強制重新建置映像檔 (確保後端重新建置並包含新的前端檔案)
