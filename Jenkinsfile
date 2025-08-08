@@ -40,14 +40,16 @@ pipeline {
 
                         echo 'Building frontend application...'
                         sh 'npm run build' // 這會產生靜態檔案，通常在 'dist' 目錄
+
+                        // 現在，在 'project-shedule-React' 目錄內部執行 ls 和 stash
+                        echo 'Listing frontend build directory contents before stashing (inside dir block)...'
+                        sh 'ls -R dist/' // 檢查 'dist' 相對於當前目錄
+
+                        // 將前端建置後的檔案打包並存儲起來，以便後續階段使用
+                        // stash 的 includes 路徑現在是相對於 'project-shedule-React' 目錄
+                        stash includes: 'dist/**', name: 'frontend-build-artifacts'
                     }
                 }
-                // 在 stash 之前，列出 dist 資料夾的內容，以便調試
-                echo 'Listing frontend build directory contents before stashing...'
-                sh 'ls -R project-shedule-React/dist/' // 將 build 改為 dist
-                
-                // 將前端建置後的檔案打包並存儲起來，以便後續階段使用
-                stash includes: 'project-shedule-React/dist/**', name: 'frontend-build-artifacts' // 將 build 改為 dist
             }
         }
 
@@ -57,13 +59,13 @@ pipeline {
                 script {
                     echo 'Unstashing frontend build artifacts...'
                     // 在此階段開始時，將之前存儲的前端建置檔案解包到當前工作區
+                    // unstash 會將 'dist/**' 直接解包到當前工作區的根目錄
                     unstash 'frontend-build-artifacts'
 
                     echo 'Building and deploying services with Docker Compose...'
                     // 將前端建置後的靜態檔案移動到後端專案的靜態資源目錄
-                    // 假設前端建置後的檔案在 'project-shedule-React/dist' (現在已經被 unstash 到這裡)
-                    // 假設後端靜態資源目錄是 'src/main/resources/static'
-                    sh "cp -R project-shedule-React/dist/. src/main/resources/static/" // 將 build 改為 dist
+                    // 由於 unstash 將 'dist' 資料夾直接放在了工作區根目錄，所以 cp 路徑需要調整
+                    sh "cp -R dist/. src/main/resources/static/"
 
                     // 使用 docker-compose up --build -d 來建置映像檔並啟動服務
                     // --build 強制重新建置映像檔 (確保後端重新建置並包含新的前端檔案)
