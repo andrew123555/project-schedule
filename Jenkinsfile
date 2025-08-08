@@ -133,8 +133,21 @@ pipeline {
                     echo 'Waiting for application to be ready...'
                     sh "sleep 60"
                     echo "Checking application health at http://localhost:${APP_EXTERNAL_PORT}/"
-                    sh "curl -f http://localhost:${APP_EXTERNAL_PORT}/ || exit 1"
-                    echo 'Application is up and running!'
+                    
+                    // 檢查應用程式是否正在運行（忽略 401 錯誤，因為這表示應用程式正常運行但需要認證）
+                    def exitCode = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:${APP_EXTERNAL_PORT}/", returnStdout: true).trim()
+                    
+                    echo "HTTP Status Code: ${exitCode}"
+                    
+                    if (exitCode == "401" || exitCode == "200" || exitCode == "302") {
+                        echo 'Application is up and running! (HTTP status: ' + exitCode + ')'
+                    } else {
+                        echo "Application health check failed with HTTP status: ${exitCode}"
+                        // 顯示容器狀態以幫助調試
+                        sh "docker-compose ps"
+                        sh "docker-compose logs app"
+                        error "Application is not responding correctly"
+                    }
                 }
             }
         }
