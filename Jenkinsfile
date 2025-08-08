@@ -42,6 +42,8 @@ pipeline {
                         sh 'npm run build' // 這會產生靜態檔案，通常在 'build' 目錄
                     }
                 }
+                // 將前端建置後的檔案打包並存儲起來，以便後續階段使用
+                stash includes: 'project-shedule-React/build/**', name: 'frontend-build-artifacts'
             }
         }
 
@@ -49,9 +51,13 @@ pipeline {
             // 這個階段將回到默認的 Jenkins 代理上運行
             steps {
                 script {
+                    echo 'Unstashing frontend build artifacts...'
+                    # 在此階段開始時，將之前存儲的前端建置檔案解包到當前工作區
+                    unstash 'frontend-build-artifacts'
+
                     echo 'Building and deploying services with Docker Compose...'
                     // 將前端建置後的靜態檔案移動到後端專案的靜態資源目錄
-                    // 假設前端建置後的檔案在 'project-shedule-React/build'
+                    // 假設前端建置後的檔案在 'project-shedule-React/build' (現在已經被 unstash 到這裡)
                     // 假設後端靜態資源目錄是 'src/main/resources/static'
                     sh "cp -R project-shedule-React/build/. src/main/resources/static/"
 
