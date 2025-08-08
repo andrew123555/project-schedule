@@ -29,26 +29,24 @@ pipeline {
                 script {
                     echo "Cloning frontend repository: ${FRONTEND_REPO_URL}..."
                     // git 命令將在 'node:18-alpine' 容器內執行
-                    // 克隆前端儲存庫到 Jenkins 工作區的一個子目錄
-                    // 這裡的 'project-shedule-React' 應該是你的前端儲存庫克隆下來的資料夾名稱
+                    // 克隆前端儲存庫到 Jenkins 工作區的一個子目錄 (例如 'project-shedule-React')
                     git branch: 'master', credentialsId: env.FRONTEND_CREDENTIALS_ID, url: env.FRONTEND_REPO_URL
 
-                    // 進入前端專案目錄
-                    dir('project-shedule-React') { // 這裡的名稱應該是你的前端儲存庫克隆下來的資料夾名稱
-                        echo 'Installing frontend dependencies...'
-                        sh 'npm install'
+                    echo 'Installing frontend dependencies...'
+                    // 在 'project-shedule-React' 資料夾內執行 npm install
+                    sh 'npm install --prefix project-shedule-React'
 
-                        echo 'Building frontend application...'
-                        sh 'npm run build' // 這會產生靜態檔案，通常在 'dist' 目錄
+                    echo 'Building frontend application...'
+                    // 在 'project-shedule-React' 資料夾內執行 npm run build
+                    sh 'npm run build --prefix project-shedule-React' // 這會產生靜態檔案，通常在 'project-shedule-React/dist' 目錄
 
-                        // 現在，在 'project-shedule-React' 目錄內部執行 ls 和 stash
-                        echo 'Listing frontend build directory contents before stashing (inside dir block)...'
-                        sh 'ls -R dist/' // 檢查 'dist' 相對於當前目錄
+                    // 現在，在 Jenkins 工作區的根目錄執行 ls 和 stash
+                    echo 'Listing frontend build directory contents before stashing...'
+                    sh 'ls -R project-shedule-React/dist/' // 檢查 'project-shedule-React/dist/' 相對於工作區根目錄
 
-                        // 將前端建置後的檔案打包並存儲起來，以便後續階段使用
-                        // stash 的 includes 路徑現在是相對於 'project-shedule-React' 目錄
-                        stash includes: 'dist/**', name: 'frontend-build-artifacts'
-                    }
+                    // 將前端建置後的檔案打包並存儲起來，以便後續階段使用
+                    // stash 的 includes 路徑是相對於 Jenkins 工作區的根目錄
+                    stash includes: 'project-shedule-React/dist/**', name: 'frontend-build-artifacts'
                 }
             }
         }
