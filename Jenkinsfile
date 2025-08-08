@@ -52,7 +52,7 @@ pipeline {
             steps {
                 script {
                     echo 'Unstashing frontend build artifacts...'
-                    # 在此階段開始時，將之前存儲的前端建置檔案解包到當前工作區
+                    // 在此階段開始時，將之前存儲的前端建置檔案解包到當前工作區
                     unstash 'frontend-build-artifacts'
 
                     echo 'Building and deploying services with Docker Compose...'
