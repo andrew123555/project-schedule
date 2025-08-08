@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         FRONTEND_REPO_URL = "https://github.com/andrew123555/project-shedule-React.git"
-        // FRONTEND_CREDENTIALS_ID = "your-github-credentials-id" // 如果是私有儲存庫請取消註釋
         APP_EXTERNAL_PORT = "8081"
     }
 
@@ -17,7 +16,8 @@ pipeline {
         stage('Build Frontend') {
             agent {
                 docker {
-                    image 'node:20-alpine'
+                    // 使用包含 git 的 Node.js 映像，而不是 alpine 版本
+                    image 'node:20'
                     args '-u root'
                 }
             }
@@ -42,6 +42,7 @@ pipeline {
                                 exit 1
                             fi
                             echo "Found package.json, proceeding with build..."
+                            cat package.json | head -20
                         '''
 
                         echo 'Installing frontend dependencies...'
@@ -56,16 +57,17 @@ pipeline {
                         // 確認建置目錄存在並顯示內容
                         sh '''
                             echo "=== Searching for build output ==="
-                            find . -type d -name "dist" -o -name "build" | while read dir; do
-                                echo "Found build directory: $dir"
-                                ls -la "$dir"
-                            done
-                            
-                            echo "=== Searching for index.html files ==="
-                            find . -name "index.html" -type f | while read file; do
-                                echo "Found index.html: $file"
-                                dirname "$file"
-                            done
+                            if [ -d "dist" ]; then
+                                echo "Found dist directory:"
+                                ls -la dist/
+                            elif [ -d "build" ]; then
+                                echo "Found build directory:"
+                                ls -la build/
+                            else
+                                echo "Searching for any build output..."
+                                find . -name "index.html" -type f
+                                find . -name "*.js" -type f | grep -E "(assets|static)" | head -5
+                            fi
                         '''
 
                         // 根據實際情況 stash 建置檔案
@@ -82,17 +84,6 @@ pipeline {
                                 sh 'ls -la build/'
                                 stash includes: 'build/**', name: 'frontend-build-artifacts'
                             } else {
-                                // 最後的檢查：在整個專案中搜尋建置檔案
-                                echo 'Attempting to locate build files in entire project...'
-                                sh '''
-                                    # 尋找可能的建置檔案
-                                    find . -name "index.html" -exec dirname {} \\; | sort -u | while read dir; do
-                                        if [ "$dir" != "." ] && [ "$dir" != "./public" ]; then
-                                            echo "Potential build directory found: $dir"
-                                            ls -la "$dir"
-                                        fi
-                                    done
-                                '''
                                 error 'Could not find build output directory (dist or build)'
                             }
                         }
